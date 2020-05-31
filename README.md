@@ -33,7 +33,10 @@ ruby 2.6.5
 https://drive.google.com/file/d/1Vc00qULlfd0hWBDpm6rFAFAEBr1GoFIK/view?usp=sharing
 
 ## テーブル定義
-https://drive.google.com/file/d/1gKglKd4ldQ7m9hkF4llWiAFGYthMdw1a/view?usp=sharing
+https://drive.google.com/file/d/1rTqxpQ22v-wt3DzltAXNVMW4K-VK-iiK/view?usp=sharing
+
+## ER図
+https://drive.google.com/file/d/1OJ1RQ4dSm7hIM_a3CEKxOWQs0bJ5UEW-/view?usp=sharing
 
 ## 画面遷移図
 https://drive.google.com/file/d/1OX8XrqkXJFhxhyrqxIb2uUIN2BUotx_Z/view?usp=sharing
