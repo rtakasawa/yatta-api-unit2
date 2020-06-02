@@ -55,8 +55,48 @@ group :test do
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
-  gem 'chromedriver-helper'
+  # gem 'chromedriver-helper'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+
+## 追加gem
+gem "devise"
+gem "devise-i18n"
+gem 'rails_admin', '~> 2.0'
+gem 'cancancan'
+
+group :development do
+  gem "letter_opener_web"
+end
+
+gem 'rakuten_web_service'
+
+group :development do
+  gem 'dotenv-rails'
+end
+
+group :development, :test do
+  gem 'pry-rails'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+end
+
+gem "ransack"
+gem "kaminari"
+gem "acts-as-taggable-on"
+
+group :development, :test do
+  gem 'rspec-rails', '~> 3.8'
+  gem 'spring-commands-rspec'
+  gem 'factory_bot_rails'
+  gem 'faker'
+  gem 'launchy'
+  gem 'rspec-retry'
+end
+
+group :test do
+  gem 'webdrivers'
+end
