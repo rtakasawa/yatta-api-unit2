@@ -37,6 +37,7 @@ ruby 2.6.5
 * capybara
 * webdrivers
 * rspec-retry
+* acts-as-taggable-on
 
 ## 機能一覧
 - [ ] ログイン機能
