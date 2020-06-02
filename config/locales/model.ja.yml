@@ -1,0 +1,17 @@
+ja:
+  activerecord:
+    models:
+      materials: 教材
+      studies: 学習情報
+    attributes:
+      materials:
+        title: 教材名
+        author: 作者
+        category: カテゴリー
+        path: URL
+        note: メモ
+      studies:
+        start: 学習を開始したページ、単元
+        end: 学習を終了したページ、単元
+        content: 学習内容
+        status: 学習状況
