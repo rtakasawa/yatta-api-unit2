@@ -1,4 +1,6 @@
 require 'rails_helper'
+require 'devise'
+
 RSpec.describe  "ユーザー登録・ログイン・ログアウト機能", type: :system do
 
   wait = Selenium::WebDriver::Wait.new(:timeout => 100)
@@ -12,39 +14,43 @@ RSpec.describe  "ユーザー登録・ログイン・ログアウト機能", typ
         fill_in "user[password]", with: '0000000'
         fill_in "user[password_confirmation]", with: '0000000'
         click_on "アカウント登録"
-        wait.until{ expect(current_path).to eq materials_path }
+        expect(current_path).to eq root_path
       end
-      # #実環境では動作確認済みだが、testはうまくいかないため一旦コメントアウト
-      # it "ログインせずに教材一覧画面に行くと、ログイン画面に飛ぶ" do
-      #   visit materials_path
-      #   expect(current_path).to eq new_user_session_path
-      # end
+      #実環境では動作確認済みだが、testはうまくいかないため一旦コメントアウト
+      it "ログインせずに教材一覧画面に行くと、ログイン画面に飛ぶ" do
+        visit materials_path
+        expect(current_path).to eq new_user_session_path
+      end
     end
   end
 
   describe "セッション機能のテスト" do
     context "ユーザーを登録している場合" do
       before do
-        create(:user)
+        FactoryBot.create(:user)
         visit new_user_session_path
-        fill_in "session[email]", with: "sample@example.com"
-        fill_in "session[password]", with: "0000000"
-        click_on "ログインする"
+        fill_in "user[email]", with: "sample@example.com"
+        fill_in "user[password]", with: "0000000"
+        click_on "ログイン"
       end
       it "ログインできること" do
-        expect(current_path).to eq materials_path
+        expect(current_path).to eq root_path
       end
-      # it "自分の詳細画面(マイページ)に飛べること" do
-      #   click_on "マイページ"
-      #   expect(current_path).to eq user_path(id: 1)
-      # end
+      it "自分の詳細画面(マイページ)に飛べること" do
+        click_on "マイページ"
+        expect(current_path).to eq user_path(id: 1)
+      end
+      it "自分の情報の編集画面に飛び、編集できること" do
+        click_on "マイページ"
+        expect(current_path).to eq user_path(id: 1)
+      end
+      it "ログアウトができること" do
+        click_on "ログアウト"
+        expect(current_path).to eq new_user_session_path
+      end
       # it "一般ユーザが他人の詳細画面に飛ぶとタスク一覧ページに遷移すること" do
       #   visit user_path(id: 2)
       #   expect(current_path).to eq tasks_path
-      # end
-      # it "ログアウトができること" do
-      #   click_on "ログアウト"
-      #   expect(current_path).to eq new_session_path
       # end
     end
   end
