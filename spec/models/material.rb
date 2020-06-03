@@ -25,6 +25,15 @@ RSpec.describe '教材管理機能', type: :model do
                              user_id: 1 )
     expect(material).not_to be_valid
   end
+  it "categoryが空ならバリデーションが通らない" do
+    material = Material.new( title:"test_title",
+                             author: "1",
+                             category: "book",
+                             path: "example.com",
+                             note: "",
+                             user_id: 1 )
+    expect(material).not_to be_valid
+  end
   it "titleとcategoryが記載されていればバリデーションが通る" do
     material = Material.new( title:"test_title",
                              author: "1",
