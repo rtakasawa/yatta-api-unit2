@@ -16,7 +16,6 @@ RSpec.describe  "ユーザー登録・ログイン・ログアウト機能", typ
         click_on "アカウント登録"
         expect(current_path).to eq root_path
       end
-      #実環境では動作確認済みだが、testはうまくいかないため一旦コメントアウト
       it "ログインせずに教材一覧画面に行くと、ログイン画面に飛ぶ" do
         visit materials_path
         expect(current_path).to eq new_user_session_path
@@ -37,7 +36,7 @@ RSpec.describe  "ユーザー登録・ログイン・ログアウト機能", typ
         expect(current_path).to eq root_path
       end
       it "自分の詳細画面(マイページ)に飛べること" do
-        click_on "マイページ"
+        click_on "会員情報"
         expect(current_path).to eq user_path(id: 1)
       end
       it "自分の情報の編集画面に飛び、編集できること" do
