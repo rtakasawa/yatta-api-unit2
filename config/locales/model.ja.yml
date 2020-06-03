@@ -3,6 +3,7 @@ ja:
     models:
       materials: 教材
       studies: 学習情報
+      user: 会員
     attributes:
       materials:
         title: 教材名
@@ -15,3 +16,5 @@ ja:
         end: 学習を終了したページ、単元
         content: 学習内容
         status: 学習状況
+      user:
+        name: 名前
