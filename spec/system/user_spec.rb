@@ -70,6 +70,25 @@ RSpec.describe  "ユーザー登録・ログイン・ログアウト機能", typ
         expect(current_path).to eq user_path(id: 1)
         expect(page).to have_content "sample1"
       end
+      it "自分の情報の編集をすることができる（パスワード変更なし）" do
+        click_on "会員情報"
+        click_on "会員編集・退会"
+        fill_in "user[name]", with: "sample1"
+        fill_in "user[email]", with: "sample1@example.com"
+        fill_in "user[current_password]", with: '0000000'
+        click_on "更新"
+        expect(current_path).to eq user_path(id: 1)
+        expect(page).to have_content "sample1"
+      end
+      it "自分の情報の編集する際に現在のパスワードを誤ると編集できない" do
+        click_on "会員情報"
+        click_on "会員編集・退会"
+        fill_in "user[name]", with: "sample1"
+        fill_in "user[email]", with: "sample1@example.com"
+        fill_in "user[current_password]", with: '1234567'
+        click_on "更新"
+        expect(page).to have_content "現在のパスワードを入力してください"
+      end
       it "退会できること" do
         click_on "会員情報"
         click_on "会員編集・退会"
