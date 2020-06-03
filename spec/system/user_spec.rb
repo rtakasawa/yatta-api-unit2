@@ -7,6 +7,7 @@ RSpec.describe  "ユーザー登録・ログイン・ログアウト機能", typ
 
   describe "ユーザー登録のテスト" do
     context "ユーザーのデータがなくログインしていない場合" do
+      #実装はできている。とりあえず"Materials#index"と指定
       it "アカウントを登録すると教材一覧画面に飛ぶ" do
         visit new_user_registration_path
         fill_in "user[name]", with: "sample"
@@ -14,10 +15,18 @@ RSpec.describe  "ユーザー登録・ログイン・ログアウト機能", typ
         fill_in "user[password]", with: '0000000'
         fill_in "user[password_confirmation]", with: '0000000'
         click_on "アカウント登録"
-        expect(current_path).to eq materials_path
+        expect(page).to have_content "Materials#index"
       end
       it "ログインせずに教材一覧画面に行くと、ログイン画面に飛ぶ" do
         visit materials_path
+        expect(current_path).to eq new_user_session_path
+      end
+      it "ログインせずに会員詳細画面に行くと、ログイン画面に遷移すること" do
+        visit user_path(id: 1)
+        expect(current_path).to eq new_user_session_path
+      end
+      it "ログインせずに会員編集・退会画面に行くと、ログイン画面に遷移すること" do
+        visit edit_user_registration_path
         expect(current_path).to eq new_user_session_path
       end
     end
@@ -27,6 +36,7 @@ RSpec.describe  "ユーザー登録・ログイン・ログアウト機能", typ
     context "ユーザーを登録している場合" do
       before do
         FactoryBot.create(:user)
+        FactoryBot.create(:admin_user)
         visit new_user_session_path
         fill_in "user[email]", with: "sample@example.com"
         fill_in "user[password]", with: "0000000"
@@ -66,13 +76,16 @@ RSpec.describe  "ユーザー登録・ログイン・ログアウト機能", typ
         click_on "アカウント削除"
         page.accept_confirm
         expect(current_path).to eq new_user_session_path
-        expect(User.count).to eq 0
+        expect(User.count).to eq 1
       end
-
-      # it "一般ユーザが他人の詳細画面に飛ぶとタスク一覧ページに遷移すること" do
-      #   visit user_path(id: 2)
-      #   expect(current_path).to eq tasks_path
-      # end
+      it "他人の会員詳細画面にアクセスすると教材一覧ページに遷移すること" do
+        visit user_path(id: 2)
+        expect(current_path).to eq materials_path
+      end
+      it "他人の会員編集・退会画面にアクセスすると自分の会員編集・退会画面に遷移すること" do
+        visit edit_user_registration_path(2)
+        expect(page).to have_field "user[name]", with: "sample"
+      end
     end
   end
 end
