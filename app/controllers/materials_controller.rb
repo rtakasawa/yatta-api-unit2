@@ -8,6 +8,12 @@ class MaterialsController < ApplicationController
 
   def new
     @material = current_user.materials.build
+    if params[:category] == "book"
+      @material.title = params[:title]
+      @material.author = params[:author]
+      @material.path = params[:path]
+      @material.category = "book"
+    end
   end
 
   def create
