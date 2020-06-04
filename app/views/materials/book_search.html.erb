@@ -1,14 +1,14 @@
-<h1>Rakuserach</h1>
-<div class='content'>
-  <div id="search-box">
-    <%= form_tag('/materials/book_search', method: :get) do %>
-      <%= text_field_tag :material, "",  id: "book_search", name: "keyword", placeholder: "キーワードを打ち込んでください", style: "width: 200px;"%>
-      <button title="検索" type="submit">検索</button>
-    <% end %>
-  </div>
-</div>
+<h1>検索結果</h1>
+<!--<div class='content'>-->
+<!--  <div id="search-box">-->
+    <%#= form_tag('/materials/book_search', method: :get) do %>
+      <%#= text_field_tag :material, "",  id: "book_search", name: "keyword", placeholder: "キーワードを打ち込んでください", style: "width: 200px;"%>
+<!--      <button title="検索" type="submit">検索</button>-->
+    <%# end %>
+<!--  </div>-->
+<!--</div>-->
 
-  <h2>検索結果</h2>
+
   <div id='good_list'>
     <table class="table table-striped">
       <thead>
@@ -19,7 +19,7 @@
       </tr>
       </thead>
       <tbody>
-      <% if @books.present? %>
+      <% if @books.params[:title].size >= 2 %>
         <% @books.each do |book| %>
           <tr>
             <td><%= link_to book.title, book.item_url %></td>
@@ -28,6 +28,8 @@
             <td><%= link_to "教材登録", new_material_path(title:book.title,author:book.author,path:book.item_url,category:"book") %></td>
           </tr>
         <% end %>
+      <% else %>
+        <strog>検索ワードは２文字以上入力してください</strog>
       <% end %>
       </tbody>
     </table>
