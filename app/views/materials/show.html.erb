@@ -4,7 +4,7 @@
   <tbody>
   <tr>
     <th>教材名</th>
-    <td><%= @material.title %></td>
+    <td><%= link_to @material.title, @material.path %></td>
   </tr>
   <tr>
     <th>作者</th>
@@ -13,10 +13,6 @@
   <tr>
     <th>カテゴリー</th>
     <td><%= @material.category %></td>
-  </tr>
-  <tr>
-    <th>URL</th>
-    <td><%= @material.path %></td>
   </tr>
   <tr>
     <th>備考（メモ等）</th>
