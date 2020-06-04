@@ -25,8 +25,7 @@
             <td><%= link_to book.title, book.item_url %></td>
             <td><%= book.author %></td>
             <td><img src="<%= book.medium_image_url %>"></td>
-<!--            <td><%#= link_to "教材登録", edit_material_path(material) %></td>-->
-<!--            <td><%#= link_to "削除", material, method: :delete, data: { confirm: "本当に削除してもいいですか？" } %></td>-->
+            <td><%= link_to "教材登録", new_material_path(title:book.title,author:book.author,path:book.item_url,category:"book") %></td>
           </tr>
         <% end %>
       <% end %>
