@@ -1,5 +1,3 @@
-require 'uri'
-
 class MaterialsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_task, only: [:show,:edit,:update,:destroy]
@@ -30,10 +28,11 @@ class MaterialsController < ApplicationController
     redirect_to materials_path, info: "教材は削除されました"
   end
 
-  # 書籍検索のアクションを定義する
-  # def search_book
-  #
-  # end
+  def book_search
+    if params[:keyword]
+      @books = RakutenWebService::Books::Book.search(title: params[:keyword])
+    end
+  end
 
   private
 
