@@ -5,6 +5,37 @@ RSpec.describe '教材管理機能', type: :system do
 
   wait = Selenium::WebDriver::Wait.new(:timeout => 1000)
 
+  describe '教材登録画面' do
+    context '必要項目を入力して、createボタンを押した場合' do
+      it 'データが保存される' do
+        # User.create(id: 1, name: "sample", email: "sample@example.com", password: "0000000")
+        # Label.create(id: 1, title:"work")
+        # Label.create(id: 2, title:"private")
+        # Label.create(id: 3, title:"other")
+        # create(:task, user_id: 1)
+        # visit new_session_path
+        # fill_in "session[email]", with: "sample@example.com"
+        # fill_in "session[password]", with: "0000000"
+        # click_on "ログインする"
+        # click_on "タスク登録"
+        # fill_in 'task[task_name]', with: "task_name"
+        # fill_in 'task[description]', with: "description"
+        # fill_in 'task[deadline]', with: Date.today
+        # check 'task_label_ids_1'
+        # check 'task_label_ids_2'
+        # check 'task_label_ids_3'
+        # click_button "登録する"
+        # wait.until{ expect(page).to have_content "task_name" }
+        # wait.until{ expect(page).to have_content "description" }
+        # wait.until{ expect(page).to have_content Date.today }
+        # wait.until{ expect(page).to have_content "work" }
+        # wait.until{ expect(page).to have_content "private" }
+        # wait.until{ expect(page).to have_content "other" }
+      end
+    end
+  end
+
+
   describe '教材一覧画面' do
     # before do
     #   User.create(id: 1, name: "sample", email: "sample@example.com",
