@@ -1,2 +1,38 @@
-<h1>Materials#show</h1>
-<p>Find me in app/views/materials/show.html.erb</p>
+<h1>教材詳細</h1>
+
+<table class="table table-striped">
+  <tbody>
+  <tr>
+    <th>教材名</th>
+    <td><%= @material.title %></td>
+  </tr>
+  <tr>
+    <th>作者</th>
+    <td><%= @material.author %></td>
+  </tr>
+  <tr>
+    <th>カテゴリー</th>
+    <td><%= @material.category %></td>
+  </tr>
+  <tr>
+    <th>URL</th>
+    <td><%= @material.path %></td>
+  </tr>
+  <tr>
+    <th>備考（メモ等）</th>
+    <td><%= @material.note %></td>
+  </tr>
+<!--  タグ機能は一旦コメントアウト-->
+<!--  <tr>-->
+<!--    <th><%#= t("activerecord.attributes.label.title") %></th>-->
+<!--    <td>-->
+      <%# @material.labels.each do |label| %>
+<!--        <span class="label label-success"><%#= label.title %></span>-->
+      <%# end %>
+<!--    </td>-->
+<!--  </tr>-->
+  </tbody>
+</table>
+
+<%= link_to "編集", edit_material_path(@material), class: "btn btn-primary", role: "button" %>
+<%= link_to "削除", @material, method: :delete, data: { confirm: "本当に削除してもいいですか？" }, class: "btn btn-primary", role: "button" %>
