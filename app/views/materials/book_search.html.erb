@@ -1,0 +1,35 @@
+<h1>Rakuserach</h1>
+<div class='content'>
+  <div id="search-box">
+    <%= form_tag('/materials/book_search', method: :get) do %>
+      <%= text_field_tag :material, "",  id: "book_search", name: "keyword", placeholder: "キーワードを打ち込んでください", style: "width: 200px;"%>
+      <button title="検索" type="submit">検索</button>
+    <% end %>
+  </div>
+</div>
+
+  <h2>検索結果</h2>
+  <div id='good_list'>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>教材名</th>
+        <th>作者名</th>
+        <th>イメージ</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% if @books.present? %>
+        <% @books.each do |book| %>
+          <tr>
+            <td><%= link_to book.title, book.item_url %></td>
+            <td><%= book.author %></td>
+            <td><img src="<%= book.medium_image_url %>"></td>
+<!--            <td><%#= link_to "教材登録", edit_material_path(material) %></td>-->
+<!--            <td><%#= link_to "削除", material, method: :delete, data: { confirm: "本当に削除してもいいですか？" } %></td>-->
+          </tr>
+        <% end %>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
