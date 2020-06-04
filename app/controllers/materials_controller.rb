@@ -31,7 +31,7 @@ class MaterialsController < ApplicationController
 
   def update
     if @material.update(material_params)
-      redirect_to materials_path, info: "教材情報は更新されました"
+      redirect_to material_path(@material), info: "教材情報は更新されました"
     else
       render "edit"
     end

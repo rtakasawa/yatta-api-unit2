@@ -8,55 +8,57 @@ RSpec.describe '教材管理機能', type: :system do
   describe '教材登録画面' do
     context '必要項目を入力して、createボタンを押した場合' do
       it 'データが保存される' do
-        # User.create(id: 1, name: "sample", email: "sample@example.com", password: "0000000")
+        User.create(id: 1, name: "sample", email: "sample@example.com", password: "0000000")
         # Label.create(id: 1, title:"work")
         # Label.create(id: 2, title:"private")
         # Label.create(id: 3, title:"other")
         # create(:task, user_id: 1)
-        # visit new_session_path
-        # fill_in "session[email]", with: "sample@example.com"
-        # fill_in "session[password]", with: "0000000"
-        # click_on "ログインする"
-        # click_on "タスク登録"
-        # fill_in 'task[task_name]', with: "task_name"
-        # fill_in 'task[description]', with: "description"
-        # fill_in 'task[deadline]', with: Date.today
+        visit new_user_session_path
+        fill_in "user[email]", with: "sample@example.com"
+        fill_in "user[password]", with: "0000000"
+        click_on "ログイン"
+        click_on "教材投稿"
+        fill_in 'material[title]', with: "test1"
+        fill_in 'material[author]', with: "test_author1"
+        select "book", from: 'material[category]'
+        fill_in 'material[path]', with: "http://example.com"
+        fill_in 'material[note]', with: "test_note1"
         # check 'task_label_ids_1'
         # check 'task_label_ids_2'
         # check 'task_label_ids_3'
-        # click_button "登録する"
-        # wait.until{ expect(page).to have_content "task_name" }
-        # wait.until{ expect(page).to have_content "description" }
-        # wait.until{ expect(page).to have_content Date.today }
-        # wait.until{ expect(page).to have_content "work" }
-        # wait.until{ expect(page).to have_content "private" }
-        # wait.until{ expect(page).to have_content "other" }
+        click_button "登録する"
+        wait.until{ expect(page).to have_link "test1" }
+        wait.until{ expect(page).to have_content "test_author1" }
+        wait.until{ expect(page).to have_content "book" }
+        wait.until{ expect(page).to have_content "test_note1" }
       end
     end
   end
 
 
   describe '教材一覧画面' do
-    # before do
-    #   User.create(id: 1, name: "sample", email: "sample@example.com",
-    #               password: "0000000",admin: false)
-    #   Label.create(id: 1, title:"work")
-    #   task_first = create(:task, user_id: 1)
-    #   task_second = create(:second_task, user_id: 1)
-    #   task_third = create(:third_task, user_id: 1)
-    #   task_first.task_to_labels.create(id:1, label_id: 1)
-    #   task_second.task_to_labels.create(id:2, label_id: 1)
-    #   task_third.task_to_labels.create(id:3, label_id: 1)
-    #   visit new_session_path
-    #   fill_in "session[email]", with: "sample@example.com"
-    #   fill_in "session[password]", with: "0000000"
-    #   click_on "ログインする"
-    # end
+    before do
+      User.create(id: 1, name: "sample", email: "sample@example.com", password: "0000000")
+      # Label.create(id: 1, title:"work")
+      # task_first = create(:task, user_id: 1)
+      # task_second = create(:second_task, user_id: 1)
+      # task_third = create(:third_task, user_id: 1)
+      # task_first.task_to_labels.create(id:1, label_id: 1)
+      # task_second.task_to_labels.create(id:2, label_id: 1)
+      # task_third.task_to_labels.create(id:3, label_id: 1)
+      FactoryBot.create(:material, user_id: 1)
+      FactoryBot.create(:second_material, user_id: 1)
+      FactoryBot.create(:third_material, user_id: 1)
+      visit new_user_session_path
+      fill_in "user[email]", with: "sample@example.com"
+      fill_in "user[password]", with: "0000000"
+      click_on "ログイン"
+    end
     context '複数の教材を登録した場合' do
       it '登録済みの教材が表示される' do
-        # wait.until{ expect(page).to have_content "test_name1" }
-        # wait.until{ expect(page).to have_content "test_name2" }
-        # wait.until{ expect(page).to have_content "test_name3" }
+        wait.until{ expect(page).to have_content "test1" }
+        wait.until{ expect(page).to have_content "test2" }
+        wait.until{ expect(page).to have_content "test3" }
       end
       it '教材が登録日順に並んでいる' do
         # task_list = all('tbody tr' )
@@ -68,13 +70,13 @@ RSpec.describe '教材管理機能', type: :system do
 
     context '任意の教材を削除した場合' do
       it '削除した教材が表示されない' do
-        # click_link "削除", href: "/tasks/1"
-        # page.accept_confirm
-        # wait.until{ expect(page).to have_no_content 'test_name1' }
+        click_link "削除", href: "/materials/1"
+        page.accept_confirm
+        wait.until{ expect(page).to have_no_content 'test1' }
       end
     end
 
-    context "検索した場合" do
+    context "登録した教材の検索" do
       it "教材名検索ができる" do
         # fill_in "search[task_name]", with: 'test_name1'
         # click_on "検索する"
@@ -118,60 +120,30 @@ RSpec.describe '教材管理機能', type: :system do
     end
   end
 
-  describe '教材登録画面' do
-    context '必要項目を入力して、createボタンを押した場合' do
-      it 'データが保存される' do
-        # User.create(id: 1, name: "sample", email: "sample@example.com",
-        #             password: "0000000",admin: false)
-        # Label.create(id: 1, title:"work")
-        # Label.create(id: 2, title:"private")
-        # Label.create(id: 3, title:"other")
-        # create(:task, user_id: 1)
-        # visit new_session_path
-        # fill_in "session[email]", with: "sample@example.com"
-        # fill_in "session[password]", with: "0000000"
-        # click_on "ログインする"
-        # click_on "タスク登録"
-        # fill_in 'task[task_name]', with: "task_name"
-        # fill_in 'task[description]', with: "description"
-        # fill_in 'task[deadline]', with: Date.today
-        # check 'task_label_ids_1'
-        # check 'task_label_ids_2'
-        # check 'task_label_ids_3'
-        # click_button "登録する"
-        # wait.until{ expect(page).to have_content "task_name" }
-        # wait.until{ expect(page).to have_content "description" }
-        # wait.until{ expect(page).to have_content Date.today }
-        # wait.until{ expect(page).to have_content "work" }
-        # wait.until{ expect(page).to have_content "private" }
-        # wait.until{ expect(page).to have_content "other" }
-      end
-    end
-  end
-
   describe '教材詳細画面' do
     before do
-      # User.create(id: 1, name: "sample", email: "sample@example.com",
-      #             password: "0000000",admin: false)
-      # create(:task, user_id: 1)
-      # visit new_session_path
-      # fill_in "session[email]", with: "sample@example.com"
-      # fill_in "session[password]", with: "0000000"
-      # click_on "ログインする"
+      User.create(id: 1, name: "sample", email: "sample@example.com", password: "0000000")
+      FactoryBot.create(:material, user_id: 1)
+      visit new_user_session_path
+      fill_in "user[email]", with: "sample@example.com"
+      fill_in "user[password]", with: "0000000"
+      click_on "ログイン"
     end
+    # 学習記録が含まれていない
     context '任意の教材詳細画面に遷移した場合' do
       it '該当教材の内容が表示されたページに遷移する（学習記録含む）' do
-        # click_on 'test_name1'
-        # wait.until{ expect(page).to have_content "test_name1" }
-        # wait.until{ expect(page).to have_content "test_description1" }
-        # wait.until{ expect(page).to have_content '1900-01-01' }
+        click_on 'test1'
+        wait.until{ expect(page).to have_link "test1" }
+        wait.until{ expect(page).to have_content "test_author1" }
+        wait.until{ expect(page).to have_content "book" }
+        wait.until{ expect(page).to have_content "test_note1" }
       end
     end
     context '任意の教材を削除した場合' do
       it '削除した教材が表示されない' do
-        # click_link "削除", href: "/tasks/1"
-        # page.accept_confirm
-        # wait.until{ expect(page).to have_no_content 'test_name1' }
+        click_link "削除", href: "/materials/1"
+        page.accept_confirm
+        wait.until{ expect(page).to have_no_content 'test1' }
       end
     end
   end
@@ -179,45 +151,55 @@ RSpec.describe '教材管理機能', type: :system do
   describe '教材編集画面' do
     context '必要項目を入力して、createボタンを押した場合' do
       it 'データが保存される' do
-        # User.create(id: 1, name: "sample", email: "sample@example.com",
-        #             password: "0000000",admin: false)
+        User.create(id: 1, name: "sample", email: "sample@example.com", password: "0000000")
         # Label.create(id: 1, title:"work")
         # Label.create(id: 2, title:"private")
         # Label.create(id: 3, title:"other")
-        # create(:task, user_id: 1)
-        # visit new_session_path
-        # fill_in "session[email]", with: "sample@example.com"
-        # fill_in "session[password]", with: "0000000"
-        # click_on "ログインする"
-        # click_link href: "/tasks/1/edit"
-        # fill_in 'task[task_name]', with: "task_name"
-        # fill_in 'task[description]', with: "description"
-        # fill_in 'task[deadline]', with: Date.today
+        FactoryBot.create(:material, user_id: 1)
+        visit new_user_session_path
+        fill_in "user[email]", with: "sample@example.com"
+        fill_in "user[password]", with: "0000000"
+        click_on "ログイン"
+        click_link href: "/materials/1/edit"
+        fill_in 'material[title]', with: "test2"
+        fill_in 'material[author]', with: "test_author2"
+        select "video", from: 'material[category]'
+        fill_in 'material[path]', with: "http://example2.com"
+        fill_in 'material[note]', with: "test_note2"
         # check 'task_label_ids_1'
         # check 'task_label_ids_2'
         # check 'task_label_ids_3'
-        # click_button "登録する"
-        # wait.until{ expect(page).to have_content "task_name" }
-        # wait.until{ expect(page).to have_content "description" }
-        # wait.until{ expect(page).to have_content Date.today }
-        # wait.until{ expect(page).to have_content "work" }
-        # wait.until{ expect(page).to have_content "private" }
-        # wait.until{ expect(page).to have_content "other" }
+        click_button "登録する"
+        wait.until{ expect(page).to have_link "test2" }
+        wait.until{ expect(page).to have_content "test_author2" }
+        wait.until{ expect(page).to have_content "video" }
+        wait.until{ expect(page).to have_content "test_note2" }
       end
     end
   end
 
-  describe '教材検索画面' do
-    context '必要項目を入力して、検索ボタンを押した場合' do
-      it '該当する教材が表示される' do
-
-      end
-      it '該当する教材がない場合は、その旨が表示される' do
-
-      end
-      it '該当する教材を登録する場合は、登録画面に教材の情報が表示される' do
-
-      end
-    end
-  end
+  # エラー出るため保留
+  # describe '登録する教材を検索する場合' do
+  #   before do
+  #     User.create(id: 1, name: "sample", email: "sample@example.com", password: "0000000")
+  #     FactoryBot.create(:material, user_id: 1)
+  #     visit new_user_session_path
+  #     fill_in "user[email]", with: "sample@example.com"
+  #     fill_in "user[password]", with: "0000000"
+  #     click_on "ログイン"
+  #   end
+  #   context '必要項目を入力して、検索ボタンを押した場合' do
+  #     it '該当する教材が表示される' do
+  #       fill_in "keyword", with: "ruby"
+  #       click_on "検索"
+  #       wait.until{ expect(page).to have_content "プロを目指す人のためのRuby入門" }
+  #     end
+  #     it '該当する教材がない場合は、その旨が表示される' do
+  #
+  #     end
+  #     it '該当する教材を登録する場合は、登録画面に教材の情報が表示される' do
+  #
+  #     end
+  #   end
+  # end
 end
