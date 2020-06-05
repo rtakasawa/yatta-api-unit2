@@ -15,18 +15,13 @@
     <td><%= @material.category %></td>
   </tr>
   <tr>
+    <th>タグ</th>
+    <td><%= render 'materials/tag_list', tag_list: @material.tag_list %></td>
+  </tr>
+  <tr>
     <th>備考（メモ等）</th>
     <td><%= @material.note %></td>
   </tr>
-<!--  タグ機能は一旦コメントアウト-->
-<!--  <tr>-->
-<!--    <th><%#= t("activerecord.attributes.label.title") %></th>-->
-<!--    <td>-->
-      <%# @material.labels.each do |label| %>
-<!--        <span class="label label-success"><%#= label.title %></span>-->
-      <%# end %>
-<!--    </td>-->
-<!--  </tr>-->
   </tbody>
 </table>
 
