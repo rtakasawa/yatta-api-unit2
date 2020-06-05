@@ -9,7 +9,9 @@
     </tr>
     </thead>
     <tbody>
-    <% if @books.params[:title].size >= 2 %>
+    <% if @books.present? %>
+      <%= paginate @books, class: "paginate" %>
+      <%= page_entries_info @books %>
       <% @books.each do |book| %>
         <tr>
           <td><%= link_to book.title, book.item_url %></td>

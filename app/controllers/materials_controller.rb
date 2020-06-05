@@ -3,7 +3,8 @@ class MaterialsController < ApplicationController
   before_action :set_task, only: [:show,:edit,:update,:destroy]
 
   def index
-    @materials = current_user.materials.all
+    @q = current_user.materials.ransack(params[:q])
+    @materials = @q.result(distinct: true).page(params[:page])
   end
 
   def new
@@ -46,17 +47,32 @@ class MaterialsController < ApplicationController
   # 本のタイトルで検索。検索条件は不明確だが、おそらく曖昧検索
   # 今はデフォルトの30件しか検索情報が取得できない
   # ページネーション追加後に取得情報を増やせるか確認する
-  # ２文字以上検索ワードを入れないとエラーになる。とりあえずビューで制約した
+  # →動的な設定が必要。一旦保留
+  # 2文字以上検索ワードを入れないとエラーになる。とりあえずビューで制約した
   def book_search
-    if params[:keyword].size
-      @books = RakutenWebService::Books::Book.search(title: params[:keyword])
+    if params[:keyword].size >= 2
+      items = RakutenWebService::Books::Book.search(title: params[:keyword])
+      @books_full = []
+      items.each do |item|
+        @books_full.push(item)
+      end
+    end
+    if @books_full.present?
+      @books = Kaminari.paginate_array(@books_full).page(params[:page]).per(10)
     end
   end
+
+  # # ページネーション不要の場合は下記コード
+  # def book_search
+  #   if params[:keyword].size
+  #     @books = RakutenWebService::Books::Book.search(title: params[:keyword]).page(params[:page])
+  #   end
+  # end
 
   private
 
   def material_params
-    params.require(:material).permit(:title, :author, :category, :path, :note)
+    params.require(:material).permit(:title, :author, :category, :path, :note, :tag_list)
   end
 
   def set_task
