@@ -2,11 +2,6 @@ class WorksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_work, only: [:show,:edit,:update,:destroy]
 
-  # def index
-  #   @q = current_user.materials.ransack(params[:q])
-  #   @materials = @q.result(distinct: true).page(params[:page])
-  # end
-
   def new
     @materials = current_user.materials
     @work = Work.new

@@ -26,7 +26,9 @@ class MaterialsController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    @works = @material.works.order(updated_at: :desc).page(params[:page]).per(10)
+  end
 
   def edit; end
 
