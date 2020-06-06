@@ -10,36 +10,38 @@ class WorksController < ApplicationController
   def create
     @work = Work.new(work_params)
     if @work.save
-      redirect_to materials_path, success: "教材が登録されました"
+      redirect_to materials_path, success: "学習情報が登録されました"
     else
       render "new"
     end
   end
 
-  # def show; end
-  #
-  # def edit; end
-  #
-  # def update
-  #   if @material.update(material_params)
-  #     redirect_to material_path(@material), info: "教材情報は更新されました"
-  #   else
-  #     render "edit"
-  #   end
-  # end
-  #
-  # def destroy
-  #   @material.destroy
-  #   redirect_to materials_path, info: "教材は削除されました"
-  # end
+
+  def edit; end
+
+  def update
+    if @work.update(work_params)
+      @material = Material.find(params[:material_id])
+      redirect_to material_path(@material), info: "学習情報は更新されました"
+    else
+      render "edit"
+    end
+  end
+
+  def destroy
+    @work.destroy
+    @material = Material.find(params[:material_id])
+    redirect_to material_path(@material), info: "学習情報は削除されました"
+  end
 
   private
 
+  # material_idを含めたが勝手に入力されることはないか心配
   def work_params
     params.require(:work).permit(:start, :end, :content, :status, :material_id)
   end
 
   def set_work
-    @material = Material.find(params[:id])
+    @work = Work.find(params[:id])
   end
 end
