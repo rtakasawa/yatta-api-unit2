@@ -1,6 +1,6 @@
 class WorksController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_work, only: [:show,:edit,:update,:destroy]
+  before_action :set_work, only: [:edit,:update,:destroy]
 
   def new
     @materials = current_user.materials
@@ -16,13 +16,11 @@ class WorksController < ApplicationController
     end
   end
 
-
   def edit; end
 
   def update
     if @work.update(work_params)
-      @material = Material.find(params[:material_id])
-      redirect_to material_path(@material), info: "学習情報は更新されました"
+      redirect_to material_path(@work.material_id), info: "学習情報は更新されました"
     else
       render "edit"
     end
@@ -30,8 +28,7 @@ class WorksController < ApplicationController
 
   def destroy
     @work.destroy
-    @material = Material.find(params[:material_id])
-    redirect_to material_path(@material), info: "学習情報は削除されました"
+    redirect_to material_path(@work.material_id), info: "学習情報は削除されました"
   end
 
   private
