@@ -1,6 +1,6 @@
 class MaterialsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_task, only: [:show,:edit,:update,:destroy]
+  before_action :set_material, only: [:show,:edit,:update,:destroy]
 
   def index
     @q = current_user.materials.ransack(params[:q])
@@ -75,7 +75,7 @@ class MaterialsController < ApplicationController
     params.require(:material).permit(:title, :author, :category, :path, :note, :tag_list)
   end
 
-  def set_task
+  def set_material
     @material = Material.find(params[:id])
   end
 end

@@ -2,7 +2,7 @@ ja:
   activerecord:
     models:
       material: 教材
-      study: 学習情報
+      work: 学習情報
       user: 会員
     attributes:
       material:
@@ -11,7 +11,7 @@ ja:
         category: カテゴリー
         path: URL
         note: メモ
-      study:
+      work:
         start: 学習を開始したページ、単元
         end: 学習を終了したページ、単元
         content: 学習内容
@@ -25,3 +25,7 @@ ja:
         video: 動画
         web: WEB記事
         other: その他
+    work:
+      status:
+        incomplete: 未完了
+        complete: 完了

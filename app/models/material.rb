@@ -1,8 +1,7 @@
 class Material < ApplicationRecord
   acts_as_taggable
   belongs_to :user
-  has_many :works
-
+  has_many :works, dependent: :destroy
   validates :title, presence: true
   validates :category, presence: true
   # allow_blank: true:入力がブランク時はバリデーションをスキップ
