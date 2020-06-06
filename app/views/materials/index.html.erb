@@ -18,9 +18,10 @@
   <tr>
     <th>教材名</th>
     <th>カテゴリー</th>
-<!--    <th><%#= 学習日%></th>-->
-<!--    <th><%#= 学習記録 %></th>-->
-<!--    <th><%#= ステータス %></th>-->
+    <th>最新の学習記録日%></th>
+    <th>最新の学習量（開始ページ）</th>
+    <th>最新の学習量（終了ページ）</th>
+    <th>最新の学習ステータス</th>
     <th>タグ</th>
   </tr>
   </thead>
@@ -29,6 +30,15 @@
     <tr>
       <td><%= link_to material.title, material_path(material) %></td>
       <td><%= material.category %></td>
+      <% if material.works.present? %>
+        <% last_updated_work = material.works.order(updated_at: :desc).limit(1) %>
+        <% last_updated_work.each do |last_work| %>
+          <td><%= last_work.updated_at %></td>
+          <td><%= last_work.start %></td>
+          <td><%= last_work.end %></td>
+          <td><%= last_work.status %></td>
+        <% end %>
+      <% end %>
       <td><%= render 'materials/tag_list', tag_list: material.tag_list %></td>
       <td><%= link_to "編集", edit_material_path(material) %></td>
       <td><%= link_to "削除", material, method: :delete, data: { confirm: "本当に削除してもいいですか？" } %></td>
