@@ -31,7 +31,6 @@ RSpec.describe '教材管理機能', type: :system do
     end
   end
 
-
   describe '教材一覧画面' do
     before do
       User.create(id: 1, name: "sample", email: "sample@example.com", password: "0000000")
@@ -53,7 +52,15 @@ RSpec.describe '教材管理機能', type: :system do
         wait.until{ expect(page).to have_content "test2" }
         wait.until{ expect(page).to have_content "test3" }
       end
-      it '教材が登録日順に並んでいる' do
+      # 未対応
+      it '教材が新しく登録した順に並んでいる' do
+        # task_list = all('tbody tr' )
+        # wait.until{ expect(task_list[0]).to have_content "test_name3" }
+        # wait.until{ expect(task_list[1]).to have_content "test_name2" }
+        # wait.until{ expect(task_list[2]).to have_content "test_name1" }
+      end
+      # 未対応
+      it '最新の学習情報が表示されている（学習情報の登録がある場合）' do
         # task_list = all('tbody tr' )
         # wait.until{ expect(task_list[0]).to have_content "test_name3" }
         # wait.until{ expect(task_list[1]).to have_content "test_name2" }
@@ -85,11 +92,13 @@ RSpec.describe '教材管理機能', type: :system do
         click_on "commit"
         wait.until{ expect(page).to have_content 'video' }
       end
+      # 未対応
       it "ステータス検索ができる" do
         # select "未着手", from: "search[status]"
         # click_on "検索する"
         # wait.until{ expect(page).to have_content '未着手' }
       end
+      # 未対応
       it "教材名、カテゴリー、ステータス、タグを指定して、検索ができる" do
         # fill_in "search[task_name]", with: 'test_name1'
         # select "未着手", from: "search[status]"
@@ -100,7 +109,7 @@ RSpec.describe '教材管理機能', type: :system do
         # wait.until{ expect(page).to have_content 'work' }
       end
     end
-
+    # 未対応
     context "ソートした場合" do
       it "学習日のソートボタンをクリックすると学習日が新しい順に並び替えることができる" do
         # click_on "終了期限でソートする"
@@ -122,14 +131,17 @@ RSpec.describe '教材管理機能', type: :system do
       fill_in "user[password]", with: "0000000"
       click_on "ログイン"
     end
-    # 学習記録が含まれていない
     context '任意の教材詳細画面に遷移した場合' do
-      it '該当教材の内容が表示されたページに遷移する（学習記録含む）' do
+      it '該当教材の内容が表示されたページに遷移する' do
         click_on 'test1'
         wait.until{ expect(page).to have_link "test1" }
         wait.until{ expect(page).to have_content "test_author1" }
         wait.until{ expect(page).to have_content "book" }
         wait.until{ expect(page).to have_content "test_note1" }
+      end
+      # 未対応
+      # 学習記録が含まれていない
+      it '学習記録は最新の登録順に表示されている' do
       end
     end
     context '任意の教材を削除した場合' do

@@ -1,6 +1,6 @@
 class WorksController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_work, only: [:edit,:update,:destroy]
+  before_action :set_work, only: [:show,:edit,:update,:destroy]
 
   def new
     @materials = current_user.materials
@@ -10,11 +10,13 @@ class WorksController < ApplicationController
   def create
     @work = Work.new(work_params)
     if @work.save
-      redirect_to materials_path, success: "学習情報が登録されました"
+      redirect_to material_path(@work.material_id), success: "学習情報が登録されました"
     else
       render "new"
     end
   end
+
+  def show; end
 
   def edit; end
 
