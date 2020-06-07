@@ -61,6 +61,8 @@ class MaterialsController < ApplicationController
     end
     if @books_full.present?
       @books = Kaminari.paginate_array(@books_full).page(params[:page]).per(10)
+    else
+
     end
   end
 

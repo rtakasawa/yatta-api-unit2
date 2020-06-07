@@ -38,20 +38,19 @@
       <th>学習記録日</th>
       <th>学習量（開始したページ）</th>
       <th>学習量（終了したページ）</th>
-      <th>学習内容</th>
       <th>学習ステータス（未完了・完了）</th>
     </tr>
     </thead>
     <tbody>
     <% @works.each do |work| %>
       <tr>
-        <td><%= work.updated_at %></td>
+        <td><%= link_to work.updated_at.strftime("%Y-%m-%d %H:%M"), work_path(work) %></td>
         <td><%= work.start %></td>
         <td><%= work.end %></td>
-        <td><%= work.content %></td>
         <td><%= work.status %></td>
+        <td><%= link_to "詳細", work %></td>
         <td><%= link_to "編集", edit_work_path(work) %></td>
-        <td><%= link_to "削除", work_path(work,material_id:@material.id), method: :delete, data: { confirm: "本当に削除してもいいですか？" } %></td>
+        <td><%= link_to "削除", work, method: :delete, data: { confirm: "本当に削除してもいいですか？" } %></td>
       </tr>
     <% end %>
     </tbody>
