@@ -49,7 +49,7 @@ Material.all.each do |material|
     start = rand(100)
     end_id = rand(200)
     content = Faker::JapaneseMedia::OnePiece.character
-    status = rand(2)
+    status = 0
     material.works.create(start: start,
                           end: end_id,
                           content: content,

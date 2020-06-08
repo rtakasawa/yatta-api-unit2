@@ -1,5 +1,6 @@
 <h1>教材一覧</h1>
 
+<!--検索-->
 <%= search_form_for @q do |f| %>
   <%= f.label :title, "キーワード検索" %><br>
   <%= f.search_field :title_or_tags_name_cont %><br>
@@ -8,12 +9,14 @@
   <%= f.label :category_eq, "カテゴリー" %>
   <%= f.select :category_eq, Material.categories.map { |k, v| [Material.categories_i18n[k], v]},{include_blank: '選択ボックス'} %>
 
-  <%= f.label :works_status_eq, "ステータス" %>
+  <%= f.label :work_status_eq, "ステータス" %>
   <%= f.select :works_status_eq, Work.statuses.map { |k, v| [Work.statuses_i18n[k], v]},{include_blank: '選択ボックス'} %>
 
   <%= f.submit "検索" %>
 <% end %>
 
+
+<!--検索結果-->
 <%= paginate @materials, class: "paginate"  %>
 <%= page_entries_info @materials %>
 
@@ -22,6 +25,7 @@
   <tr>
     <th>教材名</th>
     <th>カテゴリー</th>
+<!--    <th><%#= sort_link(@q,:work_updated_at) %></th>-->
     <th>最新の学習記録日</th>
     <th>最新の学習量（開始ページ）</th>
     <th>最新の学習量（終了ページ）</th>
