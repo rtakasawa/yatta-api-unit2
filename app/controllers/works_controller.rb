@@ -1,6 +1,7 @@
 class WorksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_work, only: [:show,:edit,:update,:destroy]
+  before_action :check_work_user, only: [:show,:edit,:update,:destroy]
 
   def new
     @materials = current_user.materials
@@ -43,5 +44,9 @@ class WorksController < ApplicationController
 
   def set_work
     @work = Work.find(params[:id])
+  end
+
+  def check_work_user
+    redirect_to materials_path unless @work.material.user_id == current_user.id
   end
 end
