@@ -46,7 +46,7 @@
       <tr>
         <td><%= link_to work.updated_at.strftime("%Y-%m-%d %H:%M"), work_path(work) %></td>
         <td><%= work.start %></td>
-        <td><%= work.end %></td>
+        <td><%= work.finish %></td>
         <td><%= work.status %></td>
         <td><%= link_to "詳細", work %></td>
         <td><%= link_to "編集", edit_work_path(work) %></td>
