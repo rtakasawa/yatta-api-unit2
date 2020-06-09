@@ -5,7 +5,19 @@ RSpec.describe '学習管理機能', type: :system do
   wait = Selenium::WebDriver::Wait.new(:timeout => 1000)
 
   describe '学習登録画面' do
+    before do
+      User.create(id: 1, name: "sample", email: "sample@example.com", password: "0000000")
+      FactoryBot.create(:material, user_id: 1)
+      FactoryBot.create(:second_material, user_id: 1)
+      FactoryBot.create(:third_material, user_id: 1)
+      visit new_user_session_path
+      fill_in "user[email]", with: "sample@example.com"
+      fill_in "user[password]", with: "0000000"
+      click_on "ログイン"
+    end
+
     it '教材登録のセレクトボックスには、登録した教材が表示される' do
+
     end
     context '必要項目を入力して、createボタンを押した場合' do
       it 'データが保存される' do

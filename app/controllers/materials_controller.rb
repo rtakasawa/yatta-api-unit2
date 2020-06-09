@@ -3,14 +3,6 @@ class MaterialsController < ApplicationController
   before_action :set_material, only: [:show,:edit,:update,:destroy]
 
   def index
-    # @material = current_user.materials
-    # @q = @material.ransack(params[:q])
-    # @works = Work.where(material_id: @material.id).order(updated_at: :desc).limit(1)
-    #
-    # material = current_user.materials
-    # works = material.works.order(updated_at: :desc).limit(1)
-    # @q = works.ransack(params[:q])
-
     @q = current_user.materials.ransack(params[:q])
     @materials = @q.result(distinct: true).page(params[:page])
   end
@@ -35,7 +27,7 @@ class MaterialsController < ApplicationController
   end
 
   def show
-    @works = @material.works.order(updated_at: :desc).page(params[:page]).per(10)
+    @works = @material.works.order(created_at: :desc).page(params[:page]).per(10)
   end
 
   def edit; end
