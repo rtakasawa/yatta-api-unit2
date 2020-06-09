@@ -87,5 +87,4 @@ class MaterialsController < ApplicationController
   def check_material_user
     redirect_to materials_path unless @material.user_id == current_user.id
   end
-
 end
