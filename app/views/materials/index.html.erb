@@ -47,7 +47,7 @@
         <% last_created_work.each do |last_work| %>
           <td><%= last_work.created_at.strftime("%Y-%m-%d") %></td>
           <td><%= last_work.start %></td>
-          <td><%= last_work.end %></td>
+          <td><%= last_work.finish %></td>
           <td><%= last_work.status %></td>
         <% end %>
       <% end %>
