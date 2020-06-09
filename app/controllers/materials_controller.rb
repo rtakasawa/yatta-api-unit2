@@ -1,6 +1,7 @@
 class MaterialsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_material, only: [:show,:edit,:update,:destroy]
+  before_action :check_material_user, only: [:show,:edit,:update,:destroy]
 
   def index
     @q = current_user.materials.ransack(params[:q])
@@ -82,4 +83,9 @@ class MaterialsController < ApplicationController
   def set_material
     @material = Material.find(params[:id])
   end
+
+  def check_material_user
+    redirect_to materials_path unless @material.user_id == current_user.id
+  end
+
 end
