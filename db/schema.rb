@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_05_081326) do
+ActiveRecord::Schema.define(version: 2020_06_09_043000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 2020_06_05_081326) do
 
   create_table "works", force: :cascade do |t|
     t.string "start", null: false
-    t.string "end", null: false
+    t.string "finish", null: false
     t.text "content"
     t.integer "status", default: 0, null: false
     t.bigint "material_id"
