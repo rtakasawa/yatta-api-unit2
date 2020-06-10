@@ -102,3 +102,5 @@ group :test do
 end
 
 gem 'enum_help'
+
+gem 'devise-bootstrap-views', '~> 1.0'

@@ -4,89 +4,94 @@
     <title>YataApp</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
   <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-    <div class="container">
-      <a class="navbar-brand">
-        <img src="http://placehold.it/150x50?text=Logo" alt="" >
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <% if user_signed_in? %>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <%= link_to "教材一覧", materials_path, class: "nav-link" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "教材投稿", new_material_path, class: "nav-link" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "学習を記録する", new_work_path, class: "nav-link" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-link" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "会員情報", user_path(current_user), class: "nav-link" %>
-          </li>
-        </ul>
-      </div>
-      <% else %>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <%= link_to "アカウントを登録する", new_user_registration_path,class: "nav-link" %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "ログインする", new_user_session_path,class: "nav-link" %>
-            </li>
-          </ul>
-        </div>
-      <% end %>
-    </div>
-  </nav>
 
-  <% if user_signed_in? %>
-    <div class="container">
-      <p>教材検索（書籍のみ）※表示されるのは最大30件です</p>
-      <%= form_tag('/materials/book_search', method: :get) do %>
-        <%= text_field_tag :material, "",  id: "book_search", name: "keyword", placeholder: "キーワードを打ち込んでください", style: "width: 200px;"%>
-        <button title="検索" type="submit">検索</button>
-      <% end %>
-    <h1 class="mt-4">Logo Nav by Start Bootstrap</h1>
-    <p>The logo in the navbar is now a default Bootstrap feature in Bootstrap 4! Make sure to set the width and height of the logo within the HTML or with CSS. For best results, use an SVG image as your logo.</p>
-    </div>
-  <% end %>
+  <%= render 'shared/header' %>
+  <%= render 'shared/flash_messages' %>
+
+<!--  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">-->
+<!--    <div class="container">-->
+<!--      <a class="navbar-brand">-->
+<!--        <img src="http://placehold.it/150x50?text=Logo" alt="" >-->
+<!--      </a>-->
+<!--      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--        <span class="navbar-toggler-icon"></span>-->
+<!--      </button>-->
+      <%# if user_signed_in? %>
+<!--      <div class="collapse navbar-collapse" id="navbarResponsive">-->
+<!--        <ul class="navbar-nav ml-auto">-->
+<!--          <li class="nav-item">-->
+            <%#= link_to "教材一覧", materials_path, class: "nav-link" %>
+<!--          </li>-->
+<!--          <li class="nav-item">-->
+            <%#= link_to "教材投稿", new_material_path, class: "nav-link" %>
+<!--          </li>-->
+<!--          <li class="nav-item">-->
+            <%#= link_to "学習を記録する", new_work_path, class: "nav-link" %>
+<!--          </li>-->
+<!--          <li class="nav-item">-->
+            <%#= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-link" %>
+<!--          </li>-->
+<!--          <li class="nav-item">-->
+            <%#= link_to "会員情報", user_path(current_user), class: "nav-link" %>
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </div>-->
+      <%# else %>
+<!--        <div class="collapse navbar-collapse" id="navbarResponsive">-->
+<!--          <ul class="navbar-nav ml-auto">-->
+<!--            <li class="nav-item">-->
+              <%#= link_to "アカウントを登録する", new_user_registration_path,class: "nav-link" %>
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+              <%#= link_to "ログインする", new_user_session_path,class: "nav-link" %>
+<!--            </li>-->
+<!--          </ul>-->
+<!--        </div>-->
+      <%# end %>
+<!--    </div>-->
+<!--  </nav>-->
+
+  <%# if user_signed_in? %>
+<!--    <div class="container">-->
+<!--      <p>教材検索（書籍のみ）※表示されるのは最大30件です</p>-->
+      <%#= form_tag('/materials/book_search', method: :get) do %>
+        <%#= text_field_tag :material, "",  id: "book_search", name: "keyword", placeholder: "キーワードを打ち込んでください", style: "width: 200px;"%>
+<!--        <button title="検索" type="submit">検索</button>-->
+      <%# end %>
+<!--    <h1 class="mt-4">Logo Nav by Start Bootstrap</h1>-->
+<!--    <p>The logo in the navbar is now a default Bootstrap feature in Bootstrap 4! Make sure to set the width and height of the logo within the HTML or with CSS. For best results, use an SVG image as your logo.</p>-->
+<!--    </div>-->
+  <%# end %>
 
 
 
 <!--  下記は従前のコード-->
-  <% if user_signed_in? %>
-    <%= link_to "教材一覧", materials_path %>
-    <%= link_to "教材投稿", new_material_path %>
-    <%= link_to "学習を記録する", new_work_path %>
-    <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
-    <%= link_to "会員情報", user_path(current_user) %>
-    <p>教材検索（書籍のみ）※表示されるのは最大30件です</p>
-    <%= form_tag('/materials/book_search', method: :get) do %>
-      <%= text_field_tag :material, "",  id: "book_search", name: "keyword", placeholder: "キーワードを打ち込んでください", style: "width: 200px;"%>
-      <button title="検索" type="submit">検索</button>
-    <% end %>
-  <% else %>
-    <%= link_to "アカウントを登録する", new_user_registration_path %>
-    <%= link_to "ログインする", new_user_session_path %>
-  <% end %>
-  <% if notice %>
-    <p class="alert alert-notice"><%= notice %></p>
-  <% end %>
-  <% if alert %>
-    <p class="alert alert-error"><%= alert %></p>
-  <% end %>
+  <%# if user_signed_in? %>
+    <%#= link_to "教材一覧", materials_path %>
+    <%#= link_to "教材投稿", new_material_path %>
+    <%#= link_to "学習を記録する", new_work_path %>
+    <%#= link_to "ログアウト", destroy_user_session_path, method: :delete %>
+    <%#= link_to "会員情報", user_path(current_user) %>
+<!--    <p>教材検索（書籍のみ）※表示されるのは最大30件です</p>-->
+    <%#= form_tag('/materials/book_search', method: :get) do %>
+      <%#= text_field_tag :material, "",  id: "book_search", name: "keyword", placeholder: "キーワードを打ち込んでください", style: "width: 200px;"%>
+<!--      <button title="検索" type="submit">検索</button>-->
+    <%# end %>
+  <%# else %>
+    <%#= link_to "アカウントを登録する", new_user_registration_path %>
+    <%#= link_to "ログインする", new_user_session_path %>
+  <%# end %>
+  <%# if notice %>
+<!--    <p class="alert alert-notice"><%#= notice %></p>-->
+  <%# end %>
+  <%# if alert %>
+<!--    <p class="alert alert-error"><%#= alert %></p>-->
+  <%# end %>
 
     <%= yield %>
   </body>
