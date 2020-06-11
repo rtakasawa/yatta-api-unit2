@@ -13,6 +13,7 @@ class WorksController < ApplicationController
     if @work.save
       redirect_to material_path(@work.material_id), notice: "学習情報が登録されました"
     else
+      @materials = current_user.materials
       render "new"
     end
   end
@@ -39,7 +40,7 @@ class WorksController < ApplicationController
   # material_idを含めたが勝手に入力されることはないか心配
   # work新規登録時の教材選びの際にmaterial_idを利用
   def work_params
-    params.require(:work).permit(:start, :finish, :content, :status, :material_id)
+    params.require(:work).permit(:start, :finish, :content, :do_on, :material_id)
   end
 
   def set_work

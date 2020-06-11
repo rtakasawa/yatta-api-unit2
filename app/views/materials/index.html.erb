@@ -16,12 +16,18 @@
           <small class="help-block">※複数のキーワードでの検索はできません</small>
         </div>
       </div>
-      <div class="col-sm-6">
+      <div class="col-sm-3">
         <div class="form-group">
           <%= f.label :category_eq, "絞り込み：カテゴリー" %>
           <%= f.select :category_eq, Material.categories.map { |k, v| [Material.categories_i18n[k], v]},{include_blank: '選択ボックス'}, class: "form-control" %>
         </div>
       </div>
+        <div class="col-sm-3">
+          <div class="form-group">
+            <%= f.label :status_eq, "絞り込み：ステータス" %>
+            <%= f.select :status_eq, Material.statuses.map { |k, v| [Material.statuses_i18n[k], v]},{include_blank: '選択ボックス'}, class: "form-control"  %>
+          </div>
+        </div>
         <div class="col-sm-1">
           <%= f.submit "絞り込み", class: 'btn btn-primary' %>
         </div>
@@ -49,7 +55,7 @@
         <th>タグ</th>
         <!--    ここもスコープかと思う-->
         <!--    <th><%#= sort_link(@q,:works_created_at,'最新の学習登録日') %></th>-->
-        <th>最新の学習登録日</th>
+        <th>最新の学習日</th>
         <th colspan="3">最新の学習量（ページ数・単元等）</th>
       </tr>
       </thead>
@@ -58,17 +64,16 @@
           <tr>
             <td><%= link_to material.title, material_path(material) %></td>
             <td><span class="badge badge-pill badge-info"><%= material.category %></span></td>
-<!--            ここに学習ステータス入れる-->
+            <% if material.status == "learning" %>
+              <td><span class="badge badge-pill badge-info"><%= material.status %></span></td>
+            <% else %>
+              <td><span class="badge badge-pill badge-secondary"><%= material.status %></span></td>
+            <% end %>
             <td><%= render 'materials/tag_list', tag_list: material.tag_list %></td>
             <% if material.works.present? %>
               <% last_created_work = material.works.order(created_at: :desc).limit(1) %>
               <% last_created_work.each do |last_work| %>
-                <% if last_work.status == "incomplete" %>
-                  <td><span class="badge badge-pill badge-info"><%= last_work.status %></span></td>
-                <% else %>
-                  <td><span class="badge badge-pill badge-secondary"><%= last_work.status %></span></td>
-                <% end %>
-                <td><%= last_work.created_at.strftime("%Y-%m-%d") %></td>
+                <td><%= last_work.do_on %></td>
                 <td><%= last_work.start %></td>
                 <td>〜</td>
                 <td><%= last_work.finish %></td>
