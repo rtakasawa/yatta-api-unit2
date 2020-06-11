@@ -1,35 +1,41 @@
-<% if @material.errors.present? %>
-  <% @material.errors.full_messages.each do |message| %>
-    <div class="alert alert-danger" role="alert">
-      <%= message %>
-    </div>
-  <% end %>
-<% end %>
+<div class="container">
+  <div class="mt-4" >
+    <% if @material.errors.present? %>
+      <% @material.errors.full_messages.each do |message| %>
+        <div class="alert alert-danger" role="alert">
+          <%= message %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
 
-<%= form_with(model: material,local: true) do |f| %>
-  <div class="form-group">
-    <%= f.label "title",id: 'title' %>
-    <%= f.text_field :title, class: "form-control" %>
+  <div class="mt-4" >
+    <%= form_with(model: material,local: true) do |f| %>
+      <div class="form-group">
+        <%= f.label "title",id: 'title' %>
+        <%= f.text_field :title, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label "author",id: 'author' %>
+        <%= f.text_field :author, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label "category",id: 'category' %>
+        <%= f.select :category, Material.categories.keys.to_a, {}, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label "path",id: 'path' %>
+        <%= f.text_field :path, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label "tag_list（複数のtagを登録する場合は、「,」で区切って入力してください）",id: 'tag_list' %>
+        <%= f.text_field :tag_list, value: @material.tag_list.join(','), class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label "note",id: 'note' %>
+        <%= f.text_area :note, class: "form-control" %>
+      </div>
+      <%= f.submit "登録する", class: "btn btn-primary" %>
+    <% end %>
   </div>
-  <div class="form-group">
-    <%= f.label "author",id: 'author' %>
-    <%= f.text_field :author, class: "form-control" %>
-  </div>
-  <div class="form-group">
-    <%= f.label "category",id: 'category' %>
-    <%= f.select :category, Material.categories.keys.to_a, {}, class: "form-control" %>
-  </div>
-  <div class="form-group">
-    <%= f.label "path",id: 'path' %>
-    <%= f.text_field :path, class: "form-control" %>
-  </div>
-  <div class="form-group">
-    <%= f.label "tag_list",id: 'tag_list' %>
-    <%= f.text_field :tag_list, value: @material.tag_list.join(','), class: "form-control" %>
-  </div>
-  <div class="form-group">
-    <%= f.label "note",id: 'note' %>
-    <%= f.text_area :note, class: "form-control" %>
-  </div>
-  <%= f.submit "登録する", class: "btn btn-primary" %>
-<% end %>
+</div>
