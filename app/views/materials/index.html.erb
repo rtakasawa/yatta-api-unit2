@@ -1,54 +1,75 @@
 <div class="container">
 <h1>教材一覧</h1>
 
-  <!--検索※ステータス検索が最新のステータスからの検索にできていない。-->
-  <%= search_form_for @q do |f| %>
-    <%= f.label :title, "キーワード検索" %><br>
-    <%= f.search_field :title_or_tags_name_cont %><br>
-    <small class="help-block">※教材名・タグ名が検索できます</small><br>
-    <small class="help-block">※複数のキーワードでの検索はできません</small><br>
-    <%= f.label :category_eq, "カテゴリー" %>
-    <%= f.select :category_eq, Material.categories.map { |k, v| [Material.categories_i18n[k], v]},{include_blank: '選択ボックス'} %>
-    <%= f.submit "絞り込み" %>
-  <% end %>
+  <!--絞り込み検索-->
+  <div class="mt-4" >
+    <%= search_form_for @q, html: { class: 'navbar-form navbar-left' } do |f| %>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <%= f.label :title, "絞り込み：キーワード" %>
+            <%= f.search_field :title_or_tags_name_cont, class: "form-control" %>
+            <small class="help-block">※教材名・タグ名が検索できます</small><br>
+          <small class="help-block">※複数のキーワードでの検索はできません</small>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <%= f.label :category_eq, "絞り込み：カテゴリー" %>
+          <%= f.select :category_eq, Material.categories.map { |k, v| [Material.categories_i18n[k], v]},{include_blank: '選択ボックス'}, class: "form-control" %>
+        </div>
+      </div>
+        <div class="col-sm-1">
+          <%= f.submit "絞り込み", class: 'btn btn-primary' %>
+        </div>
+        <div class="col-sm-1">
+          <%= link_to 'クリア', url_for, class: "btn btn-primary", role: "button" %>
+        </div>
+    <% end %>
+    </div>
+  </div>
 
   <!--検索結果-->
-  <%= paginate @materials, class: "paginate"  %>
-  <%= page_entries_info @materials %>
+  <div class="mt-4" >
+    <%= paginate @materials, class: "paginate"  %>
+    <%= page_entries_info @materials %>
+  </div>
 
-  <table class="table table-striped">
-    <thead>
-    <tr>
-      <th>教材名</th>
-      <th>カテゴリー</th>
-<!--    ここもスコープかと思う-->
-<!--    <th><%#= sort_link(@q,:works_created_at,'最新の学習登録日') %></th>-->
-      <th>最新の学習登録日</th>
-      <th>最新の学習量（開始ページ）</th>
-      <th>最新の学習量（終了ページ）</th>
-      <th>最新の学習ステータス</th>
-      <th>タグ</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% @materials.each do |material| %>
+  <div class="mt-4" >
+    <div class="table-responsive" >
+      <table class="table text-nowrap">
+      <thead class="thead-light">
       <tr>
-        <td><%= link_to material.title, material_path(material) %></td>
-        <td><%= material.category %></td>
-        <% if material.works.present? %>
-          <% last_created_work = material.works.order(created_at: :desc).limit(1) %>
-          <% last_created_work.each do |last_work| %>
-            <td><%= last_work.created_at.strftime("%Y-%m-%d") %></td>
-            <td><%= last_work.start %></td>
-            <td><%= last_work.finish %></td>
-            <td><%= last_work.status %></td>
-          <% end %>
-        <% end %>
-        <td><%= render 'materials/tag_list', tag_list: material.tag_list %></td>
-        <td><%= link_to "編集", edit_material_path(material) %></td>
-        <td><%= link_to "削除", material, method: :delete, data: { confirm: "本当に削除してもいいですか？" } %></td>
+        <th>教材名</th>
+        <th>カテゴリー</th>
+        <!--    ここもスコープかと思う-->
+        <!--    <th><%#= sort_link(@q,:works_created_at,'最新の学習登録日') %></th>-->
+        <th>最新の学習登録日</th>
+        <th>最新の学習量（開始ページ）</th>
+        <th>最新の学習量（終了ページ）</th>
+        <th>最新の学習ステータス</th>
+        <th>タグ</th>
       </tr>
-    <% end %>
-    </tbody>
-  </table>
+      </thead>
+        <tbody>
+        <% @materials.each do |material| %>
+          <tr>
+            <td><%= link_to material.title, material_path(material) %></td>
+            <td><%= material.category %></td>
+            <% if material.works.present? %>
+              <% last_created_work = material.works.order(created_at: :desc).limit(1) %>
+              <% last_created_work.each do |last_work| %>
+                <td><%= last_work.created_at.strftime("%Y-%m-%d") %></td>
+                <td><%= last_work.start %></td>
+                <td><%= last_work.finish %></td>
+                <td><%= last_work.status %></td>
+              <% end %>
+            <% end %>
+            <td><%= render 'materials/tag_list', tag_list: material.tag_list %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
