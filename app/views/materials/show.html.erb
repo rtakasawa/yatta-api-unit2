@@ -1,6 +1,10 @@
-<h1>教材詳細</h1>
+<div class="container">
+  <div class="card card-body bg-light">
+    教材詳細
+  </div>
 
-<table class="table table-striped">
+<div class="mt-4" >
+  <table class="table table-striped">
   <tbody>
   <tr>
     <th>教材名</th>
@@ -24,37 +28,45 @@
   </tr>
   </tbody>
 </table>
+  <%= link_to "編集", edit_material_path(@material), class: "btn btn-primary", role: "button" %>
+  <%= link_to "削除", @material, method: :delete, data: { confirm: "本当に削除してもいいですか？" }, class: "btn btn-primary", role: "button" %>
+</div>
 
-<%= link_to "編集", edit_material_path(@material), class: "btn btn-primary", role: "button" %>
-<%= link_to "削除", @material, method: :delete, data: { confirm: "本当に削除してもいいですか？" }, class: "btn btn-primary", role: "button" %>
 
-<h2>学習記録</h2>
-<% if @works.present? %>
-  <%= paginate @works, class: "paginate"  %>
-  <%= page_entries_info @works %>
-  <table class="table table-striped">
-    <thead>
-    <tr>
-      <th>学習記録日</th>
-      <th>学習量（開始したページ）</th>
-      <th>学習量（終了したページ）</th>
-      <th>学習ステータス（未完了・完了）</th>
-    </tr>
-    </thead>
-    <tbody id="work-list" >
-    <% @works.each do |work| %>
-      <tr>
-        <td><%= work.created_at.strftime("%Y-%m-%d %H:%M") %></td>
-        <td><%= work.start %></td>
-        <td><%= work.finish %></td>
-        <td><%= work.status %></td>
-        <td><%= link_to "詳細", work %></td>
-        <td><%= link_to "編集", edit_work_path(work) %></td>
-        <td><%= link_to "削除", work, method: :delete, data: { confirm: "本当に削除してもいいですか？" } %></td>
-      </tr>
-    <% end %>
-    </tbody>
-  </table>
+  <div class="mt-4" >
+    <div class="card card-body bg-light">
+      教材に関する学習記録
+    </div>
+  </div>
+  <% if @works.present? %>
+    <div class="mt-4" >
+      <%= paginate @works, class: "paginate"  %>
+      <%= page_entries_info @works %>
+    </div>
+    <div class="mt-4" >
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>学習記録日</th>
+          <th>学習量（開始したページ）</th>
+          <th>学習量（終了したページ）</th>
+        </tr>
+        </thead>
+        <tbody id="work-list" >
+        <% @works.each do |work| %>
+          <tr>
+            <td><%= work.created_at.strftime("%Y-%m-%d %H:%M") %></td>
+            <td><%= work.start %></td>
+            <td><%= work.finish %></td>
+            <td><%= link_to "詳細", work %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
   <% else %>
-  <p>学習記録の登録はありません</p>
-<% end %>
+    <div class="mt-4" >
+      <p>学習記録の登録はありません</p>
+    </div>
+  <% end %>
+</div>
