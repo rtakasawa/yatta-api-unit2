@@ -11,7 +11,7 @@ class WorksController < ApplicationController
   def create
     @work = Work.new(work_params)
     if @work.save
-      redirect_to material_path(@work.material_id), success: "学習情報が登録されました"
+      redirect_to material_path(@work.material_id), notice: "学習情報が登録されました"
     else
       render "new"
     end
@@ -23,7 +23,7 @@ class WorksController < ApplicationController
 
   def update
     if @work.update(work_params)
-      redirect_to material_path(@work.material_id), info: "学習情報は更新されました"
+      redirect_to material_path(@work.material_id), notice: "学習情報は更新されました"
     else
       render "edit"
     end
@@ -31,7 +31,7 @@ class WorksController < ApplicationController
 
   def destroy
     @work.destroy
-    redirect_to material_path(@work.material_id), info: "学習情報は削除されました"
+    redirect_to material_path(@work.material_id), notice: "学習情報は削除されました"
   end
 
   private

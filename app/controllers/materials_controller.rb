@@ -21,7 +21,7 @@ class MaterialsController < ApplicationController
   def create
     @material = current_user.materials.build(material_params)
     if @material.save
-      redirect_to @material, success: "教材が登録されました"
+      redirect_to @material, notice: "教材が登録されました"
     else
       render "new"
     end
@@ -35,7 +35,7 @@ class MaterialsController < ApplicationController
 
   def update
     if @material.update(material_params)
-      redirect_to material_path(@material), info: "教材情報は更新されました"
+      redirect_to material_path(@material), notice: "教材情報は更新されました"
     else
       render "edit"
     end
@@ -43,7 +43,7 @@ class MaterialsController < ApplicationController
 
   def destroy
     @material.destroy
-    redirect_to materials_path, info: "教材は削除されました"
+    redirect_to materials_path, notice: "教材は削除されました"
   end
 
   # 楽天APIから書籍情報を取得
