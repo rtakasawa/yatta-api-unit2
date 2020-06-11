@@ -12,7 +12,6 @@ class MaterialsController < ApplicationController
     @material = current_user.materials.build
     if params[:category] == "book"
       @material.title = params[:title]
-      @material.author = params[:author]
       @material.path = params[:path]
       @material.category = "book"
     end
@@ -77,7 +76,7 @@ class MaterialsController < ApplicationController
   private
 
   def material_params
-    params.require(:material).permit(:title, :author, :category, :path, :note, :tag_list)
+    params.require(:material).permit(:title, :category, :path, :note, :status, :tag_list)
   end
 
   def set_material
