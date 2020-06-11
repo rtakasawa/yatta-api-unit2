@@ -17,10 +17,10 @@
               <%= link_to "教材投稿", new_material_path, class: "nav-link" %>
             </li>
             <li class="nav-item">
-              <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-link" %>
+              <%= link_to "会員情報", user_path(current_user), class: "nav-link" %>
             </li>
             <li class="nav-item">
-              <%= link_to "会員情報", user_path(current_user), class: "nav-link" %>
+              <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-link" %>
             </li>
           </ul>
         </div>
@@ -41,16 +41,16 @@
 
   <div class="container">
   <% if user_signed_in? %>
-  <nav class="navbar navbar-light">
-    <button type="button" class="btn btn-outline-primary btn-sm">
-      <%= link_to "学習を記録する", new_work_path, class: "nav-link" %>
-    </button>
-    <span class="navbar-text">教材検索（書籍のみ）※表示されるのは最大30件です
-    <%= form_tag('/materials/book_search', method: :get, class: "form-inline") do %>
-      <%= text_field_tag :material, "",  id: "book_search", name: "keyword", placeholder: "search", class: "form-control mr-sm-2" %>
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button></span>
-    <% end %>
-  </nav>
+    <nav class="navbar navbar-light">
+      <button type="button" class="btn btn-outline-primary btn-sm">
+        <%= link_to "学習を記録する", new_work_path, class: "nav-link" %>
+      </button>
+      <span class="navbar-text">教材を検索してから登録する（書籍のみ）
+      <%= form_tag('/materials/book_search', method: :get, class: "form-inline") do %>
+        <%= text_field_tag :material, "",  id: "book_search", name: "keyword", placeholder: "search", class: "form-control mr-sm-2" %>
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button></span>
+      <% end %>
+    </nav>
   <% end %>
-  </div>
+</div>
 </header>

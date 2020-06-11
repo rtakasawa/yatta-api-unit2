@@ -13,3 +13,8 @@
 .alert-alert {
   @extend .alert-danger;
 }
+
+.container {
+  @extend .container-fluid;
+  max-width: 900px;
+}
