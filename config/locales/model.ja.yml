@@ -37,9 +37,12 @@ ja:
         new: 教材を登録する
         index: 登録した教材一覧
         edit: 教材情報の編集
+        show: 教材の詳細
         search: 検索
         refine: 絞り込み
         clear: クリア
+        author: 作者
+        search_results_(up_to_30_results_displayed): 検索結果（最大30件まで表示されます）
         please_keyword: キーワードを入力してください
         search_for_materials_before_registering_(books only): 教材を検索してから登録する（書籍のみ）
         refine_keywords: 絞り込み：キーワード
@@ -47,10 +50,19 @@ ja:
         refine_status: 絞り込み：学習状況
         search_material_name_tag_name: ※教材名・タグ名が検索できます
         cannot_search_with_multiple_keywords: ※複数のキーワードでの検索はできません
+        couldn't_find_any_hits_in_my_search: 検索にヒットするものがありませんでした
+        please_enter_at_least_2characters_for_the_search_word: 検索ワードは２文字以上入力してください
     work:
+        new: 学習情報の登録
+        edit: 学習情報の編集
+        show: 学習情報の詳細
         record: 学習を記録する
         latest_day: 最新の学習日
         latest_amount: 最新の学習量（ページ数・単元等）
+        work_of_material: 教材に関する学習情報
+        amount: 学習量（ページ数・単元等）
+        no_record: 学習記録の登録はありません
+
     tag:
         tags: タグ
         when_registering_multiple_tags,please_separate_them_with_a_comma: ※複数のタグを登録する場合は、半角カンマで区切って入力してください

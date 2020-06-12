@@ -141,9 +141,14 @@ ja:
     select:
       prompt: 選択してください
     submit:
-      create: 登録する
-      submit: 保存する
-      update: 更新する
+      create: 登録
+      submit: 保存
+      update: 更新
+      edit: 編集
+      delete: 削除
+      show: 詳細
+    message:
+      are_you_sure_you_want_me_to_delete_it?: 本当に削除してもいいですか？
   number:
     currency:
       format:

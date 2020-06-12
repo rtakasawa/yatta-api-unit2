@@ -1,6 +1,6 @@
 <div class="container">
   <div class="card card-body bg-light">
-    学習情報の編集
+    <%= t("view.work.edit") %>
   </div>
 
   <div class="mt-4" >
@@ -16,25 +16,25 @@
   <div class="mt-4" >
     <%= form_with(model: @work,local: true) do |f| %>
       <div class="form-group">
-        教材名： <%= @work.material.title %>
+        <%= t("activerecord.attributes.material.title") %>： <%= @work.material.title %>
       </div>
       <div class="form-group">
-        <%= f.label "do_on",id: 'do_on' %>
+        <%= f.label t("activerecord.attributes.work.do_on"),id: 'do_on' %>
         <%= f.date_field :do_on, value: Date.today, class: "form-control" %>
       </div>
       <div class="form-group">
-        <%= f.label "start",id: 'start' %>
+        <%= f.label t("activerecord.attributes.work.start"),id: 'start' %>
         <%= f.text_field :start, class: "form-control" %>
       </div>
       <div class="form-group">
-        <%= f.label "finish",id: 'finish' %>
+        <%= f.label t("activerecord.attributes.work.finish"),id: 'finish' %>
         <%= f.text_field :finish, class: "form-control" %>
       </div>
       <div class="form-group">
-        <%= f.label "content",id: 'content' %>
+        <%= f.label t("activerecord.attributes.work.content"),id: 'content' %>
         <%= f.text_area :content, class: "form-control" %>
       </div>
-      <%= f.submit "更新する", class: "btn btn-primary" %>
+      <%= f.submit t("helpers.submit.update"), class: "btn btn-primary" %>
     <% end %>
   </div>
 </div>

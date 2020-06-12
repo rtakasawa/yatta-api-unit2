@@ -1,6 +1,6 @@
 <div class="container">
   <div class="card card-body bg-light">
-    検索結果（最大30件まで表示されます）
+    <%= t("view.material.search_results_(up_to_30_results_displayed)") %>
   </div>
 
   <% if params[:keyword].size >= 2 && @books.present? %>
@@ -17,10 +17,10 @@
           </div>
             <div class="col-md-8">
               <div class="card-body">
-                <h5 class="card-title">教材名：<%= link_to book.title, book.item_url %></h5>
-                <p class="card-text">作者：<%= book.author %></p>
+                <h5 class="card-title"><%= t("activerecord.attributes.material.title") %>：<%= link_to book.title, book.item_url %></h5>
+                <p class="card-text"><%= t("view.material.author") %>：<%= book.author %></p>
                 <p class="card-text">
-                  <%= link_to "教材登録", new_material_path(title:book.title,author:book.author,path:book.item_url,category:"book"), class: "btn btn-primary"%>
+                  <%= link_to t("helpers.submit.create"), new_material_path(title:book.title,author:book.author,path:book.item_url,category:"book"), class: "btn btn-primary"%>
                 </p>
               </div>
             </div>
@@ -31,11 +31,11 @@
 
   <% elsif params[:keyword].size >= 2 %>
     <div class="mt-4" >
-      <p>検索にヒットするものがありませんでした</p>
+      <p><%= t("view.material.couldn't_find_any_hits_in_my_search") %></p>
     </div>
   <% else %>
     <div class="mt-4" >
-      <p>検索ワードは２文字以上入力してください</p>
+      <p><%= t("view.material.please_enter_at_least_2characters_for_the_search_word") %></p>
     </div>
   <% end %>
 </div>
