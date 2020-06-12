@@ -6,8 +6,8 @@
       </a>
       <% if user_signed_in? %>
       <form class="form-inline">
-        <%= link_to "学習を記録", new_work_path, class: "btn btn-sm ml-2 btn-outline-light" %>
-        <%= link_to "教材を登録", new_material_path, class: "btn btn-sm ml-2 btn-outline-light" %>
+        <%= link_to t("view.work.record"), new_work_path, class: "btn btn-sm ml-2 btn-outline-light" %>
+        <%= link_to t("view.material.new"), new_material_path, class: "btn btn-sm ml-2 btn-outline-light" %>
       </form>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -15,24 +15,27 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <%= link_to "教材一覧", materials_path, class: "nav-link" %>
+              <%= link_to t("view.material.index"), materials_path, class: "nav-link" %>
             </li>
             <li class="nav-item">
-              <%= link_to "会員情報", user_path(current_user), class: "nav-link" %>
+              <%= link_to t("view.user.info"), user_path(current_user), class: "nav-link" %>
             </li>
             <li class="nav-item">
-              <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-link" %>
+              <%= link_to t("admin.misc.log_out"), destroy_user_session_path, method: :delete, class: "nav-link" %>
             </li>
           </ul>
         </div>
       <% else %>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <%= link_to "アカウントを登録する", new_user_registration_path,class: "nav-link" %>
+              <%= link_to t("devise.shared.links.sign_up"), new_user_registration_path,class: "nav-link" %>
             </li>
             <li class="nav-item">
-              <%= link_to "ログインする", new_user_session_path,class: "nav-link" %>
+              <%= link_to t("devise.shared.links.sign_in"), new_user_session_path,class: "nav-link" %>
             </li>
           </ul>
         </div>
@@ -45,12 +48,12 @@
       <% if user_signed_in? %>
         <%= form_with url: book_search_materials_path, method: :get,class: "form-inline  ", local: true do |f| %>
           <div class="form-group mb-2 h7">
-            <%= f.label "教材を検索してから登録する（書籍のみ）", class: "form-control-sm" %>
+            <%= f.label t("view.material.search_for_materials_before_registering_(books only)"), class: "form-control-sm" %>
           </div>
           <div class="form-group mb-2">
-            <%= f.text_field :material, name: "keyword", placeholder: "search", class: "form-control" %>
+            <%= f.text_field :material, name: "keyword", placeholder: t("view.material.please_keyword"), class: "form-control" %>
           </div>
-          <button type="submit" class="btn btn-secondary mb-2 ml-2">search</button>
+          <button type="submit" class="btn btn-secondary mb-2 ml-2"><%= t("view.material.search") %></button>
         <% end %>
       <% end %>
     </div>

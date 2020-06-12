@@ -8,7 +8,7 @@ ja:
       material:
         title: 教材名
         category: カテゴリー
-        path: URL
+        path: URL（教材に関するWEB情報等）
         note: 備考
         status: 学習状況
       work:
@@ -32,6 +32,25 @@ ja:
     user:
         edit: 会員情報編集
         edit_or_withdrawal: 会員情報：編集・アカウント削除
-        admin_page: 管理者ページ
-        admin_show: ユーザ詳細
-        info: ユーザー情報
+        info: 会員情報
+    material:
+        new: 教材を登録する
+        index: 登録した教材一覧
+        edit: 教材情報の編集
+        search: 検索
+        refine: 絞り込み
+        clear: クリア
+        please_keyword: キーワードを入力してください
+        search_for_materials_before_registering_(books only): 教材を検索してから登録する（書籍のみ）
+        refine_keywords: 絞り込み：キーワード
+        refine_categories: 絞り込み：カテゴリー
+        refine_status: 絞り込み：学習状況
+        search_material_name_tag_name: ※教材名・タグ名が検索できます
+        cannot_search_with_multiple_keywords: ※複数のキーワードでの検索はできません
+    work:
+        record: 学習を記録する
+        latest_day: 最新の学習日
+        latest_amount: 最新の学習量（ページ数・単元等）
+    tag:
+        tags: タグ
+        when_registering_multiple_tags,please_separate_them_with_a_comma: ※複数のタグを登録する場合は、半角カンマで区切って入力してください
