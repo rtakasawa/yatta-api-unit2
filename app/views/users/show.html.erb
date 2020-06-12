@@ -1,12 +1,12 @@
 <div class="container">
   <div class="card">
     <div class="card-header">
-      会員情報
+      <%= t("view.user.edit") %>
     </div>
     <div class="card-body">
-      <p class="card-text">名前 : <%= @user.name %></p>
-      <p class="card-text">メールアドレス : <%= @user.email %></p>
-      <%= link_to "会員情報：編集・退会", edit_user_registration_path(@user), class: "btn btn-primary" %>
+      <p class="card-text"><%= t("activerecord.attributes.user.name") %> : <%= @user.name %></p>
+      <p class="card-text"><%= t("activerecord.attributes.user.email") %> : <%= @user.email %></p>
+      <%= link_to t("view.user.edit_or_withdrawal"), edit_user_registration_path(@user), class: "btn btn-primary" %>
     </div>
   </div>
 </div>

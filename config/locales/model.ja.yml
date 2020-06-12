@@ -9,12 +9,12 @@ ja:
         title: 教材名
         category: カテゴリー
         path: URL
-        note: メモ
+        note: 備考
         status: 学習状況
       work:
         start: 学習を開始したページ、単元
         finish: 学習を終了したページ、単元
-        content: 学習内容
+        content: メモ
         do_on: 学習日
       user:
         name: 名前
@@ -28,3 +28,10 @@ ja:
       status:
         learning: 学習中
         complete: 完了
+  view:
+    user:
+        edit: 会員情報編集
+        edit_or_withdrawal: 会員情報：編集・アカウント削除
+        admin_page: 管理者ページ
+        admin_show: ユーザ詳細
+        info: ユーザー情報
