@@ -104,3 +104,5 @@ end
 gem 'enum_help'
 
 gem 'devise-bootstrap-views', '~> 1.0'
+
+gem 'faraday'
