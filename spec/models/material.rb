@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'devise'
 
 RSpec.describe '教材管理機能', type: :model do
   before do
@@ -9,37 +8,55 @@ RSpec.describe '教材管理機能', type: :model do
 
   it "titleが空ならバリデーションが通らない" do
     material = Material.new( title:"",
-                             author: "test_author1",
                              category: "book",
                              path: "http://example.com",
                              note: "test_note1",
+                             status: "learning",
                              user_id: 1 )
     expect(material).not_to be_valid
   end
   it "categoryが空ならバリデーションが通らない" do
-    material = Material.new( title:"test_title",
-                             author: "test_author1",
+    material = Material.new( title:"test1",
                              category: "",
                              path: "http://example.com",
                              note: "test_note1",
+                             status: "learning",
                              user_id: 1 )
     expect(material).not_to be_valid
   end
-  it "categoryが空ならバリデーションが通らない" do
-    material = Material.new( title:"test_title",
-                             author: "1",
+  it "pathが不規則な値ならバリデーションが通らない" do
+    material = Material.new( title:"test1",
                              category: "book",
-                             path: "example.com",
-                             note: "",
+                             path: "example",
+                             note: "test_note1",
+                             status: "learning",
                              user_id: 1 )
     expect(material).not_to be_valid
   end
-  it "titleとcategoryが記載されていればバリデーションが通る" do
-    material = Material.new( title:"test_title",
-                             author: "1",
+  it "pathが空の場合はバリデーションが通る" do
+    material = Material.new( title:"test1",
+                             category: "book",
+                             path: "",
+                             note: "test_note1",
+                             status: "learning",
+                             user_id: 1 )
+    expect(material).to be_valid
+  end
+  it "statusが空ならバリデーションが通らない" do
+    material = Material.new( title:"test1",
+                             category: "book",
+                             path: "http://example.com",
+                             note: "test_note1",
+                             status: "",
+                             user_id: 1 )
+    expect(material).not_to be_valid
+  end
+  it "title、category、statusが記載されていればバリデーションが通る" do
+    material = Material.new( title:"test1",
                              category: "book",
                              path: "",
                              note: "",
+                             status: "learning",
                              user_id: 1 )
     expect(material).to be_valid
   end
