@@ -15,6 +15,12 @@ class MaterialsController < ApplicationController
       @material.path = params[:path]
       @material.category = "book"
     end
+
+    if params[:category] == "web"
+      @material.title = params[:title]
+      @material.path = params[:path]
+      @material.category = "web"
+    end
   end
 
   def create
@@ -78,6 +84,10 @@ class MaterialsController < ApplicationController
       @items = QiitaItem.get(params[:keyword])
     else
       @items = "検索キーワードを入力してください"
+    end
+
+    unless @items.class == String
+      @items = Kaminari.paginate_array(@items).page(params[:page]).per(30)
     end
   end
 
