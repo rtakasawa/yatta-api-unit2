@@ -13,15 +13,18 @@
       <%= paginate @items, class: "paginate" %>
       <%= page_entries_info @items %>
     </div>
-    <div class="mt-4" >
-      <ol>
+    <div class="mt-1" >
+      <table class="table">
+        <tbody>
         <% @items.each do |item| %>
-          <li>
-            <%= link_to item[:title], item[:url], target: '_blank' %>(<%= item[:likes_count] %>いいね)
-            <%= link_to t("helpers.submit.create"), new_material_path(title:item[:title],path:item[:url],category:"web"), class: "btn btn-primary"%>
-          </li>
+          <tr>
+            <td><%= link_to item[:title], item[:url], target: '_blank' %></td>
+            <td>(<%= item[:likes_count] %><%= t("view.material.good") %>)</td>
+            <td><%= link_to t("helpers.submit.create"), new_material_path(title:item[:title],path:item[:url],category:"web"), class: "btn btn-sm btn-primary"%></td>
+          </tr>
         <% end %>
-      </ol>
+        </tbody>
+      </table>
     </div>
   <% end %>
 </div>
