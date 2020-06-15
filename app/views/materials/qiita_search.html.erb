@@ -1,0 +1,16 @@
+<%#= form_with url: qiita_search_tasks_path, method: :get, local: true do |f| %>
+  <%#= f.text_field "検索", name: "keyword"%>
+<!--  <button type="submit" class="btn btn-secondary">検索</button>-->
+<%# end %>
+
+<h1>Qiita記事一覧(最大100記事まで検索できます)</h1>
+
+<% if @items.class == String %>
+  <p><%= @items %></p>
+<% else %>
+  <ol>
+    <% @items.each do |item| %>
+      <li><%= link_to item[:title], item[:url], target: '_blank' %>(<%= item[:likes_count] %>いいね)</li>
+    <% end %>
+  </ol>
+<% end %>

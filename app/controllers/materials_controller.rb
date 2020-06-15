@@ -63,8 +63,6 @@ class MaterialsController < ApplicationController
     end
     if @books_full.present?
       @books = Kaminari.paginate_array(@books_full).page(params[:page]).per(10)
-    else
-
     end
   end
 
@@ -74,6 +72,14 @@ class MaterialsController < ApplicationController
   #     @books = RakutenWebService::Books::Book.search(title: params[:keyword]).page(params[:page])
   #   end
   # end
+
+  def qiita_search
+    if params[:keyword].present?
+      @items = QiitaItem.get(params[:keyword])
+    else
+      @items = "検索キーワードを入力してください"
+    end
+  end
 
   private
 

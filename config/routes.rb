@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :materials do
     collection do
       get 'book_search'
+      get 'qiita_search'
     end
   end
   resources :users, only: [:show]
