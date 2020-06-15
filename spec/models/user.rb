@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'devise'
 
 RSpec.describe  "ユーザー関連" do
 
@@ -30,18 +29,4 @@ RSpec.describe  "ユーザー関連" do
       expect(user).not_to be_valid
     end
   end
-  # context "管理者が一人の場合" do
-  #   it "管理者のユーザー登録は削除できない（メソッドが呼び出されているか）" do
-  #     user = create(:admin_user)
-  #     allow(user).to receive(:must_not_destroy_last_admin_user)
-  #     user.destroy
-  #     expect(user).to have_received(:must_not_destroy_last_admin_user)
-  #   end
-  #   it "管理者のユーザー権限は削除できない（メソッドが呼び出されているか）" do
-  #     user = create(:admin_user ,admin: true)
-  #     allow(user).to receive(:must_not_destroy_last_admin_user)
-  #     user.update(id: 1, name: "sample", email: "sample@example.com", password: "0000000",admin: false)
-  #     expect(user).to have_received(:must_not_destroy_last_admin_user)
-  #   end
-  # end
 end

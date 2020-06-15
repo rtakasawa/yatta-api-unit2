@@ -17,7 +17,7 @@
       </div>
       <div class="form-group">
         <%= f.label t("activerecord.attributes.material.category"),id: 'category' %>
-        <%= f.select :category, Material.categories.keys.to_a, {}, class: "form-control" %>
+        <%= f.select :category, Material.categories.keys.map {|k| [I18n.t("enums.material.category.#{k}"), k]}, {}, class: "form-control" %>
       </div>
       <div class="form-group">
         <%= f.label t("activerecord.attributes.material.path"),id: 'path' %>
@@ -30,7 +30,7 @@
       </div>
       <div class="form-group">
         <%= f.label t("activerecord.attributes.material.status"),id: 'status' %>
-        <%= f.select :status, Material.statuses.keys.to_a, {}, class: "form-control" %>
+        <%= f.select :status, Material.statuses.keys.map {|k| [I18n.t("enums.material.status.#{k}"), k]}, {}, class: "form-control" %>
       </div>
       <div class="form-group">
         <%= f.label t("activerecord.attributes.material.note"),id: 'note' %>

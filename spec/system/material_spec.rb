@@ -12,21 +12,21 @@ RSpec.describe '教材管理機能', type: :system do
         visit new_user_session_path
         fill_in "user[email]", with: "sample@example.com"
         fill_in "user[password]", with: "0000000"
-        click_on "ログイン"
-        click_on "教材投稿"
+        click_on "commit"
+        click_on "教材を登録する"
         fill_in 'material[title]', with: "test1"
-        fill_in 'material[author]', with: "test_author1"
         select "book", from: 'material[category]'
-        fill_in "material[tag_list]", with: 'test_tag1,test_tag2'
         fill_in 'material[path]', with: "http://example.com"
+        fill_in "material[tag_list]", with: 'test_tag1,test_tag2'
+        select "learning", from: 'material[status]'
         fill_in 'material[note]', with: "test_note1"
-        click_button "登録する"
+        click_button "登録"
         wait.until{ expect(page).to have_link "test1" }
-        wait.until{ expect(page).to have_content "test_author1" }
-        wait.until{ expect(page).to have_content "book" }
+        wait.until{ expect(page).to have_content "書籍" }
         wait.until{ expect(page).to have_content "test_tag1" }
         wait.until{ expect(page).to have_content "test_tag2" }
         wait.until{ expect(page).to have_content "test_note1" }
+        wait.until{ expect(page).to have_content "学習中" }
       end
     end
   end
