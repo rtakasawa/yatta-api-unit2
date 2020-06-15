@@ -5,7 +5,7 @@ class MaterialsController < ApplicationController
 
   def index
     @q = current_user.materials.ransack(params[:q])
-    @materials = @q.result(distinct: true).page(params[:page])
+    @materials = @q.result(distinct: true).order(updated_at: :desc).page(params[:page])
   end
 
   def new

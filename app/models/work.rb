@@ -1,5 +1,5 @@
 class Work < ApplicationRecord
-  belongs_to :material
+  belongs_to :material, touch: true
 
   validates :start, presence: true
   validates :finish, presence: true
