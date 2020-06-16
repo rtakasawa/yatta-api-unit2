@@ -4,7 +4,10 @@ class WorksController < ApplicationController
   before_action :check_work_user, only: [:show,:edit,:update,:destroy]
 
   def index
-    @works = current_user.works
+    @q = current_user.works.ransack(params[:q])
+    @works = @q.result(distinct: true).order(do_on: :desc).page(params[:page])
+    @current_month_work_count = @current_user.works.current_month.count(:id)
+    @last_month_work_count = @current_user.works.last_month.count(:id)
   end
 
   def new

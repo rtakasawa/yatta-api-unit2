@@ -58,6 +58,9 @@ ja:
         couldn't_find_any_hits_in_my_search: 検索にヒットするものがありませんでした
         please_enter_at_least_2characters_for_the_search_word: 検索ワードは２文字以上入力してください
     work:
+        summary: 【学習情報一覧】学習登録回数
+        calendar: 【学習情報一覧】カレンダー
+        index: 学習情報一覧
         new: 学習情報の登録
         edit: 学習情報の編集
         show: 学習情報の詳細
@@ -67,7 +70,6 @@ ja:
         work_of_material: 教材に関する学習情報
         amount: 学習量（ページ数・単元等）
         no_record: 学習記録の登録はありません
-
     tag:
         tags: タグ
         when_registering_multiple_tags,please_separate_them_with_a_comma: ※複数のタグを登録する場合は、半角カンマで区切って入力してください
