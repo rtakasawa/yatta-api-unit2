@@ -35,7 +35,6 @@
     <div class="card-header"><%= t("view.work.work_of_material") %></div>
     <% if @works.present? %>
       <div class="card-body">
-        <%= paginate @works, class: "paginate"  %>
         <%= page_entries_info @works %>
       </div>
       <table class="table mb-0 table-striped">
@@ -64,4 +63,5 @@
       </div>
     <% end %>
   </div>
+  <div class="mt-2"><%= paginate @works, class: "paginate" %></div>
 </div>

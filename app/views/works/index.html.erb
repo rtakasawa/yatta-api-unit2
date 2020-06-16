@@ -50,12 +50,11 @@
       <% end %>
 
       <div class="mt-1" >
-        <%= paginate @works, class: "paginate"  %>
         <%= page_entries_info @works %>
       </div>
     </div>
 
-    <div class="mt-1" >
+    <div class="mt-0" >
       <div class="table-responsive" >
         <table class="table  mb-0 text-nowrap">
           <thead class="thead-light">
@@ -80,6 +79,7 @@
       </div>
     </div>
   </div>
+  <div class="mt-3" ><%= paginate @works, class: "paginate" %></div>
 </div>
 
 <%= stylesheet_link_tag "works", :media => "all" %>

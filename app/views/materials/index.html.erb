@@ -45,7 +45,6 @@
       </div>
 
       <div class="mt-1" >
-        <%= paginate @materials, class: "paginate"  %>
         <%= page_entries_info @materials %>
       </div>
       <div class="mt-1" >
@@ -93,5 +92,8 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class="mt-1" >
+    <%= paginate @materials, class: "paginate"  %>
   </div>
 </div>
