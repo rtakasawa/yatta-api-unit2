@@ -3,6 +3,10 @@ class WorksController < ApplicationController
   before_action :set_work, only: [:show,:edit,:update,:destroy]
   before_action :check_work_user, only: [:show,:edit,:update,:destroy]
 
+  def index
+    @works = current_user.works
+  end
+
   def new
     @materials = current_user.materials
     @work = Work.new
