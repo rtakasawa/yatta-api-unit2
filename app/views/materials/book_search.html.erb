@@ -1,0 +1,28 @@
+<h1>検索結果</h1>
+<div id='good_list'>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>教材名</th>
+      <th>作者名</th>
+      <th>イメージ</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% if @books.present? %>
+      <%= paginate @books, class: "paginate" %>
+      <%= page_entries_info @books %>
+      <% @books.each do |book| %>
+        <tr>
+          <td><%= link_to book.title, book.item_url %></td>
+          <td><%= book.author %></td>
+          <td><img src="<%= book.medium_image_url %>"></td>
+          <td><%= link_to "教材登録", new_material_path(title:book.title,author:book.author,path:book.item_url,category:"book") %></td>
+        </tr>
+      <% end %>
+    <% else %>
+      <p>検索ワードは２文字以上入力してください</p>
+    <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,20 +1,27 @@
 ja:
   activerecord:
     models:
-      materials: 教材
-      studies: 学習情報
+      material: 教材
+      study: 学習情報
       user: 会員
     attributes:
-      materials:
+      material:
         title: 教材名
         author: 作者
         category: カテゴリー
         path: URL
         note: メモ
-      studies:
+      study:
         start: 学習を開始したページ、単元
         end: 学習を終了したページ、単元
         content: 学習内容
         status: 学習状況
       user:
         name: 名前
+  enums:
+    material:
+      category:
+        book: 書籍
+        video: 動画
+        web: WEB記事
+        other: その他

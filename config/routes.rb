@@ -3,6 +3,10 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
     registrations: 'users/registrations'
   }
-  resources :materials
+  resources :materials do
+    collection do
+      get 'book_search'
+    end
+  end
   resources :users, only: [:show]
 end

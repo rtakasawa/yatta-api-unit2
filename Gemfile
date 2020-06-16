@@ -86,7 +86,7 @@ end
 
 gem "ransack"
 gem "kaminari"
-gem "acts-as-taggable-on"
+gem 'acts-as-taggable-on', '~> 6.0'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.8'
@@ -100,3 +100,5 @@ end
 group :test do
   gem 'webdrivers'
 end
+
+gem 'enum_help'

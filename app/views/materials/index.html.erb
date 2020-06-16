@@ -1,2 +1,38 @@
-<h1>Materials#index</h1>
-<p>Find me in app/views/materials/index.html.erb</p>
+<h1>教材一覧</h1>
+
+<%= search_form_for @q do |f| %>
+  <%= f.label :title, "キーワード検索" %><br>
+  <%= f.search_field :title_or_tags_name_cont %><br>
+  <small class="help-block">※教材名・タグ名が検索できます</small><br>
+  <small class="help-block">※複数のキーワードでの検索はできません</small><br>
+  <%= f.label :category_eq, "カテゴリー" %>
+  <%= f.select :category_eq, Material.categories.map { |k, v| [Material.categories_i18n[k], v]},{include_blank: '選択ボックス'} %>
+  <%= f.submit "検索" %>
+<% end %>
+
+<%= paginate @materials, class: "paginate"  %>
+<%= page_entries_info @materials %>
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>教材名</th>
+    <th>カテゴリー</th>
+<!--    <th><%#= 学習日%></th>-->
+<!--    <th><%#= 学習記録 %></th>-->
+<!--    <th><%#= ステータス %></th>-->
+    <th>タグ</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @materials.each do |material| %>
+    <tr>
+      <td><%= link_to material.title, material_path(material) %></td>
+      <td><%= material.category %></td>
+      <td><%= render 'materials/tag_list', tag_list: material.tag_list %></td>
+      <td><%= link_to "編集", edit_material_path(material) %></td>
+      <td><%= link_to "削除", material, method: :delete, data: { confirm: "本当に削除してもいいですか？" } %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
