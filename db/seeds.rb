@@ -20,17 +20,17 @@ end
 
 # material作成
 User.all.each do |user|
-  5.times do |n|
-    title = Faker::Book.title
-    author = Faker::Sports::Football.player
+  20.times do |n|
+    title = Faker::JapaneseMedia::OnePiece.character
     category = rand(4)
     path = Faker::Internet.url
     note = Faker::JapaneseMedia::OnePiece.akuma_no_mi
+    status = rand(2)
     user.materials.create(title: title,
-                          author: author,
                           category: category,
                           path: path,
                           note: note,
+                          status: status,
                           user_id: user.id)
   end
 end
@@ -44,30 +44,22 @@ Material.all.each do |material|
 end
 
 # 学習記録
-Material.all.each do |material|
-  5.times do |n|
-    start = rand(100)
-    end_id = rand(200)
-    content = Faker::JapaneseMedia::OnePiece.character
-    status = 0
-    material.works.create(start: start,
-                          end: end_id,
-                          content: content,
-                          status: status,
-                          material_id: material.id)
-  end
-end
+
+require "date"
+
+from = Date.parse("2020/01/01")
+to   = Date.parse("2020/06/16")
 
 Material.all.each do |material|
-  5.times do |n|
+  20.times do |n|
+    do_on = Random.rand(from .. to)
     start = rand(100)
-    end_id = rand(200)
-    content = Faker::JapaneseMedia::OnePiece.character
-    status = 1
-    material.works.create(start: start,
-                          end: end_id,
+    finish = rand(200)
+    content = Faker::JapaneseMedia::OnePiece.quote
+    material.works.create(do_on: do_on,
+                          start: start,
+                          finish: finish,
                           content: content,
-                          status: status,
                           material_id: material.id)
   end
 end
