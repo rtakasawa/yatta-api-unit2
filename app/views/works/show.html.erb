@@ -1,0 +1,33 @@
+<h1>学習詳細</h1>
+
+<table class="table table-striped">
+  <tbody>
+  <tr>
+    <th>教材名</th>
+    <td><%= @work.material.title %></td>
+  </tr>
+  <tr>
+    <th>学習記録日</th>
+    <td><%= @work.created_at.strftime("%Y-%m-%d %H:%M") %></td>
+  </tr>
+  <tr>
+    <th>学習量（開始したページ）</th>
+    <td><%= @work.start %></td>
+  </tr>
+  <tr>
+    <th>学習量（終了したページ）</th>
+    <td><%= @work.finish %></td>
+  </tr>
+  <tr>
+    <th>学習内容</th>
+    <td><%= @work.content %></td>
+  </tr>
+  <tr>
+    <th>学習ステータス（未完了・完了）</th>
+    <td><%= @work.status %></td>
+  </tr>
+  </tbody>
+</table>
+
+<%= link_to "編集", edit_work_path(@work), class: "btn btn-primary", role: "button"  %>
+<%= link_to "削除", @work, method: :delete, data: { confirm: "本当に削除してもいいですか？" }, class: "btn btn-primary", role: "button" %>

@@ -1,5 +1,6 @@
 <h1>教材一覧</h1>
 
+<!--検索※ステータス検索が最新のステータスからの検索にできていない。-->
 <%= search_form_for @q do |f| %>
   <%= f.label :title, "キーワード検索" %><br>
   <%= f.search_field :title_or_tags_name_cont %><br>
@@ -7,9 +8,18 @@
   <small class="help-block">※複数のキーワードでの検索はできません</small><br>
   <%= f.label :category_eq, "カテゴリー" %>
   <%= f.select :category_eq, Material.categories.map { |k, v| [Material.categories_i18n[k], v]},{include_blank: '選択ボックス'} %>
-  <%= f.submit "検索" %>
+
+<!--  ここで最新のをworkのステータスで検索することがスコープで設定できるはずだがやり方不明-->
+  <%#= f.label :work_status_eq, "ステータス" %>
+  <%#= f.select :works_status_eq, Work.statuses.map { |k, v| [Work.statuses_i18n[k], v]},{include_blank: '選択ボックス'} %>
+  <!--  scopeを使用したかったが不可-->
+  <%#= f.label :work_status_eq, "ステータス" %>
+  <%#= f.select :last_work_status, Work.statuses.map { |k, v| [Work.statuses_i18n[k], v]},{include_blank: '選択ボックス'} %>
+
+  <%= f.submit "絞り込み" %>
 <% end %>
 
+<!--検索結果-->
 <%= paginate @materials, class: "paginate"  %>
 <%= page_entries_info @materials %>
 
@@ -18,9 +28,12 @@
   <tr>
     <th>教材名</th>
     <th>カテゴリー</th>
-<!--    <th><%#= 学習日%></th>-->
-<!--    <th><%#= 学習記録 %></th>-->
-<!--    <th><%#= ステータス %></th>-->
+<!--    ここもスコープかと思う-->
+<!--    <th><%#= sort_link(@q,:works_created_at,'最新の学習登録日') %></th>-->
+    <th>最新の学習登録日</th>
+    <th>最新の学習量（開始ページ）</th>
+    <th>最新の学習量（終了ページ）</th>
+    <th>最新の学習ステータス</th>
     <th>タグ</th>
   </tr>
   </thead>
@@ -29,6 +42,15 @@
     <tr>
       <td><%= link_to material.title, material_path(material) %></td>
       <td><%= material.category %></td>
+      <% if material.works.present? %>
+        <% last_created_work = material.works.order(created_at: :desc).limit(1) %>
+        <% last_created_work.each do |last_work| %>
+          <td><%= last_work.created_at.strftime("%Y-%m-%d") %></td>
+          <td><%= last_work.start %></td>
+          <td><%= last_work.finish %></td>
+          <td><%= last_work.status %></td>
+        <% end %>
+      <% end %>
       <td><%= render 'materials/tag_list', tag_list: material.tag_list %></td>
       <td><%= link_to "編集", edit_material_path(material) %></td>
       <td><%= link_to "削除", material, method: :delete, data: { confirm: "本当に削除してもいいですか？" } %></td>
@@ -36,3 +58,67 @@
   <% end %>
   </tbody>
 </table>
+
+
+<!--下記誤作動の恐れアリのため、使用しない-->
+<!--無理やりステータスの検索を行っているため、ページネーションが設置できず-->
+<!--<table class="table table-striped">-->
+<!--  <thead>-->
+<!--  <tr>-->
+<!--    <th>教材名</th>-->
+<!--    <th>カテゴリー</th>-->
+<!--    <th><%#= sort_link(@q,"最新の学習記録日") %></th>-->
+<!--    <th>最新の学習記録日</th>-->
+<!--    <th>最新の学習量（開始ページ）</th>-->
+<!--    <th>最新の学習量（終了ページ）</th>-->
+<!--    <th>最新の学習ステータス</th>-->
+<!--    <th>タグ</th>-->
+<!--  </tr>-->
+<!--  </thead>-->
+<!--  <tbody>-->
+  <%# if params[:q] != nil && params[:q][:works_status_eq].present? %>
+    <%# if params[:q][:works_status_eq] == "0" %>
+      <%# params_work_status = "incomplete" %>
+    <%# else %>
+      <%# params_work_status = "complete" %>
+    <%# end %>
+    <%# @materials.each do |material| %>
+      <%# last_created_work = material.works.order(created_at: :desc).limit(1) %>
+      <%# last_created_work.each do |last_work| %>
+        <%# if params_work_status == last_work.status %>
+<!--          <tr>-->
+<!--            <td><%#= link_to material.title, material_path(material) %></td>-->
+<!--            <td><%#= material.category %></td>-->
+<!--            <td><%#= last_work.created_at.strftime("%Y-%m-%d") %></td>-->
+<!--            <td><%#= last_work.start %></td>-->
+<!--            <td><%#= last_work.end %></td>-->
+<!--            <td><%#= last_work.status %></td>-->
+<!--            <td><%#= render 'materials/tag_list', tag_list: material.tag_list %></td>-->
+<!--            <td><%#= link_to "編集", edit_material_path(material) %></td>-->
+<!--            <td><%#= link_to "削除", material, method: :delete, data: { confirm: "本当に削除してもいいですか？" } %></td>-->
+<!--          </tr>-->
+        <%# end %>
+      <%# end %>
+    <%# end %>
+  <%# else %>
+    <%# @materials.each do |material| %>
+<!--      <tr>-->
+<!--        <td><%#= link_to material.title, material_path(material) %></td>-->
+<!--        <td><%#= material.category %></td>-->
+        <%# if material.works.present? %>
+          <%# last_updated_work = material.works.order(created_at: :desc).limit(1) %>
+          <%# last_updated_work.each do |last_work| %>
+<!--            <td><%#= last_work.updated_at.strftime("%Y-%m-%d") %></td>-->
+<!--            <td><%#= last_work.start %></td>-->
+<!--            <td><%#= last_work.end %></td>-->
+<!--            <td><%#= last_work.status %></td>-->
+          <%# end %>
+        <%# end %>
+<!--        <td><%#= render 'materials/tag_list', tag_list: material.tag_list %></td>-->
+<!--        <td><%#= link_to "編集", edit_material_path(material) %></td>-->
+<!--        <td><%#= link_to "削除", material, method: :delete, data: { confirm: "本当に削除してもいいですか？" } %></td>-->
+<!--      </tr>-->
+    <%# end %>
+  <%# end %>
+<!--  </tbody>-->
+<!--</table>-->

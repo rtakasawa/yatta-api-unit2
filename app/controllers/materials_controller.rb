@@ -1,6 +1,7 @@
 class MaterialsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_task, only: [:show,:edit,:update,:destroy]
+  before_action :set_material, only: [:show,:edit,:update,:destroy]
+  before_action :check_material_user, only: [:show,:edit,:update,:destroy]
 
   def index
     @q = current_user.materials.ransack(params[:q])
@@ -26,7 +27,9 @@ class MaterialsController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    @works = @material.works.order(created_at: :desc).page(params[:page]).per(10)
+  end
 
   def edit; end
 
@@ -59,6 +62,8 @@ class MaterialsController < ApplicationController
     end
     if @books_full.present?
       @books = Kaminari.paginate_array(@books_full).page(params[:page]).per(10)
+    else
+
     end
   end
 
@@ -75,7 +80,11 @@ class MaterialsController < ApplicationController
     params.require(:material).permit(:title, :author, :category, :path, :note, :tag_list)
   end
 
-  def set_task
+  def set_material
     @material = Material.find(params[:id])
+  end
+
+  def check_material_user
+    redirect_to materials_path unless @material.user_id == current_user.id
   end
 end

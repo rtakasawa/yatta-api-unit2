@@ -9,7 +9,7 @@
     </tr>
     </thead>
     <tbody>
-    <% if @books.present? %>
+    <% if params[:keyword].size >= 2 && @books.present? %>
       <%= paginate @books, class: "paginate" %>
       <%= page_entries_info @books %>
       <% @books.each do |book| %>
@@ -20,6 +20,8 @@
           <td><%= link_to "教材登録", new_material_path(title:book.title,author:book.author,path:book.item_url,category:"book") %></td>
         </tr>
       <% end %>
+    <% elsif params[:keyword].size >= 2 %>
+      <p>検索にヒットするものがありませんでした</p>
     <% else %>
       <p>検索ワードは２文字以上入力してください</p>
     <% end %>

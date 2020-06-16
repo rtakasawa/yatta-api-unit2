@@ -1,0 +1,32 @@
+<h1>学習情報の編集</h1>
+
+<% if @work.errors.present? %>
+  <% @work.errors.full_messages.each do |message| %>
+    <div class="alert alert-danger" role="alert">
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<%= form_with(model: @work,local: true) do |f| %>
+  <div class="form-group">
+    <p>教材名： <%= @work.material.title %></p>
+  </div>
+  <div class="form-group">
+    <%= f.label "start",id: 'start' %>
+    <%= f.text_field :start, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label "finish",id: 'finish' %>
+    <%= f.text_field :finish, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label "content",id: 'content' %>
+    <%= f.text_area :content, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label "status",id: 'status' %>
+    <%= f.select :status, Work.statuses.keys.to_a, {}, class: "form-control" %>
+  </div>
+  <%= f.submit "更新する", class: "btn btn-primary" %>
+<% end %>
