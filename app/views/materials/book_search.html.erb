@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="card card-body bg-light">
+    <%= t("view.material.book_search_results_(up_to_30_results_displayed)") %>
+  </div>
+
+  <% if params[:keyword].size >= 2 && @books.present? %>
+    <div class="mt-4" >
+      <%= paginate @books, class: "paginate" %>
+      <%= page_entries_info @books %>
+    </div>
+    <div class="mt-4" >
+      <% @books.each do |book| %>
+        <div class="card mb-3">
+          <div class="row no-gutters">
+          <div class="col-md-2">
+            <img src="<%= book.large_image_url %>">
+          </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title"><%= t("activerecord.attributes.material.title") %>：<%= link_to book.title, book.item_url %></h5>
+                <p class="card-text"><%= t("view.material.author") %>：<%= book.author %></p>
+                <p class="card-text">
+                  <%= link_to t("helpers.submit.create"), new_material_path(title:book.title,author:book.author,path:book.item_url,category:"book"), class: "btn btn-primary"%>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+  <% elsif params[:keyword].size >= 2 %>
+    <div class="mt-4" >
+      <p><%= t("view.material.couldn't_find_any_hits_in_my_search") %></p>
+    </div>
+  <% else %>
+    <div class="mt-4" >
+      <p><%= t("view.material.please_enter_at_least_2characters_for_the_search_word") %></p>
+    </div>
+  <% end %>
+</div>

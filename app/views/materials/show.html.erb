@@ -1,0 +1,67 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header"><%= t("view.material.show") %></div>
+    <table class="table mb-0">
+      <tbody>
+      <tr>
+        <th><%= t("activerecord.attributes.material.title") %></th>
+        <td><%= link_to @material.title, @material.path %></td>
+      </tr>
+      <tr>
+        <th><%= t("activerecord.attributes.material.category") %></th>
+        <td><%= @material.category_i18n %></td>
+      </tr>
+      <tr>
+        <th><%= t("activerecord.attributes.material.status") %></th>
+        <td><%= @material.status_i18n %></td>
+      </tr>
+      <tr>
+        <th><%= t("view.tag.tags") %></th>
+        <td><%= render 'materials/tag_list', tag_list: @material.tag_list %></td>
+      </tr>
+      <tr>
+        <th><%= t("activerecord.attributes.material.note") %></th>
+        <td><%= @material.note %></td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="card-body">
+      <%= link_to t("helpers.submit.edit"), edit_material_path(@material), class: "btn btn-primary", role: "button" %>
+      <%= link_to t("helpers.submit.delete"), @material, method: :delete, data: { confirm: t("helpers.message.are_you_sure_you_want_me_to_delete_it?") }, class: "btn btn-primary", role: "button" %>
+    </div>
+  </div>
+
+  <div class="card mt-4">
+    <div class="card-header"><%= t("view.work.work_of_material") %></div>
+    <% if @works.present? %>
+      <div class="card-body">
+        <%= paginate @works, class: "paginate"  %>
+        <%= page_entries_info @works %>
+      </div>
+      <table class="table mb-0 table-striped">
+        <thead>
+        <tr>
+          <th><%= sort_link(@q, :do_on, t("activerecord.attributes.work.do_on")) %></th>
+          <th colspan="3"><%= t("view.work.amount") %></th>
+          <th colspan="1"></th>
+        </tr>
+        </thead>
+        <tbody id="work-list" >
+        <% @works.each do |work| %>
+          <tr>
+            <td><%= work.do_on %></td>
+            <td><%= work.start %></td>
+            <td>〜</td>
+            <td><%= work.finish %></td>
+            <td><%= link_to t("helpers.submit.show"), work %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <div class="card-body">
+        <%= t("view.work.no_record") %>
+      </div>
+    <% end %>
+  </div>
+</div>

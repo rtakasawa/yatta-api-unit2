@@ -1,3 +1,15 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  root 'materials#index'
+  devise_for :users, controllers: {
+    registrations: 'users/registrations'
+  }
+  resources :materials do
+    collection do
+      get 'book_search'
+      get 'qiita_search'
+    end
+  end
+  resources :users, only: [:show]
+  resources :works
 end

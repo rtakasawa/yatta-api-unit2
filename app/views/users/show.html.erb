@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <%= t("view.user.info") %>
+    </div>
+    <div class="card-body">
+      <p class="card-text"><%= t("activerecord.attributes.user.name") %> : <%= @user.name %></p>
+      <p class="card-text"><%= t("activerecord.attributes.user.email") %> : <%= @user.email %></p>
+      <%= link_to t("view.user.edit_or_withdrawal"), edit_user_registration_path(@user), class: "btn btn-primary" %>
+    </div>
+  </div>
+</div>
