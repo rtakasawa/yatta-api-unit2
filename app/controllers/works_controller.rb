@@ -5,7 +5,7 @@ class WorksController < ApplicationController
 
   def index
     @q = current_user.works.ransack(params[:q])
-    @works = @q.result(distinct: true).order(do_on: :desc).page(params[:page])
+    @works = @q.result(distinct: true).order(do_on: :desc).page(params[:page]).per(10)
     @works_for_calendar = current_user.works
     @all_works_count = current_user.works.count
     @current_month_work_count = current_user.works.current_month.count

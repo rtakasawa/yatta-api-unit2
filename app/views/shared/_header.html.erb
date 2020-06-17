@@ -6,8 +6,8 @@
       </a>
       <% if user_signed_in? %>
       <form class="form-inline">
-        <%= link_to t("view.work.record"), new_work_path, class: "btn btn-sm ml-2 btn-outline-light" %>
         <%= link_to t("view.material.new"), new_material_path, class: "btn btn-sm ml-2 btn-outline-light" %>
+        <%= link_to t("view.work.record"), new_work_path, class: "btn btn-sm ml-2 btn-outline-light" %>
       </form>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -80,36 +80,3 @@
   </div>
 
 </header>
-
-
-<!--QiitaAPIが完成したらとりあえず下記の使用を検討する-->
-<!--<div class="container">-->
-<!--  <div class="mt-2" >-->
-    <%# if user_signed_in? %>
-      <%#= form_with url: book_search_materials_path, method: :get,class: "form-inline", local: true do |f| %>
-<!--        <div class="form-group mb-2 h7">-->
-          <%#= t("view.material.search_for_materials_before_registering_(books only)") %>
-<!--        </div>-->
-<!--        <div class="form-group mb-2">-->
-          <%#= f.label "カテゴリー", class: "sr-only" %>
-          <%#= f.select :category, Material.categories.keys.to_a, {}, class: "form-control" %>
-<!--        </div>-->
-<!--        <div class="form-group mb-2">-->
-          <%#= f.label "キーワード", class: "sr-only" %>
-          <%#= f.text_field :material, name: "keyword", placeholder: t("view.material.please_keyword"), class: "form-control" %>
-<!--        </div>-->
-<!--        <button type="submit" class="btn btn-secondary mb-2 ml-2"><%#= t("view.material.search") %></button>-->
-      <%# end %>
-    <%# end %>
-<!--  </div>-->
-<!--</div>-->
-
-
-
-
-
-
-
-
-
-

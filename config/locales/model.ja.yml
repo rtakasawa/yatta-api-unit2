@@ -41,7 +41,7 @@ ja:
         search: 検索
         refine: 絞り込み
         clear: クリア
-        author: 作者
+        no_record: 教材の登録はありません
         book_search_results_(up_to_30_results_displayed): 【書籍】検索結果（最大30件まで表示されます）
         qiita_search_results_(up_to_100_results_displayed): 【Qiita】検索結果（最大100件まで表示されます）
         please_keyword: キーワード
@@ -58,7 +58,11 @@ ja:
         couldn't_find_any_hits_in_my_search: 検索にヒットするものがありませんでした
         please_enter_at_least_2characters_for_the_search_word: 検索ワードは２文字以上入力してください
     work:
+        count: 回
         summary: 【学習情報一覧】学習登録回数
+        last_month_summary: 先月の登録回数
+        this_month_summary: 今月の登録回数
+        total: 総計
         calendar: 【学習情報一覧】カレンダー
         index: 学習情報一覧
         new: 学習情報の登録
@@ -70,6 +74,7 @@ ja:
         work_of_material: 教材に関する学習情報
         amount: 学習量（ページ数・単元等）
         no_record: 学習記録の登録はありません
+        if_you_have_not_yet_registered_your_course_materials_please_do_so_first: ※教材を登録していない場合は、先に教材を登録してください
     tag:
         tags: タグ
         when_registering_multiple_tags,please_separate_them_with_a_comma: ※複数のタグを登録する場合は、半角カンマで区切って入力してください

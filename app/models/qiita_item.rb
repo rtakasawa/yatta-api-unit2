@@ -1,10 +1,11 @@
 require 'json'
 
 class QiitaItem
+  URL = 'https://qiita.com'
+  URL.freeze
 
   def self.get(keyword)
-    url = 'https://qiita.com'
-    connection = Faraday.new(url: url)
+    connection = Faraday.new(url: URL)
     response = connection.get do |req|
       req.url '/api/v2/items', page: 1, per_page: 100, query:"title:#{keyword}"
     end
