@@ -37,14 +37,14 @@
           <div class="form-group mx-sm-3 mb-2">
             <%= f.date_field :do_on_gteq, include_blank: true, class: "form-control"  %>
           </div>
-          <div class="form-group mx-sm-3 mb-2">
+          <div class="form-group mx-sm-1 mb-2">
             〜
           </div>
           <div class="form-group mx-sm-3 mb-2">
             <%= f.date_field :do_on_lteq, include_blank: true, class: "form-control"  %>
           </div>
-          <%= f.submit t("view.material.refine"), class: 'btn btn-primary mb-2' %>
-          <div class="form-group mx-sm-3 mb-2">
+          <%= f.submit t("view.material.refine"), class: 'btn btn-primary mb-2 ml-1' %>
+          <div class="form-group mx-sm-3 mb-2 ml-1">
             <%= link_to t("view.material.clear"), url_for, class: "btn btn-primary", role: "button" %>
           </div>
         <% end %>
