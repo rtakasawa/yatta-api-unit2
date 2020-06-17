@@ -35,7 +35,6 @@ class MaterialsController < ApplicationController
   def show
     @q = @material.works.ransack(params[:q])
     @works = @q.result(distinct: true).order(do_on: :desc).page(params[:page]).per(10)
-    # @works = @material.works.order(created_at: :desc).page(params[:page]).per(10)
   end
 
   def edit; end

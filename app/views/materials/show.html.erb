@@ -5,7 +5,11 @@
       <tbody>
       <tr>
         <th><%= t("activerecord.attributes.material.title") %></th>
-        <td><%= link_to @material.title, @material.path %></td>
+        <% if @material.path? %>
+          <td><%= link_to @material.title, @material.path %></td>
+        <% else %>
+          <td><%= @material.title %></td>
+        <% end %>
       </tr>
       <tr>
         <th><%= t("activerecord.attributes.material.category") %></th>
