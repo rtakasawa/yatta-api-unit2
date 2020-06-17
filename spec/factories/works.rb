@@ -23,4 +23,12 @@ FactoryBot.define do
     do_on { Date.today-2 }
     association :material
   end
+  factory :fourth_work, class: Work do
+    id { 4 }
+    start { "１" }
+    finish { "１００" }
+    content { "よくできた" }
+    do_on { Date.today-2 }
+    association :material
+  end
 end

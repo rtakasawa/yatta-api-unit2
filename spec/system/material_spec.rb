@@ -8,17 +8,17 @@ RSpec.describe '教材管理機能', type: :system do
   describe '教材登録画面' do
     context '必要項目を入力して、createボタンを押した場合' do
       it 'データが保存される' do
-        User.create(id: 1, name: "sample", email: "sample@example.com", password: "0000000")
+        FactoryBot.create(:user)
         visit new_user_session_path
         fill_in "user[email]", with: "sample@example.com"
         fill_in "user[password]", with: "0000000"
         click_on "commit"
         click_on "教材を登録する"
         fill_in 'material[title]', with: "test1"
-        select "book", from: 'material[category]'
+        select "書籍", from: 'material[category]'
         fill_in 'material[path]', with: "http://example.com"
         fill_in "material[tag_list]", with: 'test_tag1,test_tag2'
-        select "learning", from: 'material[status]'
+        select "学習中", from: 'material[status]'
         fill_in 'material[note]', with: "test_note1"
         click_button "登録"
         wait.until{ expect(page).to have_link "test1" }
@@ -32,137 +32,178 @@ RSpec.describe '教材管理機能', type: :system do
   end
 
   describe '教材一覧画面' do
-    before do
-      User.create(id: 1, name: "sample", email: "sample@example.com", password: "0000000")
-      material_first = FactoryBot.create(:material, user_id: 1)
-      material_second = FactoryBot.create(:second_material, user_id: 1)
-      material_third = FactoryBot.create(:third_material, user_id: 1)
-      material_first.tags.create(name:"test_tag1-1")
-      material_first.tags.create(name:"test_tag1-2")
-      material_second.tags.create(name:"test_tag2")
-      material_third.tags.create(name:"test_tag3")
-      FactoryBot.create(:work,material_id:1,start:"1000",finish:"3000",created_at:Time.current.tomorrow)
-      FactoryBot.create(:second_work,material_id:1,created_at:Time.current)
-      FactoryBot.create(:third_work,material_id:1,created_at:Time.current.yesterday)
-      visit new_user_session_path
-      fill_in "user[email]", with: "sample@example.com"
-      fill_in "user[password]", with: "0000000"
-      click_on "ログイン"
+    context '教材を登録していない場合' do
+      it '教材の登録がないとメッセージが表示されている' do
+        FactoryBot.create(:user)
+        visit new_user_session_path
+        fill_in "user[email]", with: "sample@example.com"
+        fill_in "user[password]", with: "0000000"
+        click_on "commit"
+        wait.until{ expect(page).to have_content "教材の登録はありません" }
+      end
     end
 
     context '複数の教材を登録した場合' do
-      it '登録済みの教材、タグが表示される' do
+      before do
+        FactoryBot.create(:user)
+        material_first = FactoryBot.create(:material, user_id: 1)
+        material_second = FactoryBot.create(:second_material, user_id: 1)
+        material_third = FactoryBot.create(:third_material, user_id: 1)
+        material_first.tags.create(name:"test_tag1-1")
+        material_first.tags.create(name:"test_tag1-2")
+        material_second.tags.create(name:"test_tag2")
+        material_third.tags.create(name:"test_tag3")
+        FactoryBot.create(:work,material_id:1)
+        FactoryBot.create(:second_work,material_id:1)
+        FactoryBot.create(:third_work,material_id:1)
+        FactoryBot.create(:second_user)
+        FactoryBot.create(:fourth_material,title: "other_user_material", user_id: 2)
+        FactoryBot.create(:fourth_work,start:"other_start", material_id: 4)
+        visit new_user_session_path
+        fill_in "user[email]", with: "sample@example.com"
+        fill_in "user[password]", with: "0000000"
+        click_on "commit"
+      end
+      it '登録済みの教材、タグが表示される（表示順：①status②updated_at※work編集の際もmaterialのupdated_at更新）' do
         material_list = all('tbody tr' )
         wait.until{ expect(material_list[0]).to have_content "test1" }
+        wait.until{ expect(material_list[0]).to have_content "書籍" }
+        wait.until{ expect(material_list[0]).to have_content "学習中" }
         wait.until{ expect(material_list[0]).to have_content "test_tag1-1" }
         wait.until{ expect(material_list[0]).to have_content "test_tag1-2" }
-        wait.until{ expect(material_list[1]).to have_content "test2" }
-        wait.until{ expect(material_list[1]).to have_content "test_tag2" }
-        wait.until{ expect(material_list[2]).to have_content "test3" }
-        wait.until{ expect(material_list[2]).to have_content "test_tag3" }
+        wait.until{ expect(material_list[1]).to have_content "test3" }
+        wait.until{ expect(material_list[1]).to have_content "WEB記事" }
+        wait.until{ expect(material_list[1]).to have_content "学習中" }
+        wait.until{ expect(material_list[1]).to have_content "test_tag3" }
+        wait.until{ expect(material_list[2]).to have_content "test2" }
+        wait.until{ expect(material_list[2]).to have_content "動画" }
+        wait.until{ expect(material_list[2]).to have_content "完了" }
+        wait.until{ expect(material_list[2]).to have_content "test_tag2" }
       end
       it '最新の学習情報が表示されている（学習情報の登録がある場合）' do
         material_list = all('tbody tr' )
-        wait.until{ expect(material_list[0]).to have_content "1000" }
-        wait.until{ expect(material_list[0]).to have_content "3000" }
-        wait.until{ expect(material_list[0]).to have_content "incomplete" }
+        wait.until{ expect(material_list[0]).to have_content "1" }
+        wait.until{ expect(material_list[0]).to have_content "10" }
+        wait.until{ expect(material_list[0]).to have_content Date.today }
       end
-    end
-
-    context '任意の教材を削除した場合' do
-      it '削除した教材が表示されない' do
-        click_link "削除", href: "/materials/1"
-        page.accept_confirm
-        wait.until{ expect(page).to have_no_content 'test1' }
+      it '自分の教材のみ表示される（他人の教材は表示されない）' do
+        wait.until{ expect(page).to have_no_content "other_user_material" }
       end
-    end
-
-    context "登録した教材の検索" do
       it "教材名検索ができる" do
+        click_link "絞り込み", href: "#collapseExample"
         fill_in "q[title_or_tags_name_cont]", with: 'test1'
-        click_on "絞り込み"
+        click_on "commit"
         wait.until{ expect(page).to have_content 'test1' }
       end
       it "タグ名検索ができる" do
+        click_link "絞り込み", href: "#collapseExample"
         fill_in "q[title_or_tags_name_cont]", with: 'test_tag1-1'
-        click_on "絞り込み"
+        click_on "commit"
         wait.until{ expect(page).to have_content 'test_tag1-1' }
       end
       it "カテゴリー検索ができる" do
+        click_link "絞り込み", href: "#collapseExample"
         select "動画", from: "q[category_eq]"
-        click_on "絞り込み"
-        wait.until{ expect(page).to have_content 'video' }
+        click_on "commit"
+        wait.until{ expect(page).to have_content '動画' }
       end
-      # 未対応(実装するか検討中)
       it "ステータス検索ができる" do
-        # select "未着手", from: "search[status]"
-        # click_on "検索する"
-        # wait.until{ expect(page).to have_content '未着手' }
+        click_link "絞り込み", href: "#collapseExample"
+        select "完了", from: "q[status_eq]"
+        click_on "commit"
+        wait.until{ expect(page).to have_content '完了' }
       end
-      # 未対応
-      it "教材名、カテゴリー、ステータス、タグを指定して、検索ができる" do
-        # fill_in "search[task_name]", with: 'test_name1'
-        # select "未着手", from: "search[status]"
-        # select "work", from: "search[label_id]"
-        # click_on "検索する"
-        # wait.until{ expect(page).to have_content 'test_name1' }
-        # wait.until{ expect(page).to have_content '未着手' }
-        # wait.until{ expect(page).to have_content 'work' }
+      it "教材名、カテゴリー、ステータスを指定して、検索ができる" do
+        click_link "絞り込み", href: "#collapseExample"
+        fill_in "q[title_or_tags_name_cont]", with: 'test1'
+        select "書籍", from: "q[category_eq]"
+        select "学習中", from: "q[status_eq]"
+        click_on "commit"
+        wait.until{ expect(page).to have_content 'test1' }
+        wait.until{ expect(page).to have_content '書籍' }
+        wait.until{ expect(page).to have_content '学習中' }
       end
-    end
-    # 未対応(実装するか検討中)
-    context "ソートした場合" do
-      it "学習日のソートボタンをクリックすると学習日が新しい順に並び替えることができる" do
-        # click_on "終了期限でソートする"
-        # sleep(0.5) # エラー回避のため
-        # task_list = all('tbody tr' )
-        # wait.until{ expect(task_list[0]).to have_content '1900-01-01' }
-        # wait.until{ expect(task_list[1]).to have_content '2000-01-01' }
-        # wait.until{ expect(task_list[2]).to have_content '2100-01-01' }
+      it "教材名検索後に、クリアボタンを押すと検索前の情報が表示される", :retry => 3 do
+        click_link "絞り込み", href: "#collapseExample"
+        fill_in "q[title_or_tags_name_cont]", with: 'test1'
+        select "書籍", from: "q[category_eq]"
+        select "学習中", from: "q[status_eq]"
+        click_on "commit"
+        click_link "絞り込み", href: "#collapseExample"
+        click_on "クリア"
+        sleep 0.5
+        material_list = all('tbody tr' )
+        wait.until{ expect(material_list[0]).to have_content "test1" }
+        wait.until{ expect(material_list[0]).to have_content "書籍" }
+        wait.until{ expect(material_list[0]).to have_content "学習中" }
+        wait.until{ expect(material_list[0]).to have_content "test_tag1-1" }
+        wait.until{ expect(material_list[0]).to have_content "test_tag1-2" }
+        wait.until{ expect(material_list[1]).to have_content "test3" }
+        wait.until{ expect(material_list[1]).to have_content "WEB記事" }
+        wait.until{ expect(material_list[1]).to have_content "学習中" }
+        wait.until{ expect(material_list[1]).to have_content "test_tag3" }
+        wait.until{ expect(material_list[2]).to have_content "test2" }
+        wait.until{ expect(material_list[2]).to have_content "動画" }
+        wait.until{ expect(material_list[2]).to have_content "完了" }
+        wait.until{ expect(material_list[2]).to have_content "test_tag2" }
       end
     end
   end
 
   describe '教材詳細画面' do
     before do
-      User.create(id: 1, name: "sample", email: "sample@example.com", password: "0000000")
+      FactoryBot.create(:user)
       material_first = FactoryBot.create(:material, user_id: 1)
       material_first.tags.create(name:"test_tag1-1")
       material_first.tags.create(name:"test_tag1-2")
-      FactoryBot.create(:work,material_id:1,start:"1000",finish:"3000",created_at:Time.current.tomorrow)
-      FactoryBot.create(:second_work,material_id:1,start:"500",finish:"600",created_at:Time.current)
-      FactoryBot.create(:third_work,material_id:1,start:"1-1",finish:"2-1",created_at:Time.current.yesterday)
+      FactoryBot.create(:work,material_id:1)
+      FactoryBot.create(:second_work,material_id:1)
+      FactoryBot.create(:third_work,material_id:1)
       visit new_user_session_path
       fill_in "user[email]", with: "sample@example.com"
       fill_in "user[password]", with: "0000000"
-      click_on "ログイン"
+      click_on "commit"
       click_on 'test1'
     end
     context '任意の教材詳細画面に遷移した場合' do
       it '該当教材の内容が表示されたページに遷移する' do
         wait.until{ expect(page).to have_link "test1" }
-        wait.until{ expect(page).to have_content "test_author1" }
-        wait.until{ expect(page).to have_content "book" }
+        wait.until{ expect(page).to have_content "書籍" }
         wait.until{ expect(page).to have_content "test_note1" }
         wait.until{ expect(page).to have_content "test_tag1-1" }
         wait.until{ expect(page).to have_content "test_tag1-2" }
+        wait.until{ expect(page).to have_content "学習中" }
       end
       it '学習記録は最新の登録順に表示されている' do
         work_list = all('#work-list tr' )
-        wait.until{ expect(work_list[0]).to have_content "1000" }
-        wait.until{ expect(work_list[0]).to have_content "3000" }
-        wait.until{ expect(work_list[0]).to have_content "incomplete" }
-        wait.until{ expect(work_list[1]).to have_content "500" }
-        wait.until{ expect(work_list[1]).to have_content "600" }
-        wait.until{ expect(work_list[1]).to have_content "complete" }
-        wait.until{ expect(work_list[2]).to have_content "1-1" }
-        wait.until{ expect(work_list[2]).to have_content "2-1" }
-        wait.until{ expect(work_list[2]).to have_content "incomplete" }
+        wait.until{ expect(work_list[0]).to have_content "1" }
+        wait.until{ expect(work_list[0]).to have_content "10" }
+        wait.until{ expect(work_list[0]).to have_content Date.today }
+        wait.until{ expect(work_list[1]).to have_content "1-1" }
+        wait.until{ expect(work_list[1]).to have_content "1-10" }
+        wait.until{ expect(work_list[1]).to have_content Date.today-1 }
+        wait.until{ expect(work_list[2]).to have_content "１" }
+        wait.until{ expect(work_list[2]).to have_content "１００" }
+        wait.until{ expect(work_list[2]).to have_content Date.today-2 }
+      end
+      it "学習日でソートができる", :retry => 3 do
+        click_link "学習日"
+        work_list = all('#work-list tr' )
+        sleep 0.5
+        wait.until{ expect(work_list[2]).to have_content "1" }
+        wait.until{ expect(work_list[2]).to have_content "10" }
+        wait.until{ expect(work_list[2]).to have_content Date.today }
+        wait.until{ expect(work_list[1]).to have_content "1-1" }
+        wait.until{ expect(work_list[1]).to have_content "1-10" }
+        wait.until{ expect(work_list[1]).to have_content Date.today-1 }
+        wait.until{ expect(work_list[0]).to have_content "１" }
+        wait.until{ expect(work_list[0]).to have_content "１００" }
+        wait.until{ expect(work_list[0]).to have_content Date.today-2 }
       end
     end
     context '任意の教材を削除した場合' do
       it '削除した教材が表示されない' do
-        click_link "削除", href: "/materials/1"
+        click_link "削除"
         page.accept_confirm
         wait.until{ expect(page).to have_no_content 'test1' }
       end
@@ -172,24 +213,25 @@ RSpec.describe '教材管理機能', type: :system do
   describe '教材編集画面' do
     context '必要項目を入力して、createボタンを押した場合' do
       it 'データが保存される' do
-        User.create(id: 1, name: "sample", email: "sample@example.com", password: "0000000")
+        FactoryBot.create(:user)
         material_first = FactoryBot.create(:material, user_id: 1)
         material_first.tags.create(name:"test_tag1")
         visit new_user_session_path
         fill_in "user[email]", with: "sample@example.com"
         fill_in "user[password]", with: "0000000"
-        click_on "ログイン"
-        click_link href: "/materials/1/edit"
+        click_on "commit"
+        click_on 'test1'
+        click_on "編集"
         fill_in 'material[title]', with: "test2"
-        fill_in 'material[author]', with: "test_author2"
-        select "video", from: 'material[category]'
+        select "動画", from: 'material[category]'
+        select "完了", from: 'material[status]'
         fill_in 'material[path]', with: "http://example2.com"
         fill_in "material[tag_list]", with: 'test_tag99,test_tag100'
         fill_in 'material[note]', with: "test_note2"
-        click_button "登録する"
+        click_button "登録"
         wait.until{ expect(page).to have_link "test2" }
-        wait.until{ expect(page).to have_content "test_author2" }
-        wait.until{ expect(page).to have_content "video" }
+        wait.until{ expect(page).to have_content "動画" }
+        wait.until{ expect(page).to have_content "完了" }
         wait.until{ expect(page).to have_content 'test_tag99' }
         wait.until{ expect(page).to have_content 'test_tag100' }
         wait.until{ expect(page).to have_content "test_note2" }
