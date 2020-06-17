@@ -34,6 +34,7 @@ ja:
         edit_or_withdrawal: 会員情報：編集・アカウント削除
         info: 会員情報
     material:
+        author: 作者
         new: 教材を登録する
         index: 登録した教材一覧
         edit: 教材情報の編集
