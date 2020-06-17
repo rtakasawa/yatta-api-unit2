@@ -75,7 +75,7 @@ ja:
         latest_amount: 最新の学習量（ページ数・単元等）
         work_of_material: 教材に関する学習情報
         amount: 学習量（ページ数・単元等）
-        no_record: 学習記録の登録はありません
+        no_record: 学習情報の登録はありません
         if_you_have_not_yet_registered_your_course_materials_please_do_so_first: ※教材を登録していない場合は、先に教材を登録してください
     tag:
         tags: タグ

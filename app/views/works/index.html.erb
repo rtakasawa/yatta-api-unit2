@@ -63,7 +63,7 @@
                 <th colspan="3"><%= t("view.work.amount") %></th>
               </tr>
               </thead>
-              <tbody>
+              <tbody id="work-table" >
               <% @works.each do |work| %>
                 <tr>
                   <td><%= work.do_on %></td>
