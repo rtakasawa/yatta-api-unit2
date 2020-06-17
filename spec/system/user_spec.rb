@@ -1,11 +1,10 @@
 require 'rails_helper'
 require 'devise'
 
-RSpec.describe  "ユーザー登録・ログイン・ログアウト機能", type: :system do
+RSpec.describe  "ユーザー登録、ログイン・ログアウト機能、管理者機能", type: :system do
 
   describe "ユーザー登録のテスト" do
     context "ユーザーのデータがなくログインしていない場合" do
-      #実装はできている。とりあえず"Materials#index"と指定
       it "アカウントを登録すると教材一覧画面に飛ぶ" do
         visit new_user_registration_path
         fill_in "user[name]", with: "sample"
@@ -34,7 +33,7 @@ RSpec.describe  "ユーザー登録・ログイン・ログアウト機能", typ
     context "ユーザーを登録している場合" do
       before do
         FactoryBot.create(:user)
-        FactoryBot.create(:admin_user)
+        FactoryBot.create(:second_user)
         visit new_user_session_path
         fill_in "user[email]", with: "sample@example.com"
         fill_in "user[password]", with: "0000000"
@@ -102,6 +101,30 @@ RSpec.describe  "ユーザー登録・ログイン・ログアウト機能", typ
       it "他人の会員編集・アカウント削除画面にアクセスすると自分の会員編集・アカウント削除画面に遷移すること" do
         visit edit_user_registration_path(2)
         expect(page).to have_field "user[name]", with: "sample"
+      end
+    end
+  end
+  describe "管理者機能のテスト" do
+    context "ユーザーが管理者の場合" do
+      it "管理者画面にアクセスすることができる" do
+        FactoryBot.create(:admin_user)
+        visit new_user_session_path
+        fill_in "user[email]", with: "second_admin@example.com"
+        fill_in "user[password]", with: "0000000"
+        click_on "commit"
+        visit rails_admin_path
+        expect(current_path).to eq rails_admin_path
+      end
+    end
+    context "ユーザーが管理者ではない場合" do
+      it "管理者画面にアクセスすることができない" do
+        FactoryBot.create(:user)
+        visit new_user_session_path
+        fill_in "user[email]", with: "sample@example.com"
+        fill_in "user[password]", with: "0000000"
+        click_on "commit"
+        visit rails_admin_path
+        expect(page).to have_content "You are not authorized to access this page."
       end
     end
   end

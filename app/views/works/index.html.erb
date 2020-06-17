@@ -61,6 +61,7 @@
                 <th><%= t("activerecord.attributes.work.do_on") %></th>
                 <th><%= t("activerecord.attributes.material.title") %></th>
                 <th colspan="3"><%= t("view.work.amount") %></th>
+                <th colspan="1"></th>
               </tr>
               </thead>
               <tbody id="work-table" >
@@ -71,6 +72,7 @@
                   <td><%= work.start %></td>
                   <td>〜</td>
                   <td><%= work.finish %></td>
+                  <td><%= link_to t("helpers.submit.show"), work %></td>
                 </tr>
               <% end %>
               </tbody>

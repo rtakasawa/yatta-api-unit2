@@ -3,5 +3,5 @@ json.array!(@works_for_calendar) do |work|
   json.title work.material.title
   json.start work.do_on
   json.end work.do_on
-  json.url material_path(work.material)
+  json.url work_path(work)
 end
