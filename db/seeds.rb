@@ -1,18 +1,6 @@
-# Faker利用してのユーザー作成
-# 30.times do |n|
-#   # name = Faker::Name.name
-#   # email = Faker::Internet.email
-#   password = "password"
-#   User.create!(name: name,
-#                email: email,
-#                password: password,
-#                password_confirmation: password,
-#                )
-# end
-
 # ユーザー作成
 20.times do |n|
-  User.create( name: "user",
+  User.create( name: "user#{n + 1}",
                email: "#{n + 1}@example.com",
                password: "password",
                password_confirmation: "password")
@@ -44,14 +32,13 @@ Material.all.each do |material|
 end
 
 # 学習記録
-
 require "date"
 
 from = Date.parse("2020/01/01")
 to   = Date.parse("2020/06/16")
 
 Material.all.each do |material|
-  20.times do |n|
+  10.times do |n|
     do_on = Random.rand(from .. to)
     start = rand(100)
     finish = rand(200)

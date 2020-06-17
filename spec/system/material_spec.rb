@@ -239,28 +239,37 @@ RSpec.describe '教材管理機能', type: :system do
     end
   end
 
-  # # エラー出るため保留
-  # describe '登録する教材を検索する場合' do
-  #   before do
-  #     User.create(id: 1, name: "sample", email: "sample@example.com", password: "0000000")
-  #     FactoryBot.create(:material, user_id: 1)
-  #     visit new_user_session_path
-  #     fill_in "user[email]", with: "sample@example.com"
-  #     fill_in "user[password]", with: "0000000"
-  #     click_on "ログイン"
-  #   end
-  #   context '必要項目を入力して、検索ボタンを押した場合' do
-  #     it '該当する教材が表示される' do
-  #       fill_in "keyword", with: "ruby"
-  #       click_on "検索"
-  #       wait.until{ expect(page).to have_content "プロを目指す人のためのRuby入門" }
-  #     end
-  #     it '該当する教材がない場合は、その旨が表示される' do
-  #
-  #     end
-  #     it '該当する教材を登録する場合は、登録画面に教材の情報が表示される' do
-  #
-  #     end
-  #   end
-  # end
+  describe 'Qiitaの記事を検索する場合' do
+    before do
+      FactoryBot.create(:user)
+      FactoryBot.create(:material, user_id: 1)
+      visit new_user_session_path
+      fill_in "user[email]", with: "sample@example.com"
+      fill_in "user[password]", with: "0000000"
+      click_on "commit"
+    end
+    context 'キーワードを入力して、検索ボタンを押した場合' do
+      it '該当する記事があれば、記事が表示される' do
+        fill_in "qiita_search", with: "Markdown記法 チートシート"
+        click_on "qiita_submit"
+        wait.until{ expect(page).to have_content "Markdown記法 チートシート" }
+      end
+      it '該当する記事がなければ、適切なメッセージが表示される' do
+        fill_in "qiita_search", with: "---------------------------"
+        click_on "qiita_submit"
+        wait.until{ expect(page).to have_content "検索にヒットした記事がありませんでした" }
+      end
+      context 'キーワードを入力せずに、検索ボタンを押した場合' do
+        it '適切なメッセージが表示される' do
+          fill_in "qiita_search", with: ""
+          click_on "qiita_submit"
+          wait.until{ expect(page).to have_content "検索キーワードを入力してください" }
+        end
+      end
+    end
+  end
 end
+
+# Qiita記事検索機能について、検索後の登録画面の遷移ができないため、教材登録時の動作は一旦手動で確認した
+# 本の検索については、検索ワードを入力し、検索ボタンを押すと下記エラーが出るため、一旦手動で確認した
+# "RuntimeError at /materials/book_search\nApplication ID is not defined

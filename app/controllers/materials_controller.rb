@@ -71,13 +71,6 @@ class MaterialsController < ApplicationController
     end
   end
 
-  # # ページネーション不要の場合は下記コード
-  # def book_search
-  #   if params[:keyword].size
-  #     @books = RakutenWebService::Books::Book.search(title: params[:keyword]).page(params[:page])
-  #   end
-  # end
-
   def qiita_search
     if params[:keyword].present?
       @items = QiitaItem.get(params[:keyword])
