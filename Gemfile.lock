@@ -54,6 +54,7 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     arel (9.0.0)
     bcrypt (3.1.13)
+    bcrypt_pbkdf (1.0.1)
     better_errors (2.7.1)
       coderay (>= 1.0.0)
       erubi (>= 1.0.0)
@@ -117,6 +118,7 @@ GEM
     dotenv-rails (2.7.5)
       dotenv (= 2.7.5)
       railties (>= 3.2, < 6.1)
+    ed25519 (1.2.4)
     enum_help (0.0.17)
       activesupport (>= 3.0.0)
     erubi (1.9.0)
@@ -365,6 +367,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts-as-taggable-on (~> 6.0)
+  bcrypt_pbkdf
   better_errors
   binding_of_caller
   bootsnap (>= 1.1.0)
@@ -381,6 +384,7 @@ DEPENDENCIES
   devise-bootstrap-views (~> 1.0)
   devise-i18n
   dotenv-rails
+  ed25519
   enum_help
   factory_bot_rails
   faker

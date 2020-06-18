@@ -35,6 +35,7 @@
     <orderEntry type="library" scope="PROVIDED" name="airbrussh (v1.4.0, rbenv: 2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="arel (v9.0.0, rbenv: 2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bcrypt (v3.1.13, rbenv: 2.6.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="bcrypt_pbkdf (v1.0.1, rbenv: 2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="better_errors (v2.7.1, rbenv: 2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bindex (v0.8.1, rbenv: 2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="binding_of_caller (v0.8.0, rbenv: 2.6.5) [gem]" level="application" />
@@ -46,7 +47,7 @@
     <orderEntry type="library" scope="PROVIDED" name="capistrano (v3.6.0, rbenv: 2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano-bundler (v1.6.0, rbenv: 2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano-harrow (v0.5.3, rbenv: 2.6.5) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="capistrano-rails (v1.4.0, rbenv: 2.6.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="capistrano-rails (v1.5.0, rbenv: 2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano-rbenv (v2.1.6, rbenv: 2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano3-unicorn (v0.2.1, rbenv: 2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capybara (v3.32.2, rbenv: 2.6.5) [gem]" level="application" />
@@ -64,6 +65,7 @@
     <orderEntry type="library" scope="PROVIDED" name="diff-lcs (v1.3, rbenv: 2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="dotenv (v2.7.5, rbenv: 2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="dotenv-rails (v2.7.5, rbenv: 2.6.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="ed25519 (v1.2.4, rbenv: 2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="enum_help (v0.0.17, rbenv: 2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubi (v1.9.0, rbenv: 2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="execjs (v2.7.0, rbenv: 2.6.5) [gem]" level="application" />
@@ -95,7 +97,7 @@
     <orderEntry type="library" scope="PROVIDED" name="mimemagic (v0.3.5, rbenv: 2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mini_mime (v1.0.2, rbenv: 2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mini_portile2 (v2.4.0, rbenv: 2.6.5) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="mini_racer (v0.2.10, rbenv: 2.6.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="mini_racer (v0.2.14, rbenv: 2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="minitest (v5.14.1, rbenv: 2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="momentjs-rails (v2.20.1, rbenv: 2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="msgpack (v1.3.3, rbenv: 2.6.5) [gem]" level="application" />
