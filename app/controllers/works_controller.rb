@@ -3,6 +3,15 @@ class WorksController < ApplicationController
   before_action :set_work, only: [:show,:edit,:update,:destroy]
   before_action :check_work_user, only: [:show,:edit,:update,:destroy]
 
+  def index
+    @q = current_user.works.ransack(params[:q])
+    @works = @q.result(distinct: true).order(do_on: :desc).page(params[:page]).per(10)
+    @works_for_calendar = current_user.works
+    @all_works_count = current_user.works.count
+    @current_month_work_count = current_user.works.current_month.count
+    @last_month_work_count = current_user.works.last_month.count
+  end
+
   def new
     @materials = current_user.materials
     @work = Work.new

@@ -26,4 +26,13 @@ FactoryBot.define do
     status { "learning" }
     association :user
   end
+  factory :fourth_material, class: Material do
+    id { 4 }
+    title { "test4" }
+    category { "web" }
+    path { "http://example4.com" }
+    note { "test_note4" }
+    status { "learning" }
+    association :user
+  end
 end

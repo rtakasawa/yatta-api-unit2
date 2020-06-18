@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :materials, dependent: :destroy
+  has_many :works, through: :materials
   validates :name, presence: true
 
 end

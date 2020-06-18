@@ -6,44 +6,43 @@ RSpec.describe '学習管理機能', type: :system do
 
   describe '学習登録画面' do
     before do
-      User.create(id: 1, name: "sample", email: "sample@example.com", password: "0000000")
+      FactoryBot.create(:user)
       FactoryBot.create(:material, user_id: 1)
       FactoryBot.create(:second_material, user_id: 1)
       FactoryBot.create(:third_material, user_id: 1)
       visit new_user_session_path
       fill_in "user[email]", with: "sample@example.com"
       fill_in "user[password]", with: "0000000"
-      click_on "ログイン"
+      click_on "commit"
       click_on "学習を記録する"
     end
     it '教材登録のセレクトボックスには、登録した教材が表示される' do
-      expect(page).to have_select('work[material_id]', options: [ "test1", "test2", "test3" ])
+      expect(page).to have_select('work[material_id]', options: [ "教材を選択してください", "test1", "test2", "test3" ])
     end
     context '必要項目を入力して、createボタンを押した場合' do
       it 'データが保存される' do
         select "test1", from: 'work[material_id]'
+        fill_in 'work[do_on]', with: Date.today
         fill_in 'work[start]', with: "1-1"
         fill_in 'work[finish]', with: "1-10"
         fill_in "work[content]", with: 'とても難しいです。復習が必要です。'
-        select "incomplete", from: 'work[status]'
-        click_button "登録する"
-        wait.until{ expect(page).to have_content "test1" }
+        click_button "登録"
+        wait.until{ expect(page).to have_content Date.today }
         wait.until{ expect(page).to have_content "1-1" }
         wait.until{ expect(page).to have_content "1-10" }
-        wait.until{ expect(page).to have_content "incomplete" }
       end
     end
   end
 
   describe '登録した学習情報の詳細画面' do
     before do
-      User.create(id: 1, name: "sample", email: "sample@example.com", password: "0000000")
+      FactoryBot.create(:user)
       FactoryBot.create(:material, user_id: 1)
       FactoryBot.create(:work, material_id: 1)
       visit new_user_session_path
       fill_in "user[email]", with: "sample@example.com"
       fill_in "user[password]", with: "0000000"
-      click_on "ログイン"
+      click_on "commit"
       click_on "test1"
       click_on "詳細"
     end
@@ -52,19 +51,19 @@ RSpec.describe '学習管理機能', type: :system do
       wait.until{ expect(page).to have_content "1" }
       wait.until{ expect(page).to have_content "10" }
       wait.until{ expect(page).to have_content "難しい" }
-      wait.until{ expect(page).to have_content "incomplete" }
+      wait.until{ expect(page).to have_content Date.today }
     end
   end
 
   describe '登録した学習情報の編集画面' do
     before do
-      User.create(id: 1, name: "sample", email: "sample@example.com", password: "0000000")
+      FactoryBot.create(:user)
       FactoryBot.create(:material, user_id: 1)
       FactoryBot.create(:work, material_id: 1)
       visit new_user_session_path
       fill_in "user[email]", with: "sample@example.com"
       fill_in "user[password]", with: "0000000"
-      click_on "ログイン"
+      click_on "commit"
       click_on "test1"
       click_on "詳細"
       click_on "編集"
@@ -74,28 +73,28 @@ RSpec.describe '学習管理機能', type: :system do
     end
     context '必要項目を入力して、createボタンを押した場合' do
       it 'データが更新される' do
+        fill_in 'work[do_on]', with: Date.today-2
         fill_in 'work[start]', with: "3-1"
         fill_in 'work[finish]', with: "3-3"
         fill_in "work[content]", with: '簡単でした'
-        select "incomplete", from: 'work[status]'
-        click_button "更新する"
+        click_button "更新"
         wait.until{ expect(page).to have_content "test1" }
         wait.until{ expect(page).to have_content "3-1" }
         wait.until{ expect(page).to have_content "3-3" }
-        wait.until{ expect(page).to have_content "incomplete" }
+        wait.until{ expect(page).to have_content Date.today-2 }
       end
     end
   end
 
   describe '登録した学習情報の削除' do
     before do
-      User.create(id: 1, name: "sample", email: "sample@example.com", password: "0000000")
+      FactoryBot.create(:user)
       FactoryBot.create(:material, user_id: 1)
       FactoryBot.create(:work, material_id: 1)
       visit new_user_session_path
       fill_in "user[email]", with: "sample@example.com"
       fill_in "user[password]", with: "0000000"
-      click_on "ログイン"
+      click_on "commit"
       click_on "test1"
       click_on "詳細"
       click_on "削除"
@@ -103,9 +102,101 @@ RSpec.describe '学習管理機能', type: :system do
     context '削除ボタンを押した場合' do
       it '削除した教材が表示されず、学習記録の登録がないメッセージが表示される' do
         page.accept_confirm
-        wait.until{ expect(page).to have_no_content "難しい" }
-        wait.until{ expect(page).to have_content "学習記録の登録はありません" }
+        wait.until{ expect(page).to have_no_content Date.today }
+        wait.until{ expect(page).to have_content "学習情報の登録はありません" }
+      end
+    end
+  end
+
+  describe '学習情報一覧' do
+    context '学習情報を登録していない場合' do
+      before do
+        FactoryBot.create(:user)
+        FactoryBot.create(:material, user_id: 1)
+        visit new_user_session_path
+        fill_in "user[email]", with: "sample@example.com"
+        fill_in "user[password]", with: "0000000"
+        click_on "commit"
+        click_on "学習情報一覧"
+      end
+      it '学習記録の登録がないことのメッセージが表示される' do
+        wait.until{ expect(page).to have_content "学習情報の登録はありません" }
+        wait.until{ expect(page).to have_content "0回" }
+      end
+      it '他人の学習記録は表示されない' do
+        FactoryBot.create(:second_user)
+        FactoryBot.create(:second_material, user_id: 2)
+        FactoryBot.create(:fourth_work, material_id: 2)
+        wait.until{ expect(page).to have_no_content "test4" }
+        wait.until{ expect(page).to have_content "学習情報の登録はありません" }
+      end
+    end
+    context '学習情報を複数登録している場合' do
+      before do
+        FactoryBot.create(:user)
+        FactoryBot.create(:material, user_id: 1)
+        FactoryBot.create(:work, material_id: 1)
+        FactoryBot.create(:second_work, material_id: 1)
+        FactoryBot.create(:third_work, material_id: 1, do_on: Date.today.last_month)
+        visit new_user_session_path
+        fill_in "user[email]", with: "sample@example.com"
+        fill_in "user[password]", with: "0000000"
+        click_on "commit"
+        click_on "学習情報一覧"
+      end
+      it '学習情報一覧：学習日順に表示される', :retry => 3 do
+        sleep 3
+        work_list = all('#work-table tr' )
+        wait.until{ expect(work_list[0]).to have_content Date.today }
+        wait.until{ expect(work_list[0]).to have_content "test1" }
+        wait.until{ expect(work_list[0]).to have_content "1" }
+        wait.until{ expect(work_list[0]).to have_content "10" }
+        wait.until{ expect(work_list[1]).to have_content Date.today-1 }
+        wait.until{ expect(work_list[1]).to have_content "test1" }
+        wait.until{ expect(work_list[1]).to have_content "1-1" }
+        wait.until{ expect(work_list[1]).to have_content "1-10" }
+        wait.until{ expect(work_list[2]).to have_content Date.today.last_month }
+        wait.until{ expect(work_list[2]).to have_content "test1" }
+        wait.until{ expect(work_list[2]).to have_content "１" }
+        wait.until{ expect(work_list[2]).to have_content "１０" }
+      end
+      it "学習日で絞り込みができる" do
+        fill_in "q[do_on_gteq]", with: Date.today-1
+        fill_in "q[do_on_lteq]", with: Date.today-1
+        click_on "commit"
+        work_list = all('#work-table tr' )
+        wait.until{ expect(work_list[0]).to have_content Date.today-1 }
+        wait.until{ expect(work_list[0]).to have_content "test1" }
+        wait.until{ expect(work_list[0]).to have_content "1-1" }
+        wait.until{ expect(work_list[0]).to have_content "1-10" }
+      end
+      it "学習日で絞り込み後に、クリアボタンを押すと絞り込み前の情報が表示される", :retry => 3 do
+        fill_in "q[do_on_gteq]", with: Date.today-1
+        fill_in "q[do_on_lteq]", with: Date.today-1
+        click_on "commit"
+        click_on "クリア"
+        sleep 3
+        work_list = all('#work-table tr' )
+        wait.until{ expect(work_list[0]).to have_content Date.today }
+        wait.until{ expect(work_list[0]).to have_content "test1" }
+        wait.until{ expect(work_list[0]).to have_content "1" }
+        wait.until{ expect(work_list[0]).to have_content "10" }
+        wait.until{ expect(work_list[1]).to have_content Date.today-1 }
+        wait.until{ expect(work_list[1]).to have_content "test1" }
+        wait.until{ expect(work_list[1]).to have_content "1-1" }
+        wait.until{ expect(work_list[1]).to have_content "1-10" }
+        wait.until{ expect(work_list[2]).to have_content Date.today.last_month }
+        wait.until{ expect(work_list[2]).to have_content "test1" }
+        wait.until{ expect(work_list[2]).to have_content "１" }
+        wait.until{ expect(work_list[2]).to have_content "１０" }
+      end
+      it '学習登録回数：学習登録回数が表示される' do
+        wait.until{ expect(page).to have_content "1回" }
+        wait.until{ expect(page).to have_content "2回" }
+        wait.until{ expect(page).to have_content "3回" }
       end
     end
   end
 end
+
+# カレンダー機能はテストコードが不明確のため、テストコードは記載せず、手動で確認

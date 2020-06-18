@@ -5,7 +5,6 @@
 
   <% if params[:keyword].size >= 2 && @books.present? %>
     <div class="mt-4" >
-      <%= paginate @books, class: "paginate" %>
       <%= page_entries_info @books %>
     </div>
     <div class="mt-4" >
@@ -27,6 +26,9 @@
           </div>
         </div>
       <% end %>
+    </div>
+    <div class="mt-4" >
+      <%= paginate @books, class: "paginate" %>
     </div>
 
   <% elsif params[:keyword].size >= 2 %>

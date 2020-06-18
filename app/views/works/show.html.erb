@@ -4,7 +4,7 @@
     <table class="table mb-0">
       <tr>
         <th><%= t("activerecord.attributes.material.title") %></th>
-        <td><%= @work.material.title %></td>
+        <td><%= link_to @work.material.title, material_path(@work.material) %></td>
       </tr>
       <tr>
         <th><%= t("activerecord.attributes.work.do_on") %></th>

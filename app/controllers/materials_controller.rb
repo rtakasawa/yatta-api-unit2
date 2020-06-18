@@ -5,7 +5,7 @@ class MaterialsController < ApplicationController
 
   def index
     @q = current_user.materials.ransack(params[:q])
-    @materials = @q.result(distinct: true).order(updated_at: :desc).page(params[:page])
+    @materials = @q.result(distinct: true).order(status: :asc).order(updated_at: :desc).page(params[:page])
   end
 
   def new
@@ -35,7 +35,6 @@ class MaterialsController < ApplicationController
   def show
     @q = @material.works.ransack(params[:q])
     @works = @q.result(distinct: true).order(do_on: :desc).page(params[:page]).per(10)
-    # @works = @material.works.order(created_at: :desc).page(params[:page]).per(10)
   end
 
   def edit; end
@@ -71,13 +70,6 @@ class MaterialsController < ApplicationController
       @books = Kaminari.paginate_array(@books_full).page(params[:page]).per(10)
     end
   end
-
-  # # ページネーション不要の場合は下記コード
-  # def book_search
-  #   if params[:keyword].size
-  #     @books = RakutenWebService::Books::Book.search(title: params[:keyword]).page(params[:page])
-  #   end
-  # end
 
   def qiita_search
     if params[:keyword].present?

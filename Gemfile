@@ -106,3 +106,7 @@ gem 'enum_help'
 gem 'devise-bootstrap-views', '~> 1.0'
 
 gem 'faraday'
+
+gem 'jquery-rails'
+gem 'fullcalendar-rails'
+gem 'momentjs-rails'
