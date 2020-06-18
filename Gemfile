@@ -88,10 +88,11 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.8'
   gem 'spring-commands-rspec'
   gem 'factory_bot_rails'
-  gem 'faker'
   gem 'launchy'
   gem 'rspec-retry'
 end
+
+gem 'faker'
 
 group :test do
   gem 'webdrivers'
