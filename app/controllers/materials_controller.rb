@@ -59,12 +59,13 @@ class MaterialsController < ApplicationController
   # →動的な設定が必要。一旦保留
   # 2文字以上検索ワードを入れないとエラーになる。とりあえずビューで制約した
   def book_search
-    if params[:keyword].size >= 2
-      items = RakutenWebService::Books::Book.search(title: params[:keyword])
+    if params[:book_keyword].size >= 2
+      items = RakutenWebService::Books::Book.search(title: params[:book_keyword])
       @books_full = []
       items.each do |item|
         @books_full.push(item)
       end
+      # @book_search_keyword = params[:book_keyword]
     end
     if @books_full.present?
       @books = Kaminari.paginate_array(@books_full).page(params[:page]).per(10)
@@ -72,8 +73,9 @@ class MaterialsController < ApplicationController
   end
 
   def qiita_search
-    if params[:keyword].present?
-      @items = QiitaItem.get(params[:keyword])
+    if params[:qiita_keyword].present?
+      @items = QiitaItem.get(params[:qiita_keyword])
+      @qiita_search_keyword = params[:qiita_keyword]
     else
       @items = "検索キーワードを入力してください"
     end

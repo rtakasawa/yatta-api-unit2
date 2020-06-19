@@ -3,7 +3,7 @@
     <%= t("view.material.book_search_results_(up_to_30_results_displayed)") %>
   </div>
 
-  <% if params[:keyword].size >= 2 && @books.present? %>
+  <% if params[:book_keyword].size >= 2 && @books.present? %>
     <div class="mt-4" >
       <%= page_entries_info @books %>
     </div>

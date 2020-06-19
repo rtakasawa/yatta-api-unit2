@@ -55,7 +55,7 @@
           <%= f.label t("view.material.book"), class: "form-control-sm" %>
         </div>
         <div class="form-group mb-2">
-          <%= f.text_field :material, name: "keyword", placeholder: t("view.material.please_keyword"), class: "form-control", id: "book_search" %>
+          <%= f.text_field :book_search, name: "book_keyword", placeholder: t("view.material.please_keyword"), value: @book_search_keyword, class: "form-control", id: "book_search" %>
         </div>
         <button type="submit" class="btn btn-secondary mb-2 ml-2" id="book_submit"><%= t("view.material.search") %></button>
       <% end %>
@@ -68,10 +68,10 @@
       <% if user_signed_in? %>
         <%= form_with url: qiita_search_materials_path, method: :get,class: "form-inline  ", local: true do |f| %>
           <div class="form-group mb-2 h7">
-            <%= f.label t("view.material.qiita"), class: "form-control-sm" %>
+            <%= f.label t("view.material.qiita"), class: "form-control-sm"%>
           </div>
           <div class="form-group mb-2">
-            <%= f.text_field :material, name: "keyword", placeholder: t("view.material.please_title"), class: "form-control", id: "qiita_search" %>
+            <%= f.text_field :qiita_search, name: "qiita_keyword", placeholder: t("view.material.please_title"),value: @qiita_search_keyword, class: "form-control", id: "qiita_search" %>
           </div>
           <button type="submit" class="btn btn-secondary mb-2 ml-2" id="qiita_submit"><%= t("view.material.search") %></button>
         <% end %>
