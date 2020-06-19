@@ -65,7 +65,7 @@ class MaterialsController < ApplicationController
       items.each do |item|
         @books_full.push(item)
       end
-      # @book_search_keyword = params[:book_keyword]
+      @book_search_keyword = params[:book_keyword]
     end
     if @books_full.present?
       @books = Kaminari.paginate_array(@books_full).page(params[:page]).per(10)

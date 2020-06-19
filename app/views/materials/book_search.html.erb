@@ -31,7 +31,7 @@
       <%= paginate @books, class: "paginate" %>
     </div>
 
-  <% elsif params[:keyword].size >= 2 %>
+  <% elsif params[:book_keyword].size >= 2 %>
     <div class="mt-4" >
       <p><%= t("view.material.couldn't_find_any_hits_in_my_search") %></p>
     </div>
