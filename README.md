@@ -38,6 +38,10 @@ ruby 2.6.5
 * webdrivers
 * rspec-retry
 * acts-as-taggable-on
+* enum_help
+* faraday
+* fullcalendar-rails
+
 
 ## 機能一覧
 - [ ] ログイン機能
@@ -46,13 +50,14 @@ ruby 2.6.5
 - [ ] ユーザー詳細機能
 - [ ] ユーザー編集機能
 - [ ] 教材投稿機能
-- [ ] 教材検索機能（書籍のみ）
+- [ ] 教材検索機能（書籍、Qiita）
 - [ ] 教材一覧表示機能
-  - [ ] 検索機能、ソート機能
+  - [ ] 絞り込み検索機能
 - [ ] 教材編集機能
 - [ ] 教材削除機能
 - [ ] 教材詳細機能
   - [ ] 学習情報：詳細表示機能
+- [ ] 学習情報：一覧表示機能
 - [ ] 学習情報：新規登録機能
 - [ ] 学習情報：編集機能
 - [ ] 学習情報：削除機能
@@ -60,13 +65,13 @@ ruby 2.6.5
 - [ ] 教材：タグ機能
 
 ## カタログ設計・テーブル定義
-https://docs.google.com/spreadsheets/d/1MRrF2DH6H_vMpGM_JmOMEVO1ypn1LBbtiz1msZ7bVcM/edit?usp=sharing
+https://docs.google.com/spreadsheets/d/1rCgeV-_ULvsspHWy-aDRg0xxa6QI474rLmqZv_Yqedc/edit?usp=sharing
 
 ## ER図
 https://drive.google.com/file/d/1fSgwETRoVL0m6iMGCYzRcklLyj5F9_O9/view?usp=sharing
 
 ## 画面遷移図
-https://drive.google.com/file/d/1tppsDu9Ms7XKsSmJ0ynfuLTmwO33INtW/view?usp=sharing
+https://drive.google.com/file/d/1hKtj5UYCG3yx69kjTDtNiW9HQyV_ff_j/view?usp=sharing
 
 ## 画面ワイヤーフレーム
-https://drive.google.com/file/d/1GP9h0NHn89SAyC1jZAyKd1ImomBXoytY/view?usp=sharing
+https://drive.google.com/file/d/1u4qmaDcVK3dbD_cQSysialihcJ9RUmlL/view?usp=sharing
