@@ -36,6 +36,7 @@ ja:
     material:
         author: 作者
         new: 教材を登録する
+        new_form: 教材情報の登録
         index: 登録した教材一覧
         edit: 教材情報の編集
         show: 教材の詳細
