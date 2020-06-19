@@ -1,0 +1,5 @@
+<% if @search_id == "1" %>
+  <%= render "book_search",books: @books %>
+<% else %>
+  <%= render "qiita_search",items: @items %>
+<% end %>

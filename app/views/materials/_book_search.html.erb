@@ -3,7 +3,7 @@
     <%= t("view.material.book_search_results_(up_to_30_results_displayed)") %>
   </div>
 
-  <% if params[:book_keyword].size >= 2 && @books.present? %>
+  <% if params[:search_keyword].size >= 2 && @books.present? %>
     <div class="mt-4" >
       <%= page_entries_info @books %>
     </div>
@@ -31,7 +31,7 @@
       <%= paginate @books, class: "paginate" %>
     </div>
 
-  <% elsif params[:book_keyword].size >= 2 %>
+  <% elsif params[:search_keyword].size >= 2 %>
     <div class="mt-4" >
       <p><%= t("view.material.couldn't_find_any_hits_in_my_search") %></p>
     </div>
