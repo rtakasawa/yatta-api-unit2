@@ -32,6 +32,7 @@
     <div class="card-body">
       <%= link_to t("helpers.submit.edit"), edit_material_path(@material), class: "btn btn-primary", role: "button" %>
       <%= link_to t("helpers.submit.delete"), @material, method: :delete, data: { confirm: t("helpers.message.are_you_sure_you_want_me_to_delete_it?") }, class: "btn btn-primary", role: "button" %>
+      <%= link_to t("view.work.record"), new_work_path(material_id:@material), class: "btn btn-primary"%>
     </div>
   </div>
 
