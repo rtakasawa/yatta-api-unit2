@@ -43,6 +43,7 @@ RSpec.describe '学習管理機能', type: :system do
       fill_in "user[email]", with: "sample@example.com"
       fill_in "user[password]", with: "0000000"
       click_on "commit"
+      click_on "登録した教材一覧"
       click_on "test1"
       click_on "詳細"
     end
@@ -64,6 +65,7 @@ RSpec.describe '学習管理機能', type: :system do
       fill_in "user[email]", with: "sample@example.com"
       fill_in "user[password]", with: "0000000"
       click_on "commit"
+      click_on "登録した教材一覧"
       click_on "test1"
       click_on "詳細"
       click_on "編集"
@@ -95,6 +97,7 @@ RSpec.describe '学習管理機能', type: :system do
       fill_in "user[email]", with: "sample@example.com"
       fill_in "user[password]", with: "0000000"
       click_on "commit"
+      click_on "登録した教材一覧"
       click_on "test1"
       click_on "詳細"
       click_on "削除"
@@ -195,6 +198,23 @@ RSpec.describe '学習管理機能', type: :system do
         wait.until{ expect(page).to have_content "2回" }
         wait.until{ expect(page).to have_content "3回" }
       end
+    end
+  end
+
+  describe '教材詳細画面から該当の教材の学習を記録するボタンをクリックした場合' do
+    before do
+      FactoryBot.create(:user)
+      FactoryBot.create(:material, user_id: 1)
+      visit new_user_session_path
+      fill_in "user[email]", with: "sample@example.com"
+      fill_in "user[password]", with: "0000000"
+      click_on "commit"
+      click_on "登録した教材一覧"
+      click_on "test1"
+      click_link "学習を記録する", href: "/works/new?material_id=1"
+    end
+    it '教材登録のセレクトボックスには、登録した教材のみが表示される' do
+      wait.until{ expect(page).to have_select('work[material_id]', options: [ "test1" ]) }
     end
   end
 end
