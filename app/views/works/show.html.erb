@@ -22,7 +22,7 @@
     </table>
     <div class="card-body">
       <%= link_to t("helpers.submit.edit"), edit_work_path(@work), class: "btn btn-primary", role: "button"  %>
-      <%= link_to t("helpers.submit.delete"), @work, method: :delete, data: { confirm: "本当に削除してもいいですか？" }, class: "btn btn-primary", role: "button" %>
+      <%= link_to t("helpers.submit.delete"), @work, method: :delete, data: { confirm: "本当に削除してもいいですか？" }, class: "btn btn-danger", role: "button" %>
     </div>
   </div>
 </div>
