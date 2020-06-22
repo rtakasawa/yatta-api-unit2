@@ -39,6 +39,7 @@ RSpec.describe '教材管理機能', type: :system do
         fill_in "user[email]", with: "sample@example.com"
         fill_in "user[password]", with: "0000000"
         click_on "commit"
+        click_on "登録した教材一覧"
         wait.until{ expect(page).to have_content "教材の登録はありません" }
       end
     end
@@ -63,6 +64,7 @@ RSpec.describe '教材管理機能', type: :system do
         fill_in "user[email]", with: "sample@example.com"
         fill_in "user[password]", with: "0000000"
         click_on "commit"
+        click_on "登録した教材一覧"
       end
       it '登録済みの教材、タグが表示される（表示順：①status②updated_at※work編集の際もmaterialのupdated_at更新）' do
         material_list = all('tbody tr' )
@@ -163,6 +165,7 @@ RSpec.describe '教材管理機能', type: :system do
       fill_in "user[email]", with: "sample@example.com"
       fill_in "user[password]", with: "0000000"
       click_on "commit"
+      click_on "登録した教材一覧"
       click_on 'test1'
     end
     context '任意の教材詳細画面に遷移した場合' do
@@ -220,6 +223,7 @@ RSpec.describe '教材管理機能', type: :system do
         fill_in "user[email]", with: "sample@example.com"
         fill_in "user[password]", with: "0000000"
         click_on "commit"
+        click_on "登録した教材一覧"
         click_on 'test1'
         click_on "編集"
         fill_in 'material[title]', with: "test2"
@@ -250,19 +254,22 @@ RSpec.describe '教材管理機能', type: :system do
     end
     context 'キーワードを入力して、検索ボタンを押した場合' do
       it '該当する記事があれば、記事が表示される' do
-        fill_in "qiita_search", with: "Markdown記法 チートシート"
-        click_on "qiita_submit"
+        select "Qiita", from: 'search_id'
+        fill_in "search_keyword", with: "Markdown記法 チートシート"
+        click_on "検索"
         wait.until{ expect(page).to have_content "Markdown記法 チートシート" }
       end
       it '該当する記事がなければ、適切なメッセージが表示される' do
-        fill_in "qiita_search", with: "---------------------------"
-        click_on "qiita_submit"
+        select "Qiita", from: 'search_id'
+        fill_in "search_keyword", with: "---------------------------"
+        click_on "検索"
         wait.until{ expect(page).to have_content "検索にヒットした記事がありませんでした" }
       end
       context 'キーワードを入力せずに、検索ボタンを押した場合' do
         it '適切なメッセージが表示される' do
-          fill_in "qiita_search", with: ""
-          click_on "qiita_submit"
+          select "Qiita", from: 'search_id'
+          fill_in "search_keyword", with: ""
+          click_on "検索"
           wait.until{ expect(page).to have_content "検索キーワードを入力してください" }
         end
       end
