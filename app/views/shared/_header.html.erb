@@ -1,11 +1,9 @@
 <header>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
     <div class="container">
-      <a class="navbar-brand">
-        <span class="navbar-brand mb-0 h1">Yatta</span>
-      </a>
+      <%= link_to "Yatta", root_path, class: "navbar-brand mb-0 h1" %>
       <% if user_signed_in? %>
-      <form class="form-inline">
+        <form class="form-inline">
         <%= link_to t("view.material.new"), new_material_path, class: "btn btn-sm ml-2 btn-outline-light" %>
         <%= link_to t("view.work.record"), new_work_path, class: "btn btn-sm ml-2 btn-outline-light" %>
       </form>
