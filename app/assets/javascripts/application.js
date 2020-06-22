@@ -66,20 +66,20 @@ $(function () {
 
         // 日付をクリックした際のイベント
         // workの新規投稿画面に遷移したいが、現状リクエストは送信できているが、画面が描画されない
-        dayClick: function (start, end, jsEvent, view) {
-          //クリックした日付情報を取得
-          const year = moment(start).year();
-          const month = moment(start).month()+1; //1月が0のため+1する
-          const day = moment(start).date();
+        // dayClick: function (start, end, jsEvent, view) {
+          // //クリックした日付情報を取得
+          // const year = moment(start).year();
+          // const month = moment(start).month()+1; //1月が0のため+1する
+          // const day = moment(start).date();
           //イベント登録のためnewアクションを発火
-          $.ajax({
-            type: 'GET',
-            url: '/works/new',
-            dataType: "html"
+          // $.ajax({
+          //   type: 'GET',
+          //   url: '/works/new',
+          //   dataType: "html"
             // 成功処理
-          }).done(function (res) {
+          // }).done(function (res) {
             // コンソールログには描画したいhtmlが表示される。これを実際に描画する
-            console.log(res)
+            // console.log(res)
             //イベント登録用のhtmlを作成
             // $('.modal-body').html(res);
             // //イベント登録フォームの日付をクリックした日付とする
@@ -89,10 +89,10 @@ $(function () {
             //イベント登録フォームのモーダル表示
             // $('#modal').modal();
             // 失敗処理
-          }).fail(function (result) {
-            alert('エラーが発生しました。運営に問い合わせてください。')
-          });
-        },
+        //   }).fail(function (result) {
+        //     alert('エラーが発生しました。運営に問い合わせてください。')
+        //   });
+        // },
 
       });
     }
