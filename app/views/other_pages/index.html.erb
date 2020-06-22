@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="top-image">
+    <%= image_tag 'logo_top2.png', class: "img-fluid" %>
+    <div class="copy">
+      <h4><strong>シンプルな学習教材の管理アプリケーション</strong></h4>
+      <div class="lead">
+        <h5>書籍やQiita記事を検索し、簡単に教材登録ができます。</h5>
+        <h5>教材毎の学習情報を記録すると、学習日やページ数を管理することができます。</h5>
+      </div>
+
+      <div class="top_btn">
+        <%= link_to t("devise.shared.links.sign_up"), new_user_registration_path,class: "btn btn-outline-dark" %>
+        <%= link_to t("devise.shared.links.sign_in"), new_user_session_path,class: "btn btn-outline-dark" %>
+      </div>
+    </div>
+  </div>
+</div>
