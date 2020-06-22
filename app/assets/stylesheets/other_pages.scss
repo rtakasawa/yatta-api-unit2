@@ -1,57 +1,73 @@
-//.top-image {
-//  //background-image: url(image-path('top_image.jpg'));
-//  background-size: cover;
-//  background-position: top;
-//  min-height: calc(100vh - 100px);
-//  width: 100%;
-//  position: relative;
-//  ///navbar以下の余白を削除
-//  margin-top: -100px;
-//  ///footer上の余白を削除
-//  margin-bottom: -100px;
+//.top_btn {
+//  margin-top: 1rem;
 //}
 
-//.app-title {
-//  text-align: center;
-//  position: relative;
-//  font-size: 7rem;
-//  padding-top: 5rem;
-//  color: #fff;
-//  text-shadow:1px 1px 0 #000000,
-//  -1px -1px 0 #000000,
-//  -1px 1px 0 #000000,
-//  1px -1px 0 #000000,
-//  0px 1px 0 #000000,
-//  0-1px 0 #000000,
+
+/* 全体的なスタイル
+-------------------------------------------------- */
+/* フッターの下の空白と明るめの本文 */
+//
+//body {
+//  padding-top: 3rem;
+//  padding-bottom: 3rem;
+//  color: #5a5a5a;
+//}
+
+.jumbotron {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  margin-bottom: 0;
+  background-color: #fff;
+}
+@media (min-width: 768px) {
+  .jumbotron {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+}
+
+.jumbotron p:last-child {
+  margin-bottom: 0;
+}
+
+.jumbotron h1 {
+  font-weight: 300;
+}
+
+.jumbotron .container {
+  max-width: 40rem;
+}
+
+//footer {
+//  padding-top: 3rem;
+//  padding-bottom: 3rem;
 //}
 //
-//.copy {
-//  text-align: center;
-//  background: rgba(0, 0, 0, .3);
-//  color: #ffffff;
-//  font-size: 1.5rem;
-//  padding: 2rem 0;
-//  //margin-top: 4rem;
-//  position: relative;
+//footer p {
+//  margin-bottom: .25rem;
 //}
 
-.top_btn {
-  margin-top: 1rem;
-  //position: relative;
-  //left: 50%;
-  //width: 100%;
-  //transform: translateX(-50%);
-  //text-align: center;
-  //
-  //.topbtn__item {
-  //  color: #ffffff;
-  //  background: rgba(0, 0, 0, .3);
-  //  border: 1px solid #fff;
-  //  padding: 0.5rem 2rem;
-  //  font-size: 1.5rem;
-  //}
-  //
-  //.topbtn__item+.topbtn__item {
-  //  margin-left: 1rem;
-  //}
+/* フィーチャー
+------------------------- */
+
+.featurette-divider {
+  margin: 5rem 0; /* ブートストラップの&lt;hr&gt;をもっと外に出す */
+}
+
+/* マーケティングの見出しを細めにする */
+.featurette-heading {
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -.05rem;
+}
+
+
+/* レスポンシブCSS
+-------------------------------------------------- */
+
+@media (min-width: 40em) {
+
+  .featurette-heading {
+    font-size: 50px;
+  }
 }

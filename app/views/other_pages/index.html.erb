@@ -1,17 +1,78 @@
 <div class="container">
-  <div class="top-image">
-    <%= image_tag 'logo_top2.png', class: "img-fluid" %>
-    <div class="copy">
-      <h4><strong>シンプルな学習教材の管理アプリケーション</strong></h4>
-      <div class="lead">
-        <h5>書籍やQiita記事を検索し、簡単に教材登録ができます。</h5>
-        <h5>教材毎の学習情報を記録すると、学習日やページ数を管理することができます。</h5>
-      </div>
+<main role="main">
+  <section class="jumbotron text-center">
+    <div class="container">
+      <h1 class="display-1">Yatta</h1>
+      <p class="lead text-muted">シンプルな学習教材の管理アプリケーション</p>
+      <p class="text-muted">書籍やQiita記事を検索し、簡単に教材登録ができます。</p>
+      <p class="text-muted">教材毎の学習情報を記録すると、学習日やページ数を管理することができます。</p>
+      <% unless user_signed_in? %>
+      <p>
+        <%= link_to t("devise.shared.links.sign_up"), new_user_registration_path,class: "btn btn-primary my-2" %>
+        <%= link_to t("devise.shared.links.sign_in"), new_user_session_path,class: "btn btn-secondary my-2" %>
+      </p>
+      <% end %>
+    </div>
+  </section>
+</main>
 
-      <div class="top_btn">
-        <%= link_to t("devise.shared.links.sign_up"), new_user_registration_path,class: "btn btn-outline-dark" %>
-        <%= link_to t("devise.shared.links.sign_in"), new_user_session_path,class: "btn btn-outline-dark" %>
-      </div>
+  <hr class="featurette-divider">
+  <div class="row featurette">
+    <div class="col-md-7">
+      <h2 class="featurette-heading">教材を登録する</h2>
+      <p class="text-muted">はじめに教材情報を登録します</p>
+    </div>
+    <div class="col-md-5">
+      <%= image_tag 'material_new.png', class: "bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto img-thumbnail" %>
     </div>
   </div>
+
+  <hr class="featurette-divider">
+  <div class="row featurette">
+    <div class="col-md-7 order-md-2">
+      <h2 class="featurette-heading">教材を検索してから登録する</h2>
+      <p class="text-muted">書籍やQiita記事であれば検索してから教材を登録することができます。</p>
+    </div>
+    <div class="col-md-5 order-md-1">
+      <%= image_tag 'material_search.png', class: "bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto img-thumbnail" %>
+    </div>
+  </div>
+
+  <hr class="featurette-divider">
+  <div class="row featurette">
+    <div class="col-md-7">
+      <h2 class="featurette-heading">学習を記録する</h2>
+      <p class="text-muted">教材を登録したら、その教材の学習情報を記録しましょう</p>
+    </div>
+    <div class="col-md-5">
+      <%= image_tag 'work_new.png', class: "bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto img-thumbnail" %>
+    </div>
+  </div>
+
+  <hr class="featurette-divider">
 </div>
+
+
+
+
+
+
+<!--予備-->
+<!--<div class="container">-->
+<!--  <div class="top-image">-->
+<%#= image_tag 'logo_top2.png', class: "img-fluid" %>
+<!--    <div class="copy">-->
+<!--      <h4><strong>シンプルな学習教材の管理アプリケーション</strong></h4>-->
+<!--      <div class="lead">-->
+<!--        <h5>書籍やQiita記事を検索し、簡単に教材登録ができます。</h5>-->
+<!--        <h5>教材毎の学習情報を記録すると、学習日やページ数を管理することができます。</h5>-->
+<!--      </div>-->
+<!--      <div class="top_btn">-->
+<%#= link_to t("devise.shared.links.sign_up"), new_user_registration_path,class: "btn btn-outline-dark" %>
+<%#= link_to t("devise.shared.links.sign_in"), new_user_session_path,class: "btn btn-outline-dark" %>
+<!--      </div>-->
+<!--      <div class="how_to">-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->

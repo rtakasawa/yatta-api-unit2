@@ -13,17 +13,16 @@ class WorksController < ApplicationController
   end
 
   def new
-    # # カレンダー用試作
-    @materials = current_user.materials
-    @work = Work.new
-
-    # 下記が正しい（Calendarのためコメントアウト）
-    # if params[:material_id].present?
-    #   @materials = Material.find(params[:material_id])
-    # else
-    #   @materials = current_user.materials
-    # end
+    # # # カレンダー用試作
+    # @materials = current_user.materials
     # @work = Work.new
+
+    if params[:material_id].present?
+      @materials = Material.find(params[:material_id])
+    else
+      @materials = current_user.materials
+    end
+    @work = Work.new
   end
 
   def create
