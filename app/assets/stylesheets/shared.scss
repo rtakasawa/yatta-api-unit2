@@ -20,3 +20,32 @@
   position: relative;
 }
 
+
+
+//footerを最下部に固定のため
+html {
+  height:100%;
+}
+body {
+  height: 100%;
+}
+
+/*全体の親要素*/
+#wrap {
+  position: relative;
+  height: auto !important; /*IE6対策*/
+  height: 100%; /*IE6対策*/
+  min-height: 100%;
+}
+/*メインコンテンツ*/
+#contents {
+  padding-bottom: 50px; /*フッターの高さと同じ*/
+}
+/*フッター*/
+footer {
+  height: 50px; /*フッターの高さ*/
+  position:absolute;
+  bottom:0;
+  width: 100%;
+  margin-top: 1rem;
+}
