@@ -5,14 +5,14 @@ RSpec.describe  "ユーザー登録、ログイン・ログアウト機能、管
 
   describe "ユーザー登録のテスト" do
     context "ユーザーのデータがなくログインしていない場合" do
-      it "アカウントを登録すると教材一覧画面に飛ぶ" do
+      it "アカウントを登録するとログイン後のトップページに飛ぶ" do
         visit new_user_registration_path
         fill_in "user[name]", with: "sample"
         fill_in "user[email]", with: "sample@example.com"
         fill_in "user[password]", with: '0000000'
         fill_in "user[password_confirmation]", with: '0000000'
         click_on "commit"
-        expect(page).to have_content "登録した教材一覧"
+        expect(page).to have_content "アカウント登録が完了しました"
       end
       it "ログインせずに教材一覧画面に行くと、ログイン画面に飛ぶ" do
         visit materials_path
@@ -44,7 +44,8 @@ RSpec.describe  "ユーザー登録、ログイン・ログアウト機能、管
       end
       it "ログアウトができること" do
         click_on "ログアウト"
-        expect(current_path).to eq new_user_session_path
+        expect(current_path).to eq root_path
+        expect(page).to have_content "ログアウトしました。"
       end
       it "自分の詳細画面(マイページ)に飛べること" do
         click_on "会員情報"

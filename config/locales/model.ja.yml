@@ -36,6 +36,7 @@ ja:
     material:
         author: 作者
         new: 教材を登録する
+        new_form: 教材情報の登録
         index: 登録した教材一覧
         edit: 教材情報の編集
         show: 教材の詳細
@@ -48,8 +49,9 @@ ja:
         please_keyword: キーワード
         please_title: タイトル名
         search_for_materials_before_registering: 教材を検索してから登録する
-        book: 【書籍】
-        qiita: 【Qiita(キータ)】
+        book: 書籍
+        qiita: Qiita
+        search_type: 検索種別
         searches_are_available_up_to_60times_per_hour: ※検索は1時間に60回まで利用できます
         good: いいね
         refine_keywords: 絞り込み：キーワード

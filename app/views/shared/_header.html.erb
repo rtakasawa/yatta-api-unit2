@@ -1,11 +1,9 @@
 <header>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
     <div class="container">
-      <a class="navbar-brand">
-        <span class="navbar-brand mb-0 h1">Yatta</span>
-      </a>
+      <%= link_to "Yatta", root_path, class: "navbar-brand mb-0 h1" %>
       <% if user_signed_in? %>
-      <form class="form-inline">
+        <form class="form-inline">
         <%= link_to t("view.material.new"), new_material_path, class: "btn btn-sm ml-2 btn-outline-light" %>
         <%= link_to t("view.work.record"), new_work_path, class: "btn btn-sm ml-2 btn-outline-light" %>
       </form>
@@ -46,37 +44,17 @@
     </div>
   </nav>
 
-  <div class="container">
-  <div class="mt-2" >
-    <% if user_signed_in? %>
-      <p><%= t("view.material.search_for_materials_before_registering") %></p>
-      <%= form_with url: book_search_materials_path, method: :get,class: "form-inline  ", local: true do |f| %>
-        <div class="form-group mb-2 h7">
-          <%= f.label t("view.material.book"), class: "form-control-sm" %>
-        </div>
-        <div class="form-group mb-2">
-          <%= f.text_field :material, name: "keyword", placeholder: t("view.material.please_keyword"), class: "form-control", id: "book_search" %>
-        </div>
-        <button type="submit" class="btn btn-secondary mb-2 ml-2" id="book_submit"><%= t("view.material.search") %></button>
-      <% end %>
-    <% end %>
-  </div>
-</div>
-
-  <div class="container">
-    <div class="mt-2" >
-      <% if user_signed_in? %>
-        <%= form_with url: qiita_search_materials_path, method: :get,class: "form-inline  ", local: true do |f| %>
-          <div class="form-group mb-2 h7">
-            <%= f.label t("view.material.qiita"), class: "form-control-sm" %>
-          </div>
-          <div class="form-group mb-2">
-            <%= f.text_field :material, name: "keyword", placeholder: t("view.material.please_title"), class: "form-control", id: "qiita_search" %>
-          </div>
-          <button type="submit" class="btn btn-secondary mb-2 ml-2" id="qiita_submit"><%= t("view.material.search") %></button>
+  <% if user_signed_in? %>
+    <nav class="navbar navbar-light bg-light">
+      <div class="container">
+        <%= form_with url: search_materials_path, method: :get,class: "form-inline", local: true do |f| %>
+          <%= t("view.material.search_for_materials_before_registering") %>
+          <%= f.select :search_id,options_for_select([ [t("view.material.book"),1], [t("view.material.qiita"), 2] ],@search_id), {include_blank: t("view.material.search_type") },:required => true,class: "form-control mx-sm-2" %>
+          <%= f.text_field :search_keyword, name: "search_keyword", placeholder: t("view.material.please_keyword"), value: @search_keyword, class: "form-control mx-sm-2" %>
+          <button type="submit" class="btn btn-outline-success my-2 my-sm-0"><%= t("view.material.search") %></button>
         <% end %>
-      <% end %>
-    </div>
-  </div>
+      </div>
+    </nav>
+  <% end %>
 
 </header>

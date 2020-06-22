@@ -1,0 +1,73 @@
+//.top_btn {
+//  margin-top: 1rem;
+//}
+
+
+/* 全体的なスタイル
+-------------------------------------------------- */
+/* フッターの下の空白と明るめの本文 */
+//
+//body {
+//  padding-top: 3rem;
+//  padding-bottom: 3rem;
+//  color: #5a5a5a;
+//}
+
+.jumbotron {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  margin-bottom: 0;
+  background-color: #fff;
+}
+@media (min-width: 768px) {
+  .jumbotron {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+}
+
+.jumbotron p:last-child {
+  margin-bottom: 0;
+}
+
+.jumbotron h1 {
+  font-weight: 300;
+}
+
+.jumbotron .container {
+  max-width: 40rem;
+}
+
+//footer {
+//  padding-top: 3rem;
+//  padding-bottom: 3rem;
+//}
+//
+//footer p {
+//  margin-bottom: .25rem;
+//}
+
+/* フィーチャー
+------------------------- */
+
+.featurette-divider {
+  margin: 5rem 0; /* ブートストラップの&lt;hr&gt;をもっと外に出す */
+}
+
+/* マーケティングの見出しを細めにする */
+.featurette-heading {
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -.05rem;
+}
+
+
+/* レスポンシブCSS
+-------------------------------------------------- */
+
+@media (min-width: 40em) {
+
+  .featurette-heading {
+    font-size: 50px;
+  }
+}

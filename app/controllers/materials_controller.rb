@@ -52,34 +52,30 @@ class MaterialsController < ApplicationController
     redirect_to materials_path, notice: "教材は削除されました"
   end
 
-  # 楽天APIから書籍情報を取得
-  # 本のタイトルで検索。検索条件は不明確だが、おそらく曖昧検索
-  # 今はデフォルトの30件しか検索情報が取得できない
-  # ページネーション追加後に取得情報を増やせるか確認する
-  # →動的な設定が必要。一旦保留
-  # 2文字以上検索ワードを入れないとエラーになる。とりあえずビューで制約した
-  def book_search
-    if params[:keyword].size >= 2
-      items = RakutenWebService::Books::Book.search(title: params[:keyword])
-      @books_full = []
-      items.each do |item|
-        @books_full.push(item)
+  def search
+    @search_id = params[:search_id]
+    @search_keyword = params[:search_keyword]
+
+    if params[:search_id] == "1"
+      if params[:search_keyword].size >= 2
+        items = RakutenWebService::Books::Book.search(title: params[:search_keyword])
+        @books_full = []
+        items.each do |item|
+          @books_full.push(item)
+        end
       end
-    end
-    if @books_full.present?
-      @books = Kaminari.paginate_array(@books_full).page(params[:page]).per(10)
-    end
-  end
-
-  def qiita_search
-    if params[:keyword].present?
-      @items = QiitaItem.get(params[:keyword])
+      if @books_full.present?
+        @books = Kaminari.paginate_array(@books_full).page(params[:page]).per(10)
+      end
     else
-      @items = "検索キーワードを入力してください"
-    end
-
-    unless @items.class == String
-      @items = Kaminari.paginate_array(@items).page(params[:page]).per(30)
+      if params[:search_keyword].present?
+        @items = QiitaItem.get(params[:search_keyword])
+      else
+        @items = "検索キーワードを入力してください"
+      end
+      unless @items.class == String
+        @items = Kaminari.paginate_array(@items).page(params[:page]).per(30)
+      end
     end
   end
 

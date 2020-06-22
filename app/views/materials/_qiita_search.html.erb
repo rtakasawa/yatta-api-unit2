@@ -14,13 +14,13 @@
       <%= page_entries_info @items %>
     </div>
     <div class="mt-1" >
-      <table class="table">
+        <table class="table">
         <tbody>
         <% @items.each do |item| %>
-          <tr>
-            <td><%= link_to item[:title], item[:url], target: '_blank' %></td>
-            <td>(<%= item[:likes_count] %><%= t("view.material.good") %>)</td>
-            <td><%= link_to t("helpers.submit.create"), new_material_path(title:item[:title],path:item[:url],category:"web"), class: "btn btn-sm btn-primary"%></td>
+          <tr class="row">
+            <td class="col-8"><%= link_to item[:title], item[:url], target: '_blank' %></td>
+            <td class="col-2">(<%= item[:likes_count] %><%= t("view.material.good") %>)</td>
+            <td class="col-2"><%= link_to t("helpers.submit.create"), new_material_path(title:item[:title],path:item[:url],category:"web"), class: "btn btn-sm btn-primary"%></td>
           </tr>
         <% end %>
         </tbody>
