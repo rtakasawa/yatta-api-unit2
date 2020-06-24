@@ -30,11 +30,11 @@
           </div>
           <div class="form-group">
             <%= f.label t("activerecord.attributes.work.start"),id: 'start' %>
-            <%= f.text_field :start, class: "form-control",placeholder: "入力例：1（ページ）、2−1（単元）" %>
+            <%= f.text_field :start, class: "form-control",placeholder: t("view.material.input_example_1(page)_1-1(unit)") %>
           </div>
           <div class="form-group">
             <%= f.label t("activerecord.attributes.work.finish"),id: 'finish' %>
-            <%= f.text_field :finish, class: "form-control",placeholder: "入力例：10（ページ）、2-10（単元）" %>
+            <%= f.text_field :finish, class: "form-control",placeholder: t("view.material.input_example_10(page)_1-10(unit)")  %>
           </div>
           <div class="form-group">
             <%= f.label t("activerecord.attributes.work.content"),id: 'content' %>
