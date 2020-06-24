@@ -16,6 +16,7 @@ ja:
         finish: 学習を終了したページ、単元
         content: メモ
         do_on: 学習日
+        material: 教材
       user:
         name: 名前
   enums:
