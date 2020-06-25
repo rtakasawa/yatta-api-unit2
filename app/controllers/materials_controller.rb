@@ -55,7 +55,7 @@ class MaterialsController < ApplicationController
   def search
     @search_id = params[:search_id]
     @search_keyword = params[:search_keyword]
-
+    # 本の検索
     if params[:search_id] == "1"
       if params[:search_keyword].size >= 2
         items = RakutenWebService::Books::Book.search(title: params[:search_keyword])
@@ -65,15 +65,22 @@ class MaterialsController < ApplicationController
         items.all.map do |item|
           @books_full.push(item)
         end
+        if @books_full.present?
+          @books = Kaminari.paginate_array(@books_full).page(params[:page]).per(30)
+        else
+          @books = t("view.material.couldn't_find_any_hits_in_my_search")
+        end
+      elsif params[:search_keyword].size == 1
+        @books = t("view.material.please_enter_at_least_2characters_for_the_search_word")
+      else
+        @books = t("view.material.please_enter_a_search keyword")
       end
-      if @books_full.present?
-        @books = Kaminari.paginate_array(@books_full).page(params[:page]).per(30)
-      end
+      # Qiita検索
     else
       if params[:search_keyword].present?
-        @items = QiitaItem.get(params[:search_keyword])
+        @items = Qiita.get(params[:search_keyword])
       else
-        @items = "検索キーワードを入力してください"
+        @items = t("view.material.please_enter_a_search keyword")
       end
     end
   end

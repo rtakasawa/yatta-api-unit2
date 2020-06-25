@@ -1,6 +1,6 @@
 require 'json'
 
-class QiitaItem
+class Qiita
   URL = 'https://qiita.com'
   URL.freeze
 

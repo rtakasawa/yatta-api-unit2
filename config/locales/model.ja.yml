@@ -63,7 +63,9 @@ ja:
         search_material_name_tag_name: ※教材名・タグ名が検索できます
         cannot_search_with_multiple_keywords: ※複数のキーワードでの検索はできません
         couldn't_find_any_hits_in_my_search: 検索にヒットするものがありませんでした
-        please_enter_at_least_2characters_for_the_search_word: 検索ワードは２文字以上入力してください
+        please_enter_at_least_2characters_for_the_search_word: 検索キーワードは２文字以上入力してください
+        please_enter_a_search keyword: 検索キーワードを入力してください
+
     work:
         count: 回
         summary: 【学習情報一覧】学習登録回数
