@@ -72,8 +72,8 @@
                   <% end %>
                   <td><%= render 'materials/tag_list', tag_list: material.tag_list %></td>
                   <% if material.works.present? %>
-                    <% last_created_work = material.works.order(do_on: :desc).limit(1) %>
-                    <% last_created_work.each do |last_work| %>
+                    <% last_works = material.works.order(do_on: :desc).limit(1) %>
+                    <% last_works.each do |last_work| %>
                       <td><%= last_work.do_on %></td>
                       <td><%= last_work.start %></td>
                       <td>〜</td>

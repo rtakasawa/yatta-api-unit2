@@ -10,16 +10,11 @@ class MaterialsController < ApplicationController
 
   def new
     @material = current_user.materials.build
-    if params[:category] == "book"
-      @material.title = params[:title]
-      @material.path = params[:path]
-      @material.category = "book"
-    end
 
-    if params[:category] == "web"
+    if params[:category].present?
       @material.title = params[:title]
       @material.path = params[:path]
-      @material.category = "web"
+      @material.category = params[:category]
     end
   end
 
