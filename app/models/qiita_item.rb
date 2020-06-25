@@ -4,6 +4,8 @@ class QiitaItem
   URL = 'https://qiita.com'
   URL.freeze
 
+  # タイトルに検索キーワードが入っている記事をQiitaから取得
+  # 記事の一覧を作成日時の降順で返ってくる
   def self.get(keyword)
     connection = Faraday.new(url: URL)
     response = connection.get do |req|

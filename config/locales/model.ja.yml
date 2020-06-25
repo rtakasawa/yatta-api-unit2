@@ -45,7 +45,7 @@ ja:
         refine: 絞り込み
         clear: クリア
         no_record: 教材の登録はありません
-        book_search_results_(up_to_30_results_displayed): 【書籍】検索結果（最大30件まで表示されます）
+        book_search_results: 【書籍】検索結果
         qiita_search_results_(up_to_100_results_displayed): 【Qiita】検索結果（最大100件まで表示されます）
         please_keyword: キーワード
         please_title: タイトル名

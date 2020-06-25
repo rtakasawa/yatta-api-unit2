@@ -59,22 +59,21 @@ class MaterialsController < ApplicationController
     if params[:search_id] == "1"
       if params[:search_keyword].size >= 2
         items = RakutenWebService::Books::Book.search(title: params[:search_keyword])
+        # Kaminariのページネーションのため、配列に入れる
         @books_full = []
-        items.each do |item|
+        # allとすることで、全ての検索結果を取得できる
+        items.all.map do |item|
           @books_full.push(item)
         end
       end
       if @books_full.present?
-        @books = Kaminari.paginate_array(@books_full).page(params[:page]).per(10)
+        @books = Kaminari.paginate_array(@books_full).page(params[:page]).per(30)
       end
     else
       if params[:search_keyword].present?
         @items = QiitaItem.get(params[:search_keyword])
       else
         @items = "検索キーワードを入力してください"
-      end
-      unless @items.class == String
-        @items = Kaminari.paginate_array(@items).page(params[:page]).per(30)
       end
     end
   end
