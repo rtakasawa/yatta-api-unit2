@@ -16,6 +16,7 @@ ja:
         finish: 学習を終了したページ、単元
         content: メモ
         do_on: 学習日
+        material: 教材
       user:
         name: 名前
   enums:
@@ -44,7 +45,7 @@ ja:
         refine: 絞り込み
         clear: クリア
         no_record: 教材の登録はありません
-        book_search_results_(up_to_30_results_displayed): 【書籍】検索結果（最大30件まで表示されます）
+        book_search_results: 【書籍】検索結果
         qiita_search_results_(up_to_100_results_displayed): 【Qiita】検索結果（最大100件まで表示されます）
         please_keyword: キーワード
         please_title: タイトル名
@@ -57,10 +58,14 @@ ja:
         refine_keywords: 絞り込み：キーワード
         refine_categories: 絞り込み：カテゴリー
         refine_status: 絞り込み：学習状況
+        input_example_1(page)_1-1(unit): 入力例：1（ページ）、1−1（単元）
+        input_example_10(page)_1-10(unit): 入力例：10（ページ）、1-10（単元）
         search_material_name_tag_name: ※教材名・タグ名が検索できます
         cannot_search_with_multiple_keywords: ※複数のキーワードでの検索はできません
         couldn't_find_any_hits_in_my_search: 検索にヒットするものがありませんでした
-        please_enter_at_least_2characters_for_the_search_word: 検索ワードは２文字以上入力してください
+        please_enter_at_least_2characters_for_the_search_word: 検索キーワードは２文字以上入力してください
+        please_enter_a_search keyword: 検索キーワードを入力してください
+
     work:
         count: 回
         summary: 【学習情報一覧】学習登録回数

@@ -10,16 +10,11 @@ class MaterialsController < ApplicationController
 
   def new
     @material = current_user.materials.build
-    if params[:category] == "book"
-      @material.title = params[:title]
-      @material.path = params[:path]
-      @material.category = "book"
-    end
 
-    if params[:category] == "web"
+    if params[:category].present?
       @material.title = params[:title]
       @material.path = params[:path]
-      @material.category = "web"
+      @material.category = params[:category]
     end
   end
 
@@ -55,26 +50,32 @@ class MaterialsController < ApplicationController
   def search
     @search_id = params[:search_id]
     @search_keyword = params[:search_keyword]
-
+    # 本の検索
     if params[:search_id] == "1"
       if params[:search_keyword].size >= 2
         items = RakutenWebService::Books::Book.search(title: params[:search_keyword])
+        # Kaminariのページネーションのため、配列に入れる
         @books_full = []
-        items.each do |item|
+        # allとすることで、全ての検索結果を取得できる
+        items.all.map do |item|
           @books_full.push(item)
         end
+        if @books_full.present?
+          @books = Kaminari.paginate_array(@books_full).page(params[:page]).per(30)
+        else
+          @books = t("view.material.couldn't_find_any_hits_in_my_search")
+        end
+      elsif params[:search_keyword].size == 1
+        @books = t("view.material.please_enter_at_least_2characters_for_the_search_word")
+      else
+        @books = t("view.material.please_enter_a_search keyword")
       end
-      if @books_full.present?
-        @books = Kaminari.paginate_array(@books_full).page(params[:page]).per(10)
-      end
+      # Qiita検索
     else
       if params[:search_keyword].present?
-        @items = QiitaItem.get(params[:search_keyword])
+        @items = Qiita.get(params[:search_keyword])
       else
-        @items = "検索キーワードを入力してください"
-      end
-      unless @items.class == String
-        @items = Kaminari.paginate_array(@items).page(params[:page]).per(30)
+        @items = t("view.material.please_enter_a_search keyword")
       end
     end
   end
