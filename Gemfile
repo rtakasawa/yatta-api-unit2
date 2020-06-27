@@ -122,3 +122,6 @@ end
 # bundle exec cap production deploy:check時のエラー対処のため追加
 gem 'ed25519'
 gem 'bcrypt_pbkdf'
+
+# Youtube
+gem 'google-api-client', '0.9.20', require: 'google/apis/youtube_v3'

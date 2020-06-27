@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="card card-body bg-light">
+    【Youtube】検索結果
+  </div>
+
+  <%# if @youtube_data.class == String %>
+<!--    <div class="mt-4" >-->
+<!--      <p><%#= @youtube_data %></p>-->
+<!--    </div>-->
+
+  <%# else %>
+<!--    <div class="mt-4" >-->
+      <%#= page_entries_info @books %>
+<!--    </div>-->
+
+    <div class="mt-4" >
+      <% @youtube_data.items.each do |item| %>
+        <% snippet = item.snippet %>
+        <div class="card mb-3">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <div class="embed-responsive embed-responsive-4by3">
+                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/<%= item.id.video_id %>" allowfullscreen></iframe>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title"><%= t("activerecord.attributes.material.title") %>：<%= snippet.title %></h5>
+                <p class="card-text"><%= t("view.material.author") %>：<%= snippet.published_at %><%= snippet.channel_title %></p>
+<!--                <p class="card-text">-->
+                  <%#= link_to t("helpers.submit.create"), new_material_path(title:book.title,author:book.author,path:book.item_url,category:"book"), class: "btn btn-primary"%>
+<!--                </p>-->
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+</div>
+
+<!--    <div class="mt-4" >-->
+      <%#= paginate @books, class: "paginate" %>
+<!--    </div>-->
+  <%# end %>
+
+<!--</div>-->

@@ -71,11 +71,18 @@ class MaterialsController < ApplicationController
         @books = t("view.material.please_enter_a_search keyword")
       end
       # Qiita検索
-    else
+    elsif params[:search_id] == "2"
       if params[:search_keyword].present?
         @items = Qiita.get(params[:search_keyword])
       else
         @items = t("view.material.please_enter_a_search keyword")
+      end
+      # Youtube検索
+    else
+      if params[:search_keyword].present?
+        @youtube_data = Youtube.get(params[:search_keyword])
+      else
+        @youtube_data = t("view.material.please_enter_a_search keyword")
       end
     end
   end
