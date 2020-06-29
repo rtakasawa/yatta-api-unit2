@@ -42,6 +42,15 @@ RSpec.describe '教材管理機能', type: :system do
         click_on "登録した教材一覧"
         wait.until{ expect(page).to have_content "教材の登録はありません" }
       end
+      it '教材の登録がないと絞り込みボタンが表示されない' do
+        FactoryBot.create(:user)
+        visit new_user_session_path
+        fill_in "user[email]", with: "sample@example.com"
+        fill_in "user[password]", with: "0000000"
+        click_on "commit"
+        click_on "登録した教材一覧"
+        wait.until{ expect(page).to have_no_content "絞り込み" }
+      end
     end
 
     context '複数の教材を登録した場合' do
@@ -91,31 +100,35 @@ RSpec.describe '教材管理機能', type: :system do
       it '自分の教材のみ表示される（他人の教材は表示されない）' do
         wait.until{ expect(page).to have_no_content "other_user_material" }
       end
-      it "教材名検索ができる" do
+      it "教材名検索ができる（絞り込みボタンが表示される）" do
         click_link "絞り込み", href: "#collapseExample"
         fill_in "q[title_or_tags_name_cont]", with: 'test1'
         click_on "commit"
         wait.until{ expect(page).to have_content 'test1' }
+        wait.until{ expect(page).to have_content "絞り込み" }
       end
-      it "タグ名検索ができる" do
+      it "タグ名検索ができる（絞り込みボタンが表示される）" do
         click_link "絞り込み", href: "#collapseExample"
         fill_in "q[title_or_tags_name_cont]", with: 'test_tag1-1'
         click_on "commit"
         wait.until{ expect(page).to have_content 'test_tag1-1' }
+        wait.until{ expect(page).to have_content "絞り込み" }
       end
-      it "カテゴリー検索ができる" do
+      it "カテゴリー検索ができる（絞り込みボタンが表示される）" do
         click_link "絞り込み", href: "#collapseExample"
         select "動画", from: "q[category_eq]"
         click_on "commit"
         wait.until{ expect(page).to have_content '動画' }
+        wait.until{ expect(page).to have_content "絞り込み" }
       end
-      it "ステータス検索ができる" do
+      it "ステータス検索ができる（絞り込みボタンが表示される）" do
         click_link "絞り込み", href: "#collapseExample"
         select "完了", from: "q[status_eq]"
         click_on "commit"
         wait.until{ expect(page).to have_content '完了' }
+        wait.until{ expect(page).to have_content "絞り込み" }
       end
-      it "教材名、カテゴリー、ステータスを指定して、検索ができる" do
+      it "教材名、カテゴリー、ステータスを指定して、検索ができる（絞り込みボタンが表示される）" do
         click_link "絞り込み", href: "#collapseExample"
         fill_in "q[title_or_tags_name_cont]", with: 'test1'
         select "書籍", from: "q[category_eq]"
@@ -124,6 +137,7 @@ RSpec.describe '教材管理機能', type: :system do
         wait.until{ expect(page).to have_content 'test1' }
         wait.until{ expect(page).to have_content '書籍' }
         wait.until{ expect(page).to have_content '学習中' }
+        wait.until{ expect(page).to have_content "絞り込み" }
       end
       it "教材名検索後に、クリアボタンを押すと検索前の情報が表示される", :retry => 3 do
         click_link "絞り込み", href: "#collapseExample"
@@ -148,6 +162,14 @@ RSpec.describe '教材管理機能', type: :system do
         wait.until{ expect(material_list[2]).to have_content "動画" }
         wait.until{ expect(material_list[2]).to have_content "完了" }
         wait.until{ expect(material_list[2]).to have_content "test_tag2" }
+        wait.until{ expect(page).to have_content "絞り込み" }
+      end
+      it "検索内容に該当しない場合、その旨のメッセージが表示される（絞り込みボタンが表示される）" do
+        click_link "絞り込み", href: "#collapseExample"
+        fill_in "q[title_or_tags_name_cont]", with: '------------------'
+        click_on "commit"
+        wait.until{ expect(page).to have_content '教材の登録はありません' }
+        wait.until{ expect(page).to have_content "絞り込み" }
       end
     end
   end
