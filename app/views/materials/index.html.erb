@@ -2,51 +2,53 @@
   <div class="card">
     <div class="card-header"><%= t("view.material.index") %></div>
     <div class="card-body">
-      <% if @materials.present? %>
+      <% if @current_user_materials_count > 0 %>
         <p>
           <a class="btn btn-secondary btn-sm" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
             <%= t("view.material.refine") %>
           </a>
         </p>
-        <div class="collapse" id="collapseExample">
-          <div class="card card-body">
-            <div class="mt-1" >
-              <%= search_form_for @q, html: { class: 'navbar-form navbar-left' } do |f| %>
-                <div class="row">
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                      <%= f.label :title, t("view.material.refine_keywords") %>
-                      <%= f.search_field :title_or_tags_name_cont, class: "form-control" %>
-                      <small class="help-block"><%= t("view.material.search_material_name_tag_name") %></small><br>
-                      <small class="help-block"><%= t("view.material.cannot_search_with_multiple_keywords") %></small>
-                    </div>
+      <% end %>
+      <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+          <div class="mt-1" >
+            <%= search_form_for @q, html: { class: 'navbar-form navbar-left' } do |f| %>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <%= f.label :title, t("view.material.refine_keywords") %>
+                    <%= f.search_field :title_or_tags_name_cont, class: "form-control" %>
+                    <small class="help-block"><%= t("view.material.search_material_name_tag_name") %></small><br>
+                    <small class="help-block"><%= t("view.material.cannot_search_with_multiple_keywords") %></small>
                   </div>
-                  <div class="col-sm-3">
-                    <div class="form-group">
-                      <%= f.label :category_eq, t("view.material.refine_categories") %>
-                      <%= f.select :category_eq, Material.categories.map { |k, v| [Material.categories_i18n[k], v]},{include_blank: '選択ボックス'}, class: "form-control" %>
-                    </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <%= f.label :category_eq, t("view.material.refine_categories") %>
+                    <%= f.select :category_eq, Material.categories.map { |k, v| [Material.categories_i18n[k], v]},{include_blank: '選択ボックス'}, class: "form-control" %>
                   </div>
-                  <div class="col-sm-3">
-                    <div class="form-group">
-                      <%= f.label :status_eq, t("view.material.refine_status") %>
-                      <%= f.select :status_eq, Material.statuses.map { |k, v| [Material.statuses_i18n[k], v]},{include_blank: '選択ボックス'}, class: "form-control"  %>
-                    </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <%= f.label :status_eq, t("view.material.refine_status") %>
+                    <%= f.select :status_eq, Material.statuses.map { |k, v| [Material.statuses_i18n[k], v]},{include_blank: '選択ボックス'}, class: "form-control"  %>
                   </div>
-                  <div class="form-check-inline m-3">
-                    <%= f.submit t("view.material.refine"), class: 'btn btn-primary' %>
-                  </div>
-                  <div class="form-check-inline">
-                    <%= link_to t("view.material.clear"), url_for, class: "btn btn-primary", role: "button" %>
-                  </div>
-              <% end %>
-              </div>
+                </div>
+                <div class="form-check-inline m-3">
+                  <%= f.submit t("view.material.refine"), class: 'btn btn-primary' %>
+                </div>
+                <div class="form-check-inline">
+                  <%= link_to t("view.material.clear"), url_for, class: "btn btn-primary", role: "button" %>
+                </div>
+            <% end %>
             </div>
           </div>
         </div>
-        <div class="mt-1" >
-          <%= page_entries_info @materials %>
-        </div>
+      </div>
+      <% if @materials.present? %>
+      <div class="mt-1" >
+        <%= page_entries_info @materials %>
+      </div>
         <div class="mt-1" >
           <div class="table-responsive" >
             <table class="table mb-0 text-nowrap table-sm">

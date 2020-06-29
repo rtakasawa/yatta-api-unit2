@@ -126,6 +126,10 @@ RSpec.describe '学習管理機能', type: :system do
         wait.until{ expect(page).to have_content "学習情報の登録はありません" }
         wait.until{ expect(page).to have_content "0回" }
       end
+      it '絞り込みボタンが表示されない' do
+        wait.until{ expect(page).to have_no_content "絞り込み" }
+        wait.until{ expect(page).to have_no_content "クリア" }
+      end
       it '他人の学習記録は表示されない' do
         FactoryBot.create(:second_user)
         FactoryBot.create(:second_material, user_id: 2)
@@ -147,7 +151,7 @@ RSpec.describe '学習管理機能', type: :system do
         click_on "commit"
         click_on "学習情報一覧"
       end
-      it '学習情報一覧：学習日順に表示される', :retry => 3 do
+      it '学習情報一覧：学習日順に表示される（絞り込みボタンが表示される）', :retry => 3 do
         sleep 3
         work_list = all('#work-table tr' )
         wait.until{ expect(work_list[0]).to have_content Date.today }
@@ -162,8 +166,10 @@ RSpec.describe '学習管理機能', type: :system do
         wait.until{ expect(work_list[2]).to have_content "test1" }
         wait.until{ expect(work_list[2]).to have_content "１" }
         wait.until{ expect(work_list[2]).to have_content "１０" }
+        # wait.until{ expect(page).to have_content "絞り込み" }
+        wait.until{ expect(page).to have_content "クリア" }
       end
-      it "学習日で絞り込みができる" do
+      it "学習日で絞り込みができる（絞り込みボタンが表示される）" do
         fill_in "q[do_on_gteq]", with: Date.today-1
         fill_in "q[do_on_lteq]", with: Date.today-1
         click_on "commit"
@@ -172,8 +178,10 @@ RSpec.describe '学習管理機能', type: :system do
         wait.until{ expect(work_list[0]).to have_content "test1" }
         wait.until{ expect(work_list[0]).to have_content "1-1" }
         wait.until{ expect(work_list[0]).to have_content "1-10" }
+        # wait.until{ expect(page).to have_content "絞り込み" }
+        wait.until{ expect(page).to have_content "クリア" }
       end
-      it "学習日で絞り込み後に、クリアボタンを押すと絞り込み前の情報が表示される", :retry => 3 do
+      it "学習日で絞り込み後に、クリアボタンを押すと絞り込み前の情報が表示される（絞り込みボタンが表示される）", :retry => 3 do
         fill_in "q[do_on_gteq]", with: Date.today-1
         fill_in "q[do_on_lteq]", with: Date.today-1
         click_on "commit"
@@ -192,6 +200,16 @@ RSpec.describe '学習管理機能', type: :system do
         wait.until{ expect(work_list[2]).to have_content "test1" }
         wait.until{ expect(work_list[2]).to have_content "１" }
         wait.until{ expect(work_list[2]).to have_content "１０" }
+        # wait.until{ expect(page).to have_content "絞り込み" }
+        wait.until{ expect(page).to have_content "クリア" }
+      end
+      it "検索内容に該当しない場合、その旨のメッセージが表示される（絞り込みボタンが表示される）" do
+        fill_in "q[do_on_gteq]", with: Date.today.last_year
+        fill_in "q[do_on_lteq]", with: Date.today.last_year
+        click_on "commit"
+        # wait.until{ expect(page).to have_content "絞り込み" }
+        wait.until{ expect(page).to have_content "クリア" }
+        wait.until{ expect(page).to have_content '学習情報の登録はありません' }
       end
       it '学習登録回数：学習登録回数が表示される' do
         wait.until{ expect(page).to have_content "1回" }

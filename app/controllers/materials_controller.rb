@@ -4,6 +4,7 @@ class MaterialsController < ApplicationController
   before_action :check_material_user, only: [:show,:edit,:update,:destroy]
 
   def index
+    @current_user_materials_count = current_user.materials.count
     @q = current_user.materials.ransack(params[:q])
     @materials = @q.result(distinct: true).order(status: :asc).order(updated_at: :desc).page(params[:page])
   end

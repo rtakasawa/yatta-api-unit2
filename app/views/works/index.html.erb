@@ -29,7 +29,7 @@
   <div class="card mt-4">
     <div class="card-header"><%= t("view.work.index") %></div>
     <div class="card-body">
-      <% if @works.present? %>
+      <% if @all_works_count > 0 %>
         <%= search_form_for @q, class: "form-inline" do |f| %>
           <div class="form-group mb-2">
             <%= f.label :do_on %>
@@ -48,7 +48,9 @@
             <%= link_to t("view.material.clear"), url_for, class: "btn btn-primary", role: "button" %>
           </div>
         <% end %>
+      <% end %>
 
+      <% if @works.present? %>
         <div class="mt-1" >
           <%= page_entries_info @works %>
         </div>
