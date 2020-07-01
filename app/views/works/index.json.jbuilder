@@ -1,4 +1,4 @@
-json.array!(@works_for_calendar) do |work|
+json.array!(@current_user_works) do |work|
   json.extract! work, :id
   json.title work.material.title
   json.start work.do_on
