@@ -6,7 +6,8 @@ class MaterialsController < ApplicationController
   def index
     @current_user_materials_count = current_user.materials.count
     @q = current_user.materials.ransack(params[:q])
-    @materials = @q.result(distinct: true).order(status: :asc).order(updated_at: :desc).page(params[:page])
+    @materials = @q.result(distinct: true).order(status: :asc).order(updated_at: :desc)
+                   .includes(:taggings, :works).page(params[:page])
   end
 
   def new

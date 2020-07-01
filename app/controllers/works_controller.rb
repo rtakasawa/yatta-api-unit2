@@ -5,11 +5,12 @@ class WorksController < ApplicationController
 
   def index
     @q = current_user.works.ransack(params[:q])
-    @works = @q.result(distinct: true).order(do_on: :desc).page(params[:page]).per(10)
-    @works_for_calendar = current_user.works
-    @all_works_count = current_user.works.count
-    @current_month_work_count = current_user.works.current_month.count
-    @last_month_work_count = current_user.works.last_month.count
+    @works = @q.result(distinct: true).order(do_on: :desc)
+               .includes(:material).page(params[:page]).per(10)
+    @current_user_works = current_user.works #index.json用
+    @all_works_count = @current_user_works.count
+    @current_month_work_count = @current_user_works.current_month.count
+    @last_month_work_count = @current_user_works.last_month.count
   end
 
   def new

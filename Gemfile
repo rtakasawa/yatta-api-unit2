@@ -122,3 +122,5 @@ end
 # bundle exec cap production deploy:check時のエラー対処のため追加
 gem 'ed25519'
 gem 'bcrypt_pbkdf'
+
+gem 'bullet', group: 'development'
