@@ -1,5 +1,7 @@
 <p><%= t('.greeting', recipient: @email) %></p>
-
+<p>この度は、「Yatta」に登録いただき、誠にありがとうございます。</p>
 <p><%= t('.instruction') %></p>
-
 <p><%= link_to t('.action'), confirmation_url(@resource, confirmation_token: @token) %></p>
+<hr>
+<p>※当メールは送信専用メールアドレスから配信されています。このままご返信いただいてもお答えできませんのでご了承ください。</p>
+<p>※当メールに心当たりの無い場合は、誠に恐れ入りますが 破棄していただけますよう、よろしくお願いいたします。</p>
