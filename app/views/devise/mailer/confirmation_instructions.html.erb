@@ -1,5 +1,7 @@
 <p><%= t('.greeting', recipient: @email) %></p>
+
 <p>この度は、「Yatta」に登録いただき、誠にありがとうございます。</p>
+
 <p><%= t('.instruction') %></p>
 <p><%= link_to t('.action'), confirmation_url(@resource, confirmation_token: @token) %></p>
 <hr>
