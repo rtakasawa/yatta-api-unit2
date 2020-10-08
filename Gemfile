@@ -124,3 +124,5 @@ gem 'ed25519'
 gem 'bcrypt_pbkdf'
 
 gem 'bullet', group: 'development'
+
+gem 'aws-ses'

@@ -1,6 +1,6 @@
 class ApplicationMailer < ActionMailer::Base
   # メールのfromヘッダーを指定
-  default from: 'from@example.com'
+  default from: 'Yatta-app <info@yatta-app.com>'
   # レイアウトを指定
   layout 'mailer'
 end
