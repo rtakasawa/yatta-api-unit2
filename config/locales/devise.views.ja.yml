@@ -50,6 +50,9 @@ ja:
         greeting: "%{recipient}様"
         instruction: 以下のリンクをクリックし、メールアドレスの確認手続を完了させてください。
         subject: メールアドレス確認メール
+        signing_up_message: この度は、「Yatta」に登録いただき、誠にありがとうございます。
+        transmission_only: ※当メールは送信専用メールアドレスから配信されています。このままご返信いただいてもお答えできませんのでご了承ください。
+        dismissal_guide: ※当メールに心当たりの無い場合は、誠に恐れ入りますが 破棄していただけますよう、よろしくお願いいたします。
       email_changed:
         greeting: こんにちは、%{recipient}様。
         message: あなたのメール変更（%{email}）のお知らせいたします。
@@ -126,6 +129,8 @@ ja:
         sign_in: ログイン
         sign_in_with_provider: "%{provider}でログイン"
         sign_up: アカウント登録
+        account_holder: アカウントをお持ちの方
+        non_account_holder: アカウントをお持ちでない方
       minimum_password_length: "（%{count}字以上）"
     unlocks:
       new:
