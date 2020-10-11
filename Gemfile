@@ -125,4 +125,4 @@ gem 'bcrypt_pbkdf'
 
 gem 'bullet', group: 'development'
 
-gem 'aws-ses'
+gem 'aws-ses', '~> 0.6'

@@ -380,7 +380,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts-as-taggable-on (~> 6.0)
-  aws-ses
+  aws-ses (~> 0.6)
   bcrypt_pbkdf
   better_errors
   binding_of_caller
