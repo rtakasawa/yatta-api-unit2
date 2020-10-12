@@ -5,3 +5,5 @@ Aws::Rails.add_action_mailer_delivery_method(
   credentials: creds,
   region: 'ap-northeast-1'
 )
+
+Aws.config.update({log_level: :debug})
