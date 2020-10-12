@@ -94,6 +94,6 @@ Rails.application.configure do
 
   # mail設定
   config.action_mailer.default_url_options = { host: 'yatta-app.com' }
-  config.action_mailer.delivery_method = :aws_sdk
+  config.action_mailer.delivery_method = :ses
 
 end
