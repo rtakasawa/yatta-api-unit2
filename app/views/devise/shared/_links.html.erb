@@ -1,5 +1,8 @@
 <hr class="border-dark my-5">
 <div class="form-group">
+
+  <%= link_to t("other_pages.guest_login"), users_guest_sign_in_path, method: :post, class: 'btn btn-info btn-block' %><br />
+
   <%- if controller_name != 'sessions' %>
     <%= link_to t(".account_holder"), new_session_path(resource_name), class: 'btn btn-info btn-block' %><br />
   <% end -%>

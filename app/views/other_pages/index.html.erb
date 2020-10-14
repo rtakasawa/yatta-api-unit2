@@ -10,6 +10,7 @@
       <p>
         <%= link_to t("devise.shared.links.sign_up"), new_user_registration_path,class: "btn btn-primary my-2" %>
         <%= link_to t("devise.shared.links.sign_in"), new_user_session_path,class: "btn btn-secondary my-2" %>
+        <%= link_to t("other_pages.guest_login"), users_guest_sign_in_path, method: :post, class: "btn btn-info my-2" %>
       </p>
       <% end %>
     </div>

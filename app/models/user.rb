@@ -9,4 +9,13 @@ class User < ApplicationRecord
   has_many :works, through: :materials
   validates :name, presence: true
 
+  # ゲストユーザー用
+  def self.guest
+    guest_user = 'guest@example.com'
+    find_or_create_by!(name: guest_user, email: guest_user ) do |user|
+      user.password = SecureRandom.urlsafe_base64
+      user.confirmed_at = Time.now
+    end
+  end
+
 end

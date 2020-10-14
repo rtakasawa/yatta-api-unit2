@@ -216,6 +216,8 @@ ja:
     first_you_need_to_register_your_teaching_material_information: はじめに教材情報を登録します。
     if_it's_a_book_or_Qiita_article_you_can_search_for_it_and_then_register_the_material: 書籍やQiita記事であれば検索してから教材を登録することができます。
     once_you've_registered_the_material_keep_track_of_the_learning_information_for_that_material!: 教材を登録したら、その教材の学習情報を記録しましょう。
+    guest_login: ゲストログイン
+    guest_login_success: ゲストユーザーとしてログインしました。
 
 
 
