@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
     registrations: 'users/registrations'
   }
+
   resources :materials do
     collection do
       get "search"
@@ -15,6 +16,7 @@ Rails.application.routes.draw do
   resources :users, only: [:show]
 
   resources :works
+
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end

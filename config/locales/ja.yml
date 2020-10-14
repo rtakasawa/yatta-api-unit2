@@ -218,6 +218,7 @@ ja:
     once_you've_registered_the_material_keep_track_of_the_learning_information_for_that_material!: 教材を登録したら、その教材の学習情報を記録しましょう。
     guest_login: ゲストログイン
     guest_login_success: ゲストユーザーとしてログインしました。
+    guest_not_destroy: ゲストユーザーは削除できません
 
 
 
