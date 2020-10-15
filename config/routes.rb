@@ -17,10 +17,6 @@ Rails.application.routes.draw do
 
   resources :works
 
-  if Rails.env.development?
-    mount LetterOpenerWeb::Engine, at: "/letter_opener"
-  end
-
   # ゲストログイン用
   devise_scope :user do
     post 'users/guest_sign_in', to: 'users/sessions#new_guest'
