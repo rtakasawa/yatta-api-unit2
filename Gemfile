@@ -85,6 +85,9 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'launchy'
   gem 'rspec-retry'
+  gem 'rubocop', '~> 0.93.1', require: false
+  gem 'rubocop-performance', require: false
+  gem 'rubocop-rails', require: false
 end
 
 gem 'faker'
