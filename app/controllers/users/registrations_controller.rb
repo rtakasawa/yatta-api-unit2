@@ -56,7 +56,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   materials_path(resource)
   # end
 
-  def after_update_path_for(resource)
+  def after_update_path_for(_resource)
     user_path(id: current_user.id)
   end
 
@@ -67,8 +67,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # ゲストユーザーの削除不可対応
   def check_guest
-    if resource.email == "guest@example.com"
-      redirect_to root_path, alert: t("other_pages.guest_not_destroy")
-    end
+    redirect_to root_path, alert: t('other_pages.guest_not_destroy') if resource.email == 'guest@example.com'
   end
 end

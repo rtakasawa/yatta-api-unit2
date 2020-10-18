@@ -38,13 +38,13 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
 end
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'web-console', '>= 3.3.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
@@ -59,35 +59,35 @@ group :test do
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 ## 追加gem
-gem "devise"
-gem "devise-i18n"
-gem 'rails_admin', '~> 2.0'
 gem 'cancancan'
+gem 'devise'
+gem 'devise-i18n'
+gem 'rails_admin', '~> 2.0'
 
 gem 'rakuten_web_service'
 
 group :development, :test do
-  gem 'pry-rails'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'pry-rails'
 end
 
-gem "ransack"
-gem "kaminari"
 gem 'acts-as-taggable-on', '~> 6.0'
+gem 'kaminari'
+gem 'ransack'
 
 group :development, :test do
-  gem 'rspec-rails', '~> 3.8'
-  gem 'spring-commands-rspec'
   gem 'factory_bot_rails'
   gem 'launchy'
+  gem 'rspec-rails', '~> 3.8'
   gem 'rspec-retry'
   gem 'rubocop', '~> 0.93.1', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
+  gem 'spring-commands-rspec'
 end
 
 gem 'faker'
@@ -102,24 +102,24 @@ gem 'devise-bootstrap-views', '~> 1.0'
 
 gem 'faraday'
 
-gem 'jquery-rails'
 gem 'fullcalendar-rails'
+gem 'jquery-rails'
 gem 'momentjs-rails'
 
 gem 'dotenv-rails'
-gem 'unicorn'
 gem 'mini_racer', platforms: :ruby
+gem 'unicorn'
 group :development, :test do
   gem 'capistrano', '3.6.0'
+  gem 'capistrano3-unicorn'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
   gem 'capistrano-rbenv'
-  gem 'capistrano3-unicorn'
 end
 
 # bundle exec cap production deploy:check時のエラー対処のため追加
-gem 'ed25519'
 gem 'bcrypt_pbkdf'
+gem 'ed25519'
 
 gem 'bullet', group: 'development'
 

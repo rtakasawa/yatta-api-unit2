@@ -1,34 +1,34 @@
 class WorksController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_work, only: [:show,:edit,:update,:destroy]
-  before_action :check_work_user, only: [:show,:edit,:update,:destroy]
+  before_action :set_work, only: %i[show edit update destroy]
+  before_action :check_work_user, only: %i[show edit update destroy]
 
   def index
     @q = current_user.works.ransack(params[:q])
     @works = @q.result(distinct: true).order(do_on: :desc)
                .includes(:material).page(params[:page]).per(10)
-    @current_user_works = current_user.works #index.json用
+    @current_user_works = current_user.works # index.json用
     @all_works_count = @current_user_works.count
     @current_month_work_count = @current_user_works.current_month.count
     @last_month_work_count = @current_user_works.last_month.count
   end
 
   def new
-    if params[:material_id].present?
-      @materials = Material.find(params[:material_id])
-    else
-      @materials = current_user.materials
-    end
+    @materials = if params[:material_id].present?
+                   Material.find(params[:material_id])
+                 else
+                   current_user.materials
+                 end
     @work = Work.new
   end
 
   def create
     @work = Work.new(work_params)
     if @work.save
-      redirect_to material_path(@work.material_id), notice: "学習情報が登録されました"
+      redirect_to material_path(@work.material_id), notice: '学習情報が登録されました'
     else
       @materials = current_user.materials
-      render "new"
+      render 'new'
     end
   end
 
@@ -38,15 +38,15 @@ class WorksController < ApplicationController
 
   def update
     if @work.update(work_params)
-      redirect_to material_path(@work.material_id), notice: "学習情報は更新されました"
+      redirect_to material_path(@work.material_id), notice: '学習情報は更新されました'
     else
-      render "edit"
+      render 'edit'
     end
   end
 
   def destroy
     @work.destroy
-    redirect_to material_path(@work.material_id), notice: "学習情報は削除されました"
+    redirect_to material_path(@work.material_id), notice: '学習情報は削除されました'
   end
 
   private
