@@ -5,12 +5,8 @@ class WorksController < ApplicationController
 
   def index
     @q = current_user.works.ransack(params[:q])
-    @works = @q.result(distinct: true).order(do_on: :desc)
-               .includes(:material).page(params[:page]).per(10)
+    @works = @q.result(distinct: true).order(do_on: :desc).includes(:material).page(params[:page]).per(10)
     @current_user_works = current_user.works # index.json用
-    @all_works_count = @current_user_works.count
-    @current_month_work_count = @current_user_works.current_month.count
-    @last_month_work_count = @current_user_works.last_month.count
   end
 
   def new
@@ -51,8 +47,8 @@ class WorksController < ApplicationController
 
   private
 
-  # material_idを含めたが勝手に入力されることはないか心配
   # work新規登録時の教材選びの際にmaterial_idを利用
+  # material_idを含めたが勝手に入力されることはないか心配
   def work_params
     params.require(:work).permit(:start, :finish, :content, :do_on, :material_id)
   end

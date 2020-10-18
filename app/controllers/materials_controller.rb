@@ -12,12 +12,11 @@ class MaterialsController < ApplicationController
 
   def new
     @material = current_user.materials.build
+    return if params[:category].blank?
 
-    if params[:category].present?
-      @material.title = params[:title]
-      @material.path = params[:path]
-      @material.category = params[:category]
-    end
+    @material.title = params[:title]
+    @material.path = params[:path]
+    @material.category = params[:category]
   end
 
   def create
@@ -49,6 +48,7 @@ class MaterialsController < ApplicationController
     redirect_to materials_path, notice: '教材は削除されました'
   end
 
+  # 本、Qiitaの検索メソッド
   def search
     @search_id = params[:search_id]
     @search_keyword = params[:search_keyword]

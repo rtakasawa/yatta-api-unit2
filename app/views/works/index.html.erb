@@ -5,15 +5,15 @@
       <div class="row">
         <div class="card-body" style="width: 15rem;">
           <h5 class="card-title"><%= t("view.work.last_month_summary") %></h5>
-          <h5 class="card-text"><%= @last_month_work_count %><%= t("view.work.count") %></h5>
+          <h5 class="card-text"><%= @current_user_works.last_month.count %><%= t("view.work.count") %></h5>
         </div>
         <div class="card-body" style="width: 15rem;">
           <h5 class="card-title"><%= t("view.work.this_month_summary") %></h5>
-          <h5 class="card-text"><%= @current_month_work_count %><%= t("view.work.count") %></h5>
+          <h5 class="card-text"><%= @current_user_works.current_month.count %><%= t("view.work.count") %></h5>
         </div>
         <div class="card-body" style="width: 15rem;">
           <h5 class="card-title"><%= t("view.work.total") %></h5>
-          <h5 class="card-text"><%= @all_works_count %><%= t("view.work.count") %></h5>
+          <h5 class="card-text"><%= @current_user_works.count %><%= t("view.work.count") %></h5>
         </div>
       </div>
     </div>

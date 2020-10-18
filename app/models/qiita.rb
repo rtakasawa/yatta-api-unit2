@@ -2,7 +2,6 @@ require 'json'
 
 class Qiita
   URL = 'https://qiita.com'.freeze
-  URL.freeze
 
   # タイトルに検索キーワードが入っている記事をQiitaから取得
   # 記事の一覧を作成日時の降順で返ってくる
@@ -21,7 +20,6 @@ class Qiita
         json.sort_by { |i| i['likes_count'] }.reverse.map do |item|
           { title: item['title'], url: item['url'], likes_count: item['likes_count'] }
         end.take(100)
-        # ヒットした記事がなかった場合
       end
       # Qiitaから返ってきた情報のステータスが200以外であった場合
       # IPアドレスごとに1時間に60回までリクエスト制限あり。60回以上リクエストした場合は下記となる
@@ -32,4 +30,5 @@ class Qiita
       raise "Charge failed. ErrCode: #{response.status}/ErrMessage: #{response.body}"
     end
   end
+
 end
