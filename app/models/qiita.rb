@@ -6,8 +6,7 @@ class Qiita
   # タイトルに検索キーワードが入っている記事をQiitaから取得
   # 記事の一覧を作成日時の降順で返ってくる
   def self.get(keyword)
-    connection = Faraday.new(url: URL)
-    response = connection.get do |req|
+    response = Faraday.new(url: URL).get do |req|
       req.url '/api/v2/items', page: 1, per_page: 100, query: "title:#{keyword}"
     end
 
@@ -17,7 +16,7 @@ class Qiita
     elsif response.status == 403 && response.headers['rate-remaining'] == '0'
       '1時間に60回リクエストしましたので、利用できません。一定時間後に利用できます。'
     else
-      # log/development.logにエラーログが残る
+      # エラーを出す。log/development.logにエラーログが残る
       raise "Charge failed. ErrCode: #{response.status}/ErrMessage: #{response.body}"
     end
   end
