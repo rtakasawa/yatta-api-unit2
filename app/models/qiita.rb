@@ -32,5 +32,4 @@ class Qiita
       end.take(100)
     end
   end
-
 end
