@@ -53,26 +53,15 @@ class MaterialsController < ApplicationController
     @search_id = params[:search_id]
     @search_keyword = params[:search_keyword]
     # 本の検索
-    if params[:search_id] == '1'
-      if params[:search_keyword].size >= 2
-        books_full = Book.get(params[:search_keyword])
-        @books = if books_full.present?
-                   Kaminari.paginate_array(books_full).page(params[:page]).per(30)
-                 else
-                   t("view.material.couldn't_find_any_hits_in_my_search")
-                 end
-      elsif params[:search_keyword].size == 1
-        @books = t('view.material.please_enter_at_least_2characters_for_the_search_word')
-      else
-        @books = t('view.material.please_enter_a_search keyword')
-      end
-      # Qiita検索
+    if @search_id == '1'
+      books_full = Book.get(@search_keyword)
+      # 検索がヒットした場合の処理
+      return @books = Kaminari.paginate_array(books_full).page(params[:page]).per(30) unless books_full.class == String
+
+      # 検索がヒットしない場合の処理
+      @books = books_full
     else
-      @items = if params[:search_keyword].present?
-                 Qiita.get(params[:search_keyword])
-               else
-                 t('view.material.please_enter_a_search keyword')
-               end
+      @items = Qiita.get(@search_keyword)
     end
   end
 
