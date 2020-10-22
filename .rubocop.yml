@@ -16,9 +16,12 @@ AllCops:
     - 'lib/**'
     - 'db/**/*'
     - 'config/**/*'
-    - 'script/**/*'
+    - 'tmp/**/*'
+    - 'log/**/*'
+    - 'node_modules/**/*'
     - 'vendor/**/*'
     - 'spec/**/*'
+    - Gemfile
     - !ruby/regexp /old_and_unused\.rb$/
 
 # 日本語でのコメントを許可
