@@ -47,11 +47,8 @@ RSpec.describe 'ユーザー登録、ログイン・ログアウト機能、管�
   describe "セッション機能のテスト" do
     context "ユーザーを登録している場合" do
       before do
-        FactoryBot.create(:user)
-        FactoryBot.create(:second_user)
-        User.find_each do |user|
-          visit user_confirmation_path(confirmation_token: user.confirmation_token)
-        end
+        test_user_create(:user)
+        test_user_create(:second_user)
         visit new_user_session_path
         fill_in "user[email]", with: "sample@example.com"
         fill_in "user[password]", with: "0000000"
@@ -126,8 +123,7 @@ RSpec.describe 'ユーザー登録、ログイン・ログアウト機能、管�
   describe "管理者機能のテスト" do
     context "ユーザーが管理者の場合" do
       it "管理者画面にアクセスすることができる" do
-        user = FactoryBot.create(:admin_user)
-        visit user_confirmation_path(confirmation_token: user.confirmation_token)
+        test_user_create(:admin_user)
         visit new_user_session_path
         fill_in "user[email]", with: "second_admin@example.com"
         fill_in "user[password]", with: "0000000"
@@ -138,8 +134,7 @@ RSpec.describe 'ユーザー登録、ログイン・ログアウト機能、管�
     end
     context "ユーザーが管理者ではない場合" do
       it "管理者画面にアクセスすることができない" do
-        user = FactoryBot.create(:user)
-        visit user_confirmation_path(confirmation_token: user.confirmation_token)
+        test_user_create(:user)
         visit new_user_session_path
         fill_in "user[email]", with: "sample@example.com"
         fill_in "user[password]", with: "0000000"
