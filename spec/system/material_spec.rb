@@ -6,7 +6,7 @@ RSpec.describe '教材管理機能', type: :system do
   describe '教材登録画面' do
     context '必要項目を入力して、createボタンを押した場合' do
       it 'データが保存される' do
-        test_user_create
+        test_user_create(:user)
         visit new_user_session_path
         fill_in 'user[email]', with: 'sample@example.com'
         fill_in 'user[password]', with: '0000000'
@@ -31,7 +31,7 @@ RSpec.describe '教材管理機能', type: :system do
 
   describe '教材一覧画面' do
     before do
-      test_user_create
+      test_user_create(:user)
     end
 
     context '教材を登録していない場合' do
@@ -175,7 +175,7 @@ RSpec.describe '教材管理機能', type: :system do
 
   describe '教材詳細画面' do
     before do
-      test_user_create
+      test_user_create(:user)
       material_first = FactoryBot.create(:material, user_id: 1)
       material_first.tags.create(name: 'test_tag1-1')
       material_first.tags.create(name: 'test_tag1-2')
@@ -237,7 +237,7 @@ RSpec.describe '教材管理機能', type: :system do
   describe '教材編集画面' do
     context '必要項目を入力して、createボタンを押した場合' do
       it 'データが保存される' do
-        test_user_create
+        test_user_create(:user)
         material_first = FactoryBot.create(:material, user_id: 1)
         material_first.tags.create(name: 'test_tag1')
         visit new_user_session_path
@@ -266,7 +266,7 @@ RSpec.describe '教材管理機能', type: :system do
 
   describe 'Qiitaの記事を検索する場合' do
     before do
-      test_user_create
+      test_user_create(:user)
       FactoryBot.create(:material, user_id: 1)
       visit new_user_session_path
       fill_in 'user[email]', with: 'sample@example.com'

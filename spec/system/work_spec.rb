@@ -5,7 +5,7 @@ RSpec.describe '学習管理機能', type: :system do
 
   describe '学習登録画面' do
     before do
-      FactoryBot.create(:user)
+      test_user_create(:user)
       FactoryBot.create(:material, user_id: 1)
       FactoryBot.create(:second_material, user_id: 1)
       FactoryBot.create(:third_material, user_id: 1)
@@ -35,7 +35,7 @@ RSpec.describe '学習管理機能', type: :system do
 
   describe '登録した学習情報の詳細画面' do
     before do
-      FactoryBot.create(:user)
+      test_user_create(:user)
       FactoryBot.create(:material, user_id: 1)
       FactoryBot.create(:work, material_id: 1)
       visit new_user_session_path
@@ -57,7 +57,7 @@ RSpec.describe '学習管理機能', type: :system do
 
   describe '登録した学習情報の編集画面' do
     before do
-      FactoryBot.create(:user)
+      test_user_create(:user)
       FactoryBot.create(:material, user_id: 1)
       FactoryBot.create(:work, material_id: 1)
       visit new_user_session_path
@@ -89,7 +89,7 @@ RSpec.describe '学習管理機能', type: :system do
 
   describe '登録した学習情報の削除' do
     before do
-      FactoryBot.create(:user)
+      test_user_create(:user)
       FactoryBot.create(:material, user_id: 1)
       FactoryBot.create(:work, material_id: 1)
       visit new_user_session_path
@@ -113,7 +113,7 @@ RSpec.describe '学習管理機能', type: :system do
   describe '学習情報一覧' do
     context '学習情報を登録していない場合' do
       before do
-        FactoryBot.create(:user)
+        test_user_create(:user)
         FactoryBot.create(:material, user_id: 1)
         visit new_user_session_path
         fill_in 'user[email]', with: 'sample@example.com'
@@ -130,16 +130,17 @@ RSpec.describe '学習管理機能', type: :system do
         wait.until { expect(page).to have_no_content 'クリア' }
       end
       it '他人の学習記録は表示されない' do
-        FactoryBot.create(:second_user)
+        test_user_create(:second_user)
         FactoryBot.create(:second_material, user_id: 2)
         FactoryBot.create(:fourth_work, material_id: 2)
+        click_on '学習情報一覧'
         wait.until { expect(page).to have_no_content 'test4' }
         wait.until { expect(page).to have_content '学習情報の登録はありません' }
       end
     end
     context '学習情報を複数登録している場合' do
       before do
-        FactoryBot.create(:user)
+        test_user_create(:user)
         FactoryBot.create(:material, user_id: 1)
         FactoryBot.create(:work, material_id: 1)
         FactoryBot.create(:second_work, material_id: 1)
@@ -220,7 +221,7 @@ RSpec.describe '学習管理機能', type: :system do
 
   describe '教材詳細画面から該当の教材の学習を記録するボタンをクリックした場合' do
     before do
-      FactoryBot.create(:user)
+      test_user_create(:user)
       FactoryBot.create(:material, user_id: 1)
       visit new_user_session_path
       fill_in 'user[email]', with: 'sample@example.com'
