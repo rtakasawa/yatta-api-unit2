@@ -22,13 +22,12 @@ require 'rspec/rails'
 # of increasing the boot-up time by auto-requiring all files in the support
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
+# Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 
-# SystemHelpersを利用できるように設定した
-# supportディレクトリ以下のファイルを読み込み
-Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
-
+# SystemHelpersをsystemspec内で利用できるように設定した
+require 'support/system_helpers'
 RSpec.configure do |config|
-  config.include SystemHelpers
+  config.include SystemHelpers, :type => :system
 end
 
 # Checks for pending migrations and applies them before tests are run.
