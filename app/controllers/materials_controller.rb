@@ -54,15 +54,14 @@ class MaterialsController < ApplicationController
     @search_keyword = params[:search_keyword]
     # 本の検索
     if @search_id == '1'
-      books_full = Book.get(@search_keyword)
-      # 検索がヒットした場合の処理
-      return @books = Kaminari.paginate_array(books_full).page(params[:page]).per(30) unless books_full.class == String
-
+      book_search_result = Book.get(@search_keyword)
       # 検索がヒットしない場合の処理
-      @books = books_full
-    else
-      @items = Qiita.get(@search_keyword)
+      return @books = book_search_result unless book_search_result.class == Array
+      # 検索がヒットした場合の処理
+      @books = Kaminari.paginate_array(book_search_result).page(params[:page]).per(30)
     end
+    # Qiitaの検索
+    return @items = Qiita.get(@search_keyword) if @search_id == '2'
   end
 
   private
