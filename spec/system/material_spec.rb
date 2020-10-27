@@ -286,18 +286,72 @@ RSpec.describe '教材管理機能', type: :system do
         click_on '検索'
         wait.until { expect(page).to have_content '検索にヒットした記事がありませんでした' }
       end
-      context 'キーワードを入力せずに、検索ボタンを押した場合' do
-        it '適切なメッセージが表示される' do
-          select 'Qiita', from: 'search_id'
-          fill_in 'search_keyword', with: ''
-          click_on '検索'
-          wait.until { expect(page).to have_content '検索キーワードを入力してください' }
-        end
+    end
+    context 'キーワードを入力せずに、検索ボタンを押した場合' do
+      it '適切なメッセージが表示される' do
+        select 'Qiita', from: 'search_id'
+        fill_in 'search_keyword', with: ''
+        click_on '検索'
+        wait.until { expect(page).to have_content '検索キーワードを入力してください' }
+      end
+    end
+    context '該当する記事が表示された場合' do
+      it '登録ボタンを押すと、教材登録ができる' do
+        select 'Qiita', from: 'search_id'
+        fill_in 'search_keyword', with: 'Markdown記法 チートシート'
+        click_on '検索'
+        find('#contents > div:nth-child(1) > div.mt-1 > table > tbody > tr:nth-child(1) > td:nth-child(3) > a').click
+        click_on '登録'
+        wait.until { expect(page).to have_content '教材が登録されました' }
+      end
+    end
+  end
+
+
+  describe '書籍を検索する場合' do
+    before do
+      test_user_create(:user)
+      FactoryBot.create(:material, user_id: 1)
+      visit new_user_session_path
+      fill_in 'user[email]', with: 'sample@example.com'
+      fill_in 'user[password]', with: '0000000'
+      click_on 'commit'
+      select '書籍', from: 'search_id'
+    end
+    context 'キーワードを入力して、検索ボタンを押した場合' do
+      it '該当する書籍があれば、書籍が表示される' do
+        fill_in 'search_keyword', with: 'プロを目指す人のためのRuby入門'
+        click_on '検索'
+        wait.until { expect(page).to have_content 'プロを目指す人のためのRuby入門' }
+      end
+      it '該当する書籍がなければ、適切なメッセージが表示される' do
+        fill_in 'search_keyword', with: '---------------------------'
+        click_on '検索'
+        wait.until { expect(page).to have_content '検索にヒットするものがありませんでした' }
+      end
+    end
+    context 'キーワードを入力せずに、検索ボタンを押した場合' do
+      it '適切なメッセージが表示される' do
+        fill_in 'search_keyword', with: ''
+        click_on '検索'
+        wait.until { expect(page).to have_content '検索キーワードを入力してください' }
+      end
+    end
+    context 'キーワードを1文字入力し、検索ボタンを押した場合' do
+      it '適切なメッセージが表示される' do
+        fill_in 'search_keyword', with: '1'
+        click_on '検索'
+        wait.until { expect(page).to have_content '検索キーワードは２文字以上入力してください' }
+      end
+    end
+    context '該当する書籍が表示された場合' do
+      it '登録ボタンを押すと、教材登録ができる' do
+        fill_in 'search_keyword', with: 'プロを目指す人のためのRuby入門'
+        click_on '検索'
+        click_on '登録'
+        click_on '登録'
+        wait.until { expect(page).to have_content '教材が登録されました' }
       end
     end
   end
 end
-
-# Qiita記事検索機能について、検索後の登録画面の遷移ができないため、教材登録時の動作は一旦手動で確認した
-# 本の検索については、検索ワードを入力し、検索ボタンを押すと下記エラーが出るため、一旦手動で確認した
-# "RuntimeError at /materials/book_search\nApplication ID is not defined
