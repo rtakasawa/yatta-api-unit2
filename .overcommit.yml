@@ -18,7 +18,9 @@
 PreCommit:
   RuboCop:
     enabled: true
-    command: ['rubocop', '-auto-correct', '$(git diff master --name-only)']
+    on_warn: fail # Treat all warnings as failures
+    command: ['bundle', 'exec', 'rubocop', '--auto-correct', '$(git diff master --name-only)'] # Invoke within Bundler context
+
 #
 #  TrailingWhitespace:
 #    enabled: true
