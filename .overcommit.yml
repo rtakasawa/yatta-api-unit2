@@ -16,6 +16,7 @@
 # Uncomment the following lines to make the configuration take effect.
 
 PreCommit:
+  # コミットする際に差分に対して自動でRuboCopの自動修正が実行
   RuboCop:
     enabled: true
     command: ['bundle', 'exec', 'rubocop', '--auto-correct', '$(git diff master --name-only)']
