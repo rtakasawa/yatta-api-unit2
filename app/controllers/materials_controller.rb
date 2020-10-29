@@ -57,6 +57,7 @@ class MaterialsController < ApplicationController
       book_search_result = Book.get(@search_keyword)
       # 検索がヒットしない場合の処理
       return @books = book_search_result unless book_search_result.class == Array
+
       # 検索がヒットした場合の処理
       @books = Kaminari.paginate_array(book_search_result).page(params[:page]).per(30)
     end
