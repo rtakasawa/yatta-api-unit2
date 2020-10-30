@@ -307,7 +307,6 @@ RSpec.describe '教材管理機能', type: :system do
     end
   end
 
-
   describe '書籍を検索する場合' do
     before do
       test_user_create(:user)

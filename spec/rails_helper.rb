@@ -27,7 +27,7 @@ require 'rspec/rails'
 # SystemHelpersをsystemspec内で利用できるように設定した
 require 'support/system_helpers'
 RSpec.configure do |config|
-  config.include SystemHelpers, :type => :system
+  config.include SystemHelpers, type: :system
 end
 
 # Checks for pending migrations and applies them before tests are run.
