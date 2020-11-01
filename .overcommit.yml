@@ -21,6 +21,8 @@ PreCommit:
     enabled: true
     command: ['bundle', 'exec', 'rubocop', '--auto-correct', '$(git diff master --name-only)']
     on_warn: fail
+  RSpec:
+    enabled: true
 
 #
 #  TrailingWhitespace:
