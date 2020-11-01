@@ -15,14 +15,19 @@
 #
 # Uncomment the following lines to make the configuration take effect.
 
+# コミットする際に差分に対して自動でRuboCopの自動修正が実行
 PreCommit:
-  # コミットする際に差分に対して自動でRuboCopの自動修正が実行
   RuboCop:
     enabled: true
     command: ['bundle', 'exec', 'rubocop', '--auto-correct', '$(git diff master --name-only)']
     on_warn: fail
+
+# pushする際に自動でrspecを実行
+PrePush:
   RSpec:
     enabled: true
+    command: ['bundle', 'exec', 'rspec']
+    on_warn: fail
 
 #
 #  TrailingWhitespace:
