@@ -1,0 +1,31 @@
+version: '3'
+
+volumes:
+  db-data:
+
+services:
+  web:
+    # buildコマンドの情報（イメージをpullする）
+    build: .
+    # 下記パラメータを元にrunしてコンテナを作る
+    # ポートの指定
+    ports:
+      - '3000:3000'
+    # カレントディレクトリをコンテナをマウントする
+    volumes:
+      - '.:/yata-app'
+    environment:
+      - 'DATABASE_PASSWORD=postgres'
+    tty: true
+    stdin_open: true
+    depends_on:
+      - db
+    links:
+      - db
+
+db:
+  image: postgres
+  volumes:
+    - 'db-data:/var/lib/postgressql/data'
+  environment:
+    - 'POSTGRES_HOST_AUTH_METHOD=trust'
