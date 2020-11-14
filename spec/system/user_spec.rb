@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'ユーザー登録、ログイン・ログアウト機能、管理者機能', type: :system do
+RSpec.describe 'ユーザー登録、ログイン・ログアウト機能、管理者機能', js: true, type: :system do
   describe 'ユーザー登録のテスト' do
     context 'アカウント登録画面' do
       it 'ユーザーの新規登録後、ログインできること' do

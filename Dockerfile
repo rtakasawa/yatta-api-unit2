@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
       nodejs \
       postgresql-client \
       yarn
+
 # コンテナにyata-appディレクトリを作ってyata-appディレクトリに移動する
 WORKDIR /yata-app
 # yata-appディレクトリにコピーする
