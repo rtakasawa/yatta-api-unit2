@@ -23,9 +23,9 @@ services:
     links:
       - db
 
-db:
-  image: postgres
-  volumes:
-    - 'db-data:/var/lib/postgressql/data'
-  environment:
-    - 'POSTGRES_HOST_AUTH_METHOD=trust'
+  db:
+    image: postgres
+    volumes:
+      - 'db-data:/var/lib/postgressql/data'
+    environment:
+      - 'POSTGRES_HOST_AUTH_METHOD=trust'
