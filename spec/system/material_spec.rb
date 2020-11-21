@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe '教材管理機能', type: :system do
+RSpec.describe '教材管理機能', js: true, type: :system do
   wait = Selenium::WebDriver::Wait.new(timeout: 1000)
 
   describe '教材登録画面' do
