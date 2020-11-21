@@ -1,4 +1,0 @@
-FROM nginx:1.12.2
-RUN rm -f /etc/nginx/conf.d/*
-ADD nginx.conf /etc/nginx/conf.d/[任意のアプリ名].conf
-CMD /usr/sbin/nginx -g 'daemon off;' -c /etc/nginx/nginx.conf
