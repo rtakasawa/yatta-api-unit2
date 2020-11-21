@@ -211,18 +211,12 @@ RSpec.describe '教材管理機能', js: true, type: :system do
         wait.until { expect(work_list[2]).to have_content Time.zone.today - 2 }
       end
       it '学習日でソートができる', retry: 3 do
-        click_link '学習日'
-        work_list = all('#work-list tr')
         # 画面最下部にスクロール
         execute_script('window.scroll(0,10000);')
-        wait.until { expect(work_list[2]).to have_content '1' }
-        wait.until { expect(work_list[2]).to have_content '10' }
+        click_link '学習日'
+        work_list = all('#work-list tr')
         wait.until { expect(work_list[2]).to have_content Time.zone.today }
-        wait.until { expect(work_list[1]).to have_content '1-1' }
-        wait.until { expect(work_list[1]).to have_content '1-10' }
         wait.until { expect(work_list[1]).to have_content Time.zone.today - 1 }
-        wait.until { expect(work_list[0]).to have_content '１' }
-        wait.until { expect(work_list[0]).to have_content '１００' }
         wait.until { expect(work_list[0]).to have_content Time.zone.today - 2 }
       end
     end

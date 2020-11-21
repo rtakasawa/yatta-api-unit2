@@ -29,6 +29,10 @@
 #     command: ['bundle', 'exec', 'rspec']
 #     on_warn: fail
 
+# branch変更の際に自動でbundle_installを実施
+PostCheckout:
+  BundleInstall:
+    enabled: true
 #
 #  TrailingWhitespace:
 #    enabled: true
