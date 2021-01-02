@@ -16,6 +16,25 @@ http://yatta-app.com
 教材の登録が面倒の方のために、WEBAPIを利用した書籍とQiita記事の簡易教材登録機能を用意しております。
 本アプリケーション上で登録したい書籍、Qiita記事の情報を検索し、簡単に登録することができます。
 
+## インフラ構成
+### インフラ構成図
+https://docs.google.com/spreadsheets/d/1TWKFts5f4lDCfJ4KtWEYIALH3Hk_m-SGaEmjf04F2_U/edit?usp=sharing
+### 特徴：冗長化することでの可用性の高い設計
+- EC2インスタンスをマルチAZ構成にし、ALBでアクセスを振り分けることで、サーバの冗長化と負荷分散を実施
+- RSDのマルチスレーブ方式を採用し、DBの冗長化を実施
+
+## カタログ設計・テーブル定義
+https://docs.google.com/spreadsheets/d/1rCgeV-_ULvsspHWy-aDRg0xxa6QI474rLmqZv_Yqedc/edit?usp=sharing
+
+## ER図
+https://drive.google.com/file/d/1fSgwETRoVL0m6iMGCYzRcklLyj5F9_O9/view?usp=sharing
+
+## 画面遷移図
+https://drive.google.com/file/d/1hKtj5UYCG3yx69kjTDtNiW9HQyV_ff_j/view?usp=sharing
+
+## 画面ワイヤーフレーム
+https://drive.google.com/file/d/1u4qmaDcVK3dbD_cQSysialihcJ9RUmlL/view?usp=sharing
+
 ## バージョン
 rails 5.2.4
 ruby 2.6.5
@@ -68,15 +87,3 @@ ruby 2.6.5
 - [ ] 管理者機能
 - [ ] 教材：タグ機能
 - [ ] overcommitを利用しての自動化(rspec,rubocop等)
-
-## カタログ設計・テーブル定義
-https://docs.google.com/spreadsheets/d/1rCgeV-_ULvsspHWy-aDRg0xxa6QI474rLmqZv_Yqedc/edit?usp=sharing
-
-## ER図
-https://drive.google.com/file/d/1fSgwETRoVL0m6iMGCYzRcklLyj5F9_O9/view?usp=sharing
-
-## 画面遷移図
-https://drive.google.com/file/d/1hKtj5UYCG3yx69kjTDtNiW9HQyV_ff_j/view?usp=sharing
-
-## 画面ワイヤーフレーム
-https://drive.google.com/file/d/1u4qmaDcVK3dbD_cQSysialihcJ9RUmlL/view?usp=sharing
