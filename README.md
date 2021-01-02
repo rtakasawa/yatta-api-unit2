@@ -20,8 +20,10 @@ http://yatta-app.com
 ### インフラ構成図
 https://docs.google.com/spreadsheets/d/1TWKFts5f4lDCfJ4KtWEYIALH3Hk_m-SGaEmjf04F2_U/edit?usp=sharing
 ### 特徴：冗長化することでの可用性の高い設計
-- EC2インスタンスをマルチAZ構成にし、ALBでアクセスを振り分けることで、サーバの冗長化と負荷分散を実施
-- RSDのマルチスレーブ方式を採用し、DBの冗長化を実施
+- EC2インスタンスをマルチAZ構成にし、ALBでアクセスを振り分けることで、サーバーの冗長化と負荷分散を実施。
+- RSDのマルチスレーブ方式を採用し、DBの冗長化を実施。
+- RSDの自動バックアップ機能により、高い可用性、耐久性を実現。\
+(バックアップデータは5分おきにS3に保存され、S3では3つのAZにデータを保管する)
 
 ## カタログ設計・テーブル定義
 https://docs.google.com/spreadsheets/d/1rCgeV-_ULvsspHWy-aDRg0xxa6QI474rLmqZv_Yqedc/edit?usp=sharing
@@ -65,7 +67,6 @@ ruby 2.6.5
 * faraday
 * fullcalendar-rails
 
-
 ## 機能一覧
 - [ ] ログイン機能
 - [ ] ユーザー登録機能
@@ -87,3 +88,13 @@ ruby 2.6.5
 - [ ] 管理者機能
 - [ ] 教材：タグ機能
 - [ ] overcommitを利用しての自動化(rspec,rubocop等)
+
+## その他（2021.1.3時点）
+### コストを考慮し、下記対応。
+- インスタンス1台を停止。ElasticIPを解放。
+  - インスタンス1台のデプロイコマンド：`ROLES=web1 bundle exec cap production deploy`
+  - インスタンスを2台に戻す場合は、下記作業が必要。
+    - ElasticIPの取得、割当。
+    - `/config/deploy/production.rb`のIPアドレス編集
+    - `/etc/nginx/conf.d/yatta.conf`のIPアドレス編集
+- RDSのマルチAZ方式を解除。
