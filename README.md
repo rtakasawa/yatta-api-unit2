@@ -16,7 +16,7 @@ http://yatta-app.com
 
 ## インフラ構成
 ### インフラ構成図
-(https://user-images.githubusercontent.com/60159339/103578180-74f63000-4f19-11eb-8995-de60b7504293.png)
+<img width="799" alt="スクリーンショット 2021-01-05 5 58 10" src="https://user-images.githubusercontent.com/60159339/103579141-1cc02d80-4f1b-11eb-9e93-d0021027a6c8.png">
 
 ### 特徴：冗長化することでの可用性の高い設計
 - EC2インスタンスをマルチAZ構成にし、ALBでアクセスを振り分けることで、サーバーの冗長化と負荷分散を実施。
