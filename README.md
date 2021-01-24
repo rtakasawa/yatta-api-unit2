@@ -79,7 +79,8 @@ https://drive.google.com/file/d/1u4qmaDcVK3dbD_cQSysialihcJ9RUmlL/view?usp=shari
 ## その他（2021.1.3時点）
 ### コストを考慮し、下記対応。
 - インスタンス1台を停止。ElasticIPを解放。
-  - インスタンス1台のデプロイコマンド：`ROLES=web1 bundle exec cap production deploy`
+  - インスタンス1台のデプロイコマンド\
+    `ROLES=web1 bundle exec cap production deploy`
   - インスタンスを2台に戻す場合は、下記作業が必要。
     - ElasticIPの取得、割当。
     - `/config/deploy/production.rb`のIPアドレス編集
