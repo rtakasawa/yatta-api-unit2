@@ -12,25 +12,36 @@ gem 'coffee-rails', '~> 4.2'
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
+gem 'mini_racer', platforms: :ruby
 # 追加
+# 権限管理
 gem 'cancancan'
 gem 'devise'
 gem 'devise-i18n'
-gem 'rails_admin', '~> 2.0'
-gem 'rakuten_web_service'
-gem 'acts-as-taggable-on', '~> 6.0'
-gem 'kaminari'
-gem 'ransack'
-gem 'faker'
-gem 'enum_help'
 gem 'devise-bootstrap-views', '~> 1.0'
+gem 'rails_admin', '~> 2.0'
+# 楽天APIに簡単にアクセスできる
+gem 'rakuten_web_service'
+# タグ機能を簡単実装
+gem 'acts-as-taggable-on', '~> 6.0'
+# ページネーション作成
+gem 'kaminari'
+# 検索機能
+gem 'ransack'
+# ダミーデータを作成
+gem 'faker'
+# enumをI18n化する
+gem 'enum_help'
+# 外部APIへのアクセスに使用
 gem 'faraday'
 gem 'fullcalendar-rails'
 gem 'jquery-rails'
+# JSの日付ライブラリ。fullcalendar-rails用
 gem 'momentjs-rails'
+# 環境変数管理
 gem 'dotenv-rails'
-gem 'mini_racer', platforms: :ruby
 gem 'unicorn'
+# メール機能（SES）用に使用
 gem 'aws-sdk-rails'
 # bundle exec cap production deploy:check時のエラー対処のため追加
 gem 'bcrypt_pbkdf'
@@ -61,6 +72,7 @@ group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'bullet'
 end
 
 group :test do

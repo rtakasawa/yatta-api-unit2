@@ -34,6 +34,8 @@ http://yatta-app.com
 - Nginx
 - unicorn
 - capistrano
+- rubocop
+- rspec
 - AWS
   - EC2
   - RDS
@@ -62,7 +64,6 @@ http://yatta-app.com
 - 学習情報：削除機能
 - 管理者機能
 - 教材：タグ機能
-- overcommitを利用しての自動化(rspec,rubocop等)
 
 ## カタログ設計・テーブル定義
 https://docs.google.com/spreadsheets/d/1rCgeV-_ULvsspHWy-aDRg0xxa6QI474rLmqZv_Yqedc/edit?usp=sharing

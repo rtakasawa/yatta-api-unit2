@@ -1,7 +1,7 @@
 # 追加した規約ファイル読込
 require:
-  - rubocop-rails
-  - rubocop-performance
+  - rubocop-rails # Railsに関わる構文規則チェック
+  - rubocop-performance # パフォーマンスに関わる構文規則チェック
 
 AllCops:
   # Rubyバージョン指定
