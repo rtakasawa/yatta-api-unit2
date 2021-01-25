@@ -11,6 +11,8 @@ class Work < ApplicationRecord
   end
 
   now = Time.zone.today
+  # 当月
   scope :current_month, -> { where(do_on: now.beginning_of_month..now.end_of_month) }
+  # 先月
   scope :last_month, -> { where(do_on: now.prev_month.beginning_of_month..now.prev_month.end_of_month) }
 end
