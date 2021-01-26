@@ -1,7 +1,7 @@
 # yatta
 
 ## URL
-http://yatta-app.com
+https://yatta-app.com/
 
 ## 概要
 学習教材（書籍等）の進捗を管理するサービス。
