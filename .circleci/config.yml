@@ -96,6 +96,8 @@ jobs:
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
       - image: circleci/postgres
+        environment:
+          POSTGRES_PASSWORD: password
 
     working_directory: ~/repo
 
