@@ -58,8 +58,8 @@ jobs:
       - run: bundle exec rake db:create db:schema:load
 
       - run:
-        name: Rubocop
-        command: bundle exec rubocop
+          name: Rubocop
+          command: bundle exec rubocop
 
       - run:
           name: Rspec
