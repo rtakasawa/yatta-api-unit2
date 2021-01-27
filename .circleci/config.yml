@@ -4,9 +4,11 @@ jobs:
     docker:
       - image: circleci/ruby:2.6.5-node-browsers-legacy
         environment:
-          - POSTGRES_USER: postgres
-          - RAILS_ENV: test
-          - DATABASE_PASSWORD: postgres
+          - BUNDLER_VERSION: 2.1.4
+          - RAILS_ENV: 'test'
+          # - POSTGRES_USER: postgres
+          # - RAILS_ENV: test
+          # - DATABASE_PASSWORD: postgres
       - image: circleci/postgres
         environment:
           - POSTGRES_USER: postgres
@@ -20,15 +22,16 @@ jobs:
           keys:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
             - v1-dependencies-
-      - run: mv ./config/database.ci.yml ./config/database.yml
-      - run: mv ./spec/rails_helper.ci.rb ./spec/rails_helper.rb
+      # - run: mv ./config/database.ci.yml ./config/database.yml
+      # - run: mv ./spec/rails_helper.ci.rb ./spec/rails_helper.rb
       - run: gem install bundler:2.1.4
       - run: bundle install --jobs=4 --retry=3 --path vendor/bundle
-      - run: yarn install
+      # - run: yarn install
       - save_cache:
           paths:
             - ./vendor/bundle
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}q
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+      - run: mv ./config/database.ci.yml ./config/database.yml
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
       - run:
@@ -38,26 +41,26 @@ jobs:
           name: Rspec
           command: bundle exec rspec
 
-  deploy:
-    docker:
-      - image: circleci/ruby:2.6.5-node-browsers-legacy
-    steps:
-      - checkout
-      - ruby/install-deps
-      - add_ssh_keys:
-          fingerprints: FINGERPRINTS
-      - deploy:
-          name: Capistrano deploy
-          command: bundle exec cap production deploy
+#   deploy:
+#     docker:
+#       - image: circleci/ruby:2.6.5-node-browsers-legacy
+#     steps:
+#       - checkout
+#       - ruby/install-deps
+#       - add_ssh_keys:
+#           fingerprints: FINGERPRINTS
+#       - deploy:
+#           name: Capistrano deploy
+#           command: bundle exec cap production deploy
 
-workflows:
-  version: 2
-  build_accept_deploy:
-    jobs:
-      - build
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
+# workflows:
+#   version: 2
+#   build_accept_deploy:
+#     jobs:
+#       - build
+#       - deploy:
+#           requires:
+#             - build
+#           filters:
+#             branches:
+#               only: master
