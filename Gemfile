@@ -80,6 +80,7 @@ group :test do
   gem 'selenium-webdriver'
   gem 'database_rewinder'
   gem 'webdrivers'
+  gem 'rspec_junit_formatter'
 end
 
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
