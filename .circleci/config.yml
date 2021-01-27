@@ -104,11 +104,6 @@ jobs:
     steps:
       - checkout
 
-      # yarnインストール
-      - run:
-        name: yarn Install
-        command: yarn install
-
       # Setup bundler 2+
       - run:
           name: setup bundler
@@ -118,6 +113,11 @@ jobs:
             rm /usr/local/bin/bundle
             rm /usr/local/bin/bundler
             gem install bundler
+
+      # yarnインストール
+      - run:
+        name: yarn Install
+        command: yarn install
 
       # Download and cache dependencies
       - restore_cache:
