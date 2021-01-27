@@ -1,85 +1,3 @@
-# version: 2
-# jobs:
-#   # rubocop:
-#   #   docker:
-#   #     - image: circleci/ruby:2.6.5-node-browsers-legacy
-#   #       environment:
-#   #         RAILS_ENV: test
-#   #         POSTGRES_HOST: 127.0.0.1
-#   #     - image: circleci/postgres
-#   #       environment:
-#   #         POSTGRES_USER: "postgresql"
-#   #         POSTGRES_PASSWORD: "postgresql-pass"
-#   #         POSTGRES_DB: yatta_app_test
-#   #   working_directory: ~/repo
-
-#   #   steps:
-#   #     - checkout
-#   #     - restore_cache:
-#   #         keys:
-#   #           - v1-dependencies-{{ checksum "Gemfile.lock" }}
-#   #           # fallback to using the latest cache if no exact match is found
-#   #           - v1-dependencies-
-#   #     - run: gem install bundler
-#   #     - run: bundle install
-#   #     - run: bundle update --bundler
-#   #     - run: yarn install
-#   #     - save_cache:
-#   #         paths:
-#   #           - ./vendor/bundle
-#   #         key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-#   #     # Rubocop
-#   #     - run:
-#   #         name: Rubocop
-#   #         command: bundle exec rubocop
-
-#   rspec:
-#     docker:
-#       - image: circleci/ruby:2.6.5-node-browsers-legacy
-#         environment:
-#           RAILS_ENV: test
-#           POSTGRES_HOST: 127.0.0.1
-#       - image: circleci/postgres
-#         environment:
-#           POSTGRES_USER: postgres
-#           POSTGRES_PASSWORD: "postgresql-pass"
-#           POSTGRES_DB: yatta_app_test
-#     working_directory: ~/repo
-#     steps:
-#       - checkout
-#       - restore_cache:
-#           keys:
-#             - v1-dependencies-{{ checksum "Gemfile.lock" }}
-#             # fallback to using the latest cache if no exact match is found
-#             - v1-dependencies-
-#       - run: gem install bundler
-#       - run: bundle install
-#       - run: bundle update --bundler
-#       - run: yarn install
-#       - save_cache:
-#           paths:
-#             - ./vendor/bundle
-#           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-#       - run:
-#           name: DBの起動を待つ
-#           command: dockerize -wait tcp://127.0.0.1:5432 -timeout 120s
-#       - run: bundle exec rake db:create
-#       - run: bundle exec rake db:schema:load
-#       # Rspec
-#       - run:
-#           name: Rspec
-#           command: bundle exec rspec
-
-# workflows:
-#   version: 2
-#   rubocop_rspec:
-#     jobs:
-#       # - rubocop
-#       - rspec:
-#           requires:
-#             - rubocop
-
-
 version: 2.1
 jobs:
   build:
@@ -139,40 +57,17 @@ jobs:
       # Database setup
       - run: bundle exec rake db:create db:schema:load
 
-      # # run tests!
-      # - run:
-      #     name: run tests
-      #     command: |
-      #       mkdir /tmp/test-results
-      #       TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
-      #         circleci tests split --split-by=timings)"
-
-      #       bundle exec rspec \
-      #         --format progress \
-      #         --format RspecJunitFormatter \
-      #         --out /tmp/test-results/rspec.xml \
-      #         --format progress \
-      #         $TEST_FILES
-
-      # # collect reports
-      # - store_test_results:
-      #     path: /tmp/test-results
-      # - store_artifacts:
-      #     path: /tmp/test-results
-      #     destination: test-results
+      - run:
+        name: Rubocop
+        command: bundle exec rubocop
 
       - run:
           name: Rspec
           command: bundle exec rspec
 
-      # collect reports
+      # テスト結果の保存(CircleCI上で見れる)
       - store_test_results:
           path: /tmp/test-results
       - store_artifacts:
           path: /tmp/test-results
           destination: test-results
-
-      # run rubocop!
-      - run:
-          name: Rubocop
-          command: bundle exec rubocop
