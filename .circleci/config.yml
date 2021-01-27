@@ -114,11 +114,6 @@ jobs:
             rm /usr/local/bin/bundler
             gem install bundler
 
-      # yarnインストール
-      - run:
-        name: yarn Install
-        command: yarn install
-
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -135,6 +130,11 @@ jobs:
           paths:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+
+      # yarnインストール
+      - run:
+        name: yarn Install
+        command: yarn install
 
       # Database setup
       - run: bundle exec rake db:create db:schema:load
