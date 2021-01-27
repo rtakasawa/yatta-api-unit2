@@ -26,7 +26,7 @@ jobs:
       # - run: mv ./spec/rails_helper.ci.rb ./spec/rails_helper.rb
       - run: gem install bundler:2.1.4
       - run: bundle install --jobs=4 --retry=3 --path vendor/bundle
-      # - run: yarn install
+      - run: yarn install
       - save_cache:
           paths:
             - ./vendor/bundle
