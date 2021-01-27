@@ -18,6 +18,7 @@ AllCops:
     - 'vendor/**/*'
     - 'spec/**/*'
     - Gemfile
+    - 'app/helpers/devise_helper.rb'
 
 # 日本語でのコメントを許可
 AsciiComments:
@@ -34,3 +35,12 @@ ClassAndModuleChildren:
 # 文字リテラルのイミュータブル宣言を無視（freezeになるのはRuby3以降）
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+# メソッド15行まで許可
+MethodLength:
+  CountComments: false
+  Max: 15
+
+# ガード区、5行まで許可
+Style/GuardClause:
+  MinBodyLength: 5
