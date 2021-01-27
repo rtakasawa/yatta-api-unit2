@@ -5,16 +5,15 @@ jobs:
       - image: circleci/ruby:2.6.5-node-browsers-legacy
         environment:
           - BUNDLER_VERSION: 2.1.4
-          - RAILS_ENV: 'test'
           # - POSTGRES_USER: postgres
-          # - RAILS_ENV: test
+          - RAILS_ENV: test
           # - DATABASE_PASSWORD: postgres
       - image: circleci/postgres
         environment:
-          - POSTGRES_USER: postgres
-          - POSTGRES_DB: yatta_app_test
+          # - POSTGRES_USER: postgres
+          # - POSTGRES_DB: yatta_app_test
           - POSTGRES_HOST_AUTH_METHOD: trust
-          - POSTGRES_PASSWORD: postgres
+          # - POSTGRES_PASSWORD: postgres
     working_directory: ~/yatta_app
     steps:
       - checkout
