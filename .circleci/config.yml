@@ -1,65 +1,149 @@
+# version: 2
+# jobs:
+#   build:
+#     docker:
+#       - image: circleci/ruby:2.6.5-node-browsers-legacy
+#         environment:
+#           BUNDLER_VERSION: 2.1.4
+#           RAILS_ENV: test
+#           POSTGRES_HOST: 127.0.0.1
+#       - image: circleci/postgres
+#         environment:
+#           POSTGRES_USER: "postgresql"
+#           POSTGRES_PASSWORD: "postgresql-pass"
+#           POSTGRES_DB: yatta_app_test
+#       working_directory: ~/repo
+#     steps:
+#       - checkout
+#       - restore_cache:
+#           keys:
+#             - v1-dependencies-{{ checksum "Gemfile.lock" }}
+#             - v1-dependencies-
+#       # - run: mv ./config/database.ci.yml ./config/database.yml
+#       # - run: mv ./spec/rails_helper.ci.rb ./spec/rails_helper.rb
+#       - run: gem install bundler:2.1.4
+#       - run: bundle install --jobs=4 --retry=3 --path vendor/bundle
+#       - run: yarn install
+#       - save_cache:
+#           paths:
+#             - ./vendor/bundle
+#           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+#       - run: mv ./config/database.ci.yml ./config/database.yml
+#       - run: bundle exec rake db:create
+#       - run: bundle exec rake db:schema:load
+#       - run:
+#           name: Rubocop
+#           command: bundle exec rubocop
+#       - run:
+#           name: Rspec
+#           command: bundle exec rspec
+
+# #   deploy:
+# #     docker:
+# #       - image: circleci/ruby:2.6.5-node-browsers-legacy
+# #     steps:
+# #       - checkout
+# #       - ruby/install-deps
+# #       - add_ssh_keys:
+# #           fingerprints: FINGERPRINTS
+# #       - deploy:
+# #           name: Capistrano deploy
+# #           command: bundle exec cap production deploy
+
+# # workflows:
+# #   version: 2
+# #   build_accept_deploy:
+# #     jobs:
+# #       - build
+# #       - deploy:
+# #           requires:
+# #             - build
+# #           filters:
+# #             branches:
+# #               only: master
+
+
 version: 2
 jobs:
-  build:
+  rubocop:
     docker:
       - image: circleci/ruby:2.6.5-node-browsers-legacy
         environment:
-          - BUNDLER_VERSION: 2.1.4
-          - POSTGRES_USER: postgres
-          - RAILS_ENV: test
-          - DATABASE_PASSWORD: postgres
+          RAILS_ENV: test
+          POSTGRES_HOST: 127.0.0.1
+          # POSTGRES_HOST: "db"
       - image: circleci/postgres
         environment:
-          - POSTGRES_USER: postgres
-          - POSTGRES_DB: yatta_app_test
-          - POSTGRES_HOST_AUTH_METHOD: trust
-          - POSTGRES_PASSWORD: postgres
-    working_directory: ~/yatta_app
+          POSTGRES_USER: "postgresql"
+          POSTGRES_PASSWORD: "postgresql-pass"
+          POSTGRES_DB: yatta_app_test
+    working_directory: ~/repo
+
     steps:
       - checkout
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-      # - run: mv ./config/database.ci.yml ./config/database.yml
-      # - run: mv ./spec/rails_helper.ci.rb ./spec/rails_helper.rb
-      - run: gem install bundler:2.1.4
-      - run: bundle install --jobs=4 --retry=3 --path vendor/bundle
+      # - run: bundle install --jobs=4 --retry=3 --path vendor/
+      - run: gem install bundler
+      - run: bundle install #--path vendor/bundle
+      # - run: bundle update rubocop rubocop-rails
+      - run: bundle update --bundler
       - run: yarn install
       - save_cache:
           paths:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-      - run: mv ./config/database.ci.yml ./config/database.yml
-      - run: bundle exec rake db:create
-      - run: bundle exec rake db:schema:load
+      # Rubocop
       - run:
           name: Rubocop
           command: bundle exec rubocop
+
+  rspec:
+    docker:
+      - image: circleci/ruby:2.6.5-node-browsers-legacy
+        environment:
+          RAILS_ENV: test
+          POSTGRES_HOST: 127.0.0.1
+          # POSTGRES_HOST: "db"
+      - image: circleci/postgres
+        environment:
+          POSTGRES_USER: "postgresql"
+          POSTGRES_PASSWORD: "postgresql-pass"
+          POSTGRES_DB: yatta_app_test
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+      - run: gem install bundler
+      - run: bundle install
+      - run: bundle update --bundler
+      - run: yarn install
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: DBの起動を待つ
+          command: dockerize -wait tcp://127.0.0.1:5432 -timeout 120s
+      - run: bundle exec rake db:create
+      - run: bundle exec rake db:schema:load
+      # Rspec
       - run:
           name: Rspec
           command: bundle exec rspec
 
-#   deploy:
-#     docker:
-#       - image: circleci/ruby:2.6.5-node-browsers-legacy
-#     steps:
-#       - checkout
-#       - ruby/install-deps
-#       - add_ssh_keys:
-#           fingerprints: FINGERPRINTS
-#       - deploy:
-#           name: Capistrano deploy
-#           command: bundle exec cap production deploy
-
-# workflows:
-#   version: 2
-#   build_accept_deploy:
-#     jobs:
-#       - build
-#       - deploy:
-#           requires:
-#             - build
-#           filters:
-#             branches:
-#               only: master
+workflows:
+  version: 2
+  rubocop_rspec:
+    jobs:
+      - rubocop
+      - rspec:
+          requires:
+            - rubocop
