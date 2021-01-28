@@ -16,7 +16,7 @@ https://yatta-app.com/
 
 ## インフラ構成
 ### インフラ構成図
-<img width="799" alt="スクリーンショット 2021-01-05 5 58 10" src="https://user-images.githubusercontent.com/60159339/103579141-1cc02d80-4f1b-11eb-9e93-d0021027a6c8.png">
+![Yattaインフラ構成図-20210128](https://user-images.githubusercontent.com/60159339/106147021-ba291d00-61ba-11eb-9d31-a6a9487950a8.png)
 
 ### 特徴：冗長化することでの可用性の高い設計
 - EC2インスタンスをマルチAZ構成にし、ALBでアクセスを振り分けることで、サーバーの冗長化と負荷分散を実施。
@@ -36,6 +36,8 @@ https://yatta-app.com/
 - capistrano
 - rubocop
 - rspec
+- CircleCI
+- Docker
 - AWS
   - EC2
   - RDS
