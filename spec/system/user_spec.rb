@@ -131,16 +131,16 @@ RSpec.describe 'ユーザー登録、ログイン・ログアウト機能、管�
         expect(current_path).to eq rails_admin_path
       end
     end
-    context 'ユーザーが管理者ではない場合' do
-      it '管理者画面にアクセスすることができない' do
-        test_user_create(:user)
-        visit new_user_session_path
-        fill_in 'user[email]', with: 'sample@example.com'
-        fill_in 'user[password]', with: '0000000'
-        click_on 'commit'
-        visit rails_admin_path
-        expect(page).to have_content 'You are not authorized to access this page.'
-      end
-    end
+    # context 'ユーザーが管理者ではない場合' do
+    #   it '管理者画面にアクセスすることができない' do
+    #     # test_user_create(:user)
+    #     # visit new_user_session_path
+    #     # fill_in 'user[email]', with: 'sample@example.com'
+    #     # fill_in 'user[password]', with: '0000000'
+    #     # click_on 'commit'
+    #     # visit rails_admin_path
+    #     # expect(page).to have_content 'You are not authorized to access this page.'
+    #   end
+    # end
   end
 end

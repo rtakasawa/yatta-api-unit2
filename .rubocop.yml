@@ -76,6 +76,9 @@ Style/RedundantRegexpEscape:
 Style/SlicingWithRange:
   Enabled: true
 
+Style/StringLiterals:
+  Enabled: true
+
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
