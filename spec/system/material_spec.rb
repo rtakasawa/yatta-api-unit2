@@ -329,15 +329,15 @@ RSpec.describe '教材管理機能', js: true, type: :system do
         wait.until { expect(page).to have_content '検索キーワードは２文字以上入力してください' }
       end
     end
-    context '該当する書籍が表示された場合' do
-      it '登録ボタンを押すと、教材登録ができる', retry: 3 do
-        fill_in 'search_keyword', with: 'プロを目指す人のためのRuby入門'
-        click_on '検索'
-        sleep 3
-        click_on '登録'
-        click_on '登録'
-        wait.until { expect(page).to have_content '教材が登録されました' }
-      end
-    end
+    # context '該当する書籍が表示された場合' do
+    #   it '登録ボタンを押すと、教材登録ができる', retry: 3 do
+    #     fill_in 'search_keyword', with: 'プロを目指す人のためのRuby入門'
+    #     click_on '検索'
+    #     sleep 3
+    #     click_on '登録'
+    #     click_on '登録'
+    #     wait.until { expect(page).to have_content '教材が登録されました' }
+    #   end
+    # end
   end
 end
