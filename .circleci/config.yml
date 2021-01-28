@@ -41,6 +41,11 @@ jobs:
             - v1-dependencies-
 
       - run:
+          name: setup database
+          command: |
+            cp -v config/database.ci.yml config/database.yml
+
+      - run:
           name: install dependencies
           command: |
             bundle install --jobs=4 --retry=3 --path vendor/bundle
@@ -60,9 +65,11 @@ jobs:
           command: |
             cp -v config/database.ci.yml config/database.yml
 
-      # Database setup
-      # - run: binding.irb
-      # - run: cp -v config/database.ci.yml config/database.yml
+      - run:
+          name: setup rspec
+          command: |
+            cp -v spec/rails_helper.ci.rb spec/rails_helper.rb
+
       - run: bundle exec rake db:create db:schema:load
 
       - run:
