@@ -210,15 +210,6 @@ RSpec.describe '教材管理機能', js: true, type: :system do
         wait.until { expect(work_list[2]).to have_content '１００' }
         wait.until { expect(work_list[2]).to have_content Time.zone.today - 2 }
       end
-      it '学習日でソートができる', retry: 3 do
-        # 画面最下部にスクロール
-        execute_script('window.scroll(0,10000);')
-        click_link '学習日'
-        work_list = all('#work-list tr')
-        wait.until { expect(work_list[2]).to have_content Time.zone.today }
-        wait.until { expect(work_list[1]).to have_content Time.zone.today - 1 }
-        wait.until { expect(work_list[0]).to have_content Time.zone.today - 2 }
-      end
     end
     context '任意の教材を削除した場合' do
       it '削除した教材が表示されない' do
@@ -339,10 +330,10 @@ RSpec.describe '教材管理機能', js: true, type: :system do
       end
     end
     context '該当する書籍が表示された場合' do
-      it '登録ボタンを押すと、教材登録ができる' do
+      it '登録ボタンを押すと、教材登録ができる', retry: 3 do
         fill_in 'search_keyword', with: 'プロを目指す人のためのRuby入門'
         click_on '検索'
-        click_on '登録'
+        wait.until { find('#contents > div:nth-child(1) > div:nth-child(3) > div > div > div.col-md-8 > div > p:nth-child(3) > a').click }
         click_on '登録'
         wait.until { expect(page).to have_content '教材が登録されました' }
       end

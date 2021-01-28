@@ -1,24 +1,22 @@
 # 追加した規約ファイル読込
 require:
-  - rubocop-rails # Railsに関わる構文規則チェック
-  - rubocop-performance # パフォーマンスに関わる構文規則チェック
+  - rubocop-rails
 
 AllCops:
   # Rubyバージョン指定
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 2.6.5
   # 除外
   Exclude:
-    - 'bin/**'
-    - 'lib/**'
-    - 'db/**/*'
-    - 'config/**/*'
-    - 'tmp/**/*'
-    - 'log/**/*'
-    - 'node_modules/**/*'
-    - 'vendor/**/*'
-    - 'spec/**/*'
-    - Gemfile
-    - 'app/helpers/devise_helper.rb'
+    - "vendor/**/*"
+    - "config.ru"
+    - "bin/**"
+    - "lib/**"
+    - "db/**/*"
+    - "config/**/*"
+    - "script/**/*"
+    - !ruby/regexp /old_and_unused\.rb$/
+  Include:
+    - rubocop-rspec
 
 # 日本語でのコメントを許可
 AsciiComments:
@@ -36,11 +34,52 @@ ClassAndModuleChildren:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
-# メソッド15行まで許可
-MethodLength:
-  CountComments: false
-  Max: 15
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
 
-# ガード区、5行まで許可
-Style/GuardClause:
-  MinBodyLength: 5
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Lint/DeprecatedOpenSSLConstant:
+  Enabled: true
+
+Lint/MixedRegexpCaptureTypes:
+  Enabled: true
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
+Style/ExponentialNotation:
+  Enabled: true
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+Style/RedundantFetchBlock:
+  Enabled: true
+
+Style/RedundantRegexpCharacterClass:
+  Enabled: true
+
+Style/RedundantRegexpEscape:
+  Enabled: true
+
+Style/SlicingWithRange:
+  Enabled: true
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+
+Layout/LineLength:
+  Exclude:
+    - 'spec/**/*'
