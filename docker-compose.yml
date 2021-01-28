@@ -1,42 +1,50 @@
-version: '3'
+# version: '3'
 
-volumes:
-  db-data:
+# services:
 
+#   # コンテナ毎にserviceの下にネストして書く
+#   db:
+#     # postgresのイメージを取得
+#     image: postgres
+#     # ここが不明
+#     environment:
+#       - POSTGRES_PASSWORD=password
+#       # ローカルのため、とりあえずこの設定
+#       - POSTGRES_HOST_AUTH_METHOD=trust
+
+#   web:
+#     # カレントディレクトリーにあるDockerfileをbuildする
+#     build: .
+#     # コンテナ起動時に実行
+#     command: bundle exec rails s -p 3000 -b '0.0.0.0'
+#     # カレントディレクトリを/yata-appにマウント
+#     volumes:
+#       - .:/yata-app
+#     # 3000で公開して、コンテナの3000へ転送
+#     ports:
+#       - "3000:3000"
+#     # Webサービスを起動する前にdbサービスを起動
+#     depends_on:
+#       - db
+
+# # データ永続化のためにpgdatabolのvolumeを作成し、postgresqlのデータ領域をマウント
+# volumes:
+#   pgdatavol:
+
+version: "3.9"
 services:
-  web:
-    # buildコマンドの情報（イメージをpullする）
-    build: .
-    # 下記パラメータを元にrunしてコンテナを作る
-    # ポートの指定
-    ports:
-      - '3000:3000'
-    # カレントディレクトリをコンテナをマウントする
-    volumes:
-      - '.:/yata-app'
-    environment:
-      - 'DATABASE_PASSWORD=postgres'
-      # SystemSpec用に追加
-      - "SELENIUM_DRIVER_URL=http://selenium_chrome:4444/wd/hub"
-    tty: true
-    stdin_open: true
-    depends_on:
-      - db
-      # SystemSpec用に追加
-      - chrome
-    links:
-      - db
-
-  # SystemSpec用に追加
-  chrome:
-    image: selenium/standalone-chrome-debug:latest
-    ports:
-      - 4444:4444
-      - 5900:5900
-
   db:
     image: postgres
     volumes:
-      - 'db-data:/var/lib/postgressql/data'
+      - ./tmp/db:/var/lib/postgresql/data
     environment:
-      - 'POSTGRES_HOST_AUTH_METHOD=trust'
+      POSTGRES_PASSWORD: password
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/myapp
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db

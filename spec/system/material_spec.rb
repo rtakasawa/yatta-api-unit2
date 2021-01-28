@@ -333,6 +333,7 @@ RSpec.describe '教材管理機能', js: true, type: :system do
       it '登録ボタンを押すと、教材登録ができる', retry: 3 do
         fill_in 'search_keyword', with: 'プロを目指す人のためのRuby入門'
         click_on '検索'
+        sleep 3
         wait.until { find('#contents > div:nth-child(1) > div:nth-child(3) > div > div > div.col-md-8 > div > p:nth-child(3) > a').click }
         click_on '登録'
         wait.until { expect(page).to have_content '教材が登録されました' }
