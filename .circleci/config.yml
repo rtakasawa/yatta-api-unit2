@@ -87,7 +87,7 @@ jobs:
 
       - run:
           name: awscli
-          command: sudo pip install awscli
+          command: brew install awscli
 
       - deploy:
           name: Capistrano deploy
