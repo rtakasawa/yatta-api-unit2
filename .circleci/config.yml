@@ -85,14 +85,24 @@ jobs:
           path: tmp/screenshots
           destination: test-screenshots
 
-      - add_ssh_keys:
-          fingerprints:
-            - "8c:23:19:92:11:ea:64:ac:8c:82:70:47:c6:1b:51:90"
+      - dependencies:
+          pre:
+            - sudo pip install awscli
 
-      - deploy:
-          name: Capistrano deploy
-          command: |
-            if [ "${CIRCLE_BRANCH}" != "master" ]; then
-              exit 0
-            fi
-            ROLES=web1 bundle exec cap production deploy
+      - deployment:
+          staging:
+            branch: master
+            commands:
+              - sh script/deploy_staging.sh
+
+      # - add_ssh_keys:
+      #     fingerprints:
+      #       - "8c:23:19:92:11:ea:64:ac:8c:82:70:47:c6:1b:51:90"
+
+      # - deploy:
+      #     name: Capistrano deploy
+      #     command: |
+      #       if [ "${CIRCLE_BRANCH}" != "master" ]; then
+      #         exit 0
+      #       fi
+      #       ROLES=web1 bundle exec cap production deploy
