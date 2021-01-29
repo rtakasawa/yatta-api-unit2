@@ -89,13 +89,17 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install python3-pip groff-base
       - run: sudo pip3 install awscli --ignore-installed six
 
+      - add_ssh_keys:
+          fingerprints:
+            - "8c:23:19:92:11:ea:64:ac:8c:82:70:47:c6:1b:51:90"
+
       - deploy:
           name: Capistrano deploy
-          command: |
-            if [ "${CIRCLE_BRANCH}" != "master" ]; then
-              exit 0
-            fi
-            sh script/deploy_staging.sh
+          command: script/deploy_staging.sh
+
+# if [ "${CIRCLE_BRANCH}" != "master" ]; then
+            #   exit 0
+            # fi
 
 
 # deployment:
