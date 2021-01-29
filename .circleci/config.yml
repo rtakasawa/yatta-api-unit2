@@ -85,9 +85,19 @@ jobs:
           path: tmp/screenshots
           destination: test-screenshots
 
-      - run:
-          name: awscli
-          command: brew install awscli
+      # aws cliのinstall
+      - run: sudo apt-get update && sudo apt-get install python3-pip groff-base
+      - run: sudo pip3 install awscli --ignore-installed six
+      # - run:
+      #     name: awscli
+      #     command: |
+      #       curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
+      #       sudo python get-pip.py
+      #       sudo pip install awscli
+
+# curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+# unzip awscliv2.zip
+# sudo ./aws/install
 
       - deploy:
           name: Capistrano deploy
