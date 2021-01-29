@@ -16,7 +16,7 @@ https://yatta-app.com/
 
 ## インフラ構成
 ### インフラ構成図
-![Yattaインフラ構成図-20210128](https://user-images.githubusercontent.com/60159339/106147021-ba291d00-61ba-11eb-9d31-a6a9487950a8.png)
+![Yattaインフラ構成図-20210128](https://user-images.githubusercontent.com/60159339/106317895-4ec27680-62b2-11eb-9a1a-5b96d7f642fd.png)
 
 ### 特徴：冗長化することでの可用性の高い設計
 - EC2インスタンスをマルチAZ構成にし、ALBでアクセスを振り分けることで、サーバーの冗長化と負荷分散を実施。
@@ -88,4 +88,5 @@ https://drive.google.com/file/d/1u4qmaDcVK3dbD_cQSysialihcJ9RUmlL/view?usp=shari
     - ElasticIPの取得、割当。
     - `/config/deploy/production.rb`のIPアドレス編集
     - `/etc/nginx/conf.d/yatta.conf`のIPアドレス編集
+    - `script/deploy_staging.sh`の`cap production deploy`コマンド編集
 - RDSのマルチAZ方式を解除。

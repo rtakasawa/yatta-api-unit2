@@ -96,11 +96,7 @@ jobs:
       - deploy:
           name: Capistrano deploy
           command: script/deploy_staging.sh
-
-      # - deploy:
-      #     name: Capistrano deploy
-      #     command: |
-      #       if [ "${CIRCLE_BRANCH}" != "master" ]; then
-      #         exit 0
-      #       fi
-      #       ROLES=web1 bundle exec cap production deploy
+            if [ "${CIRCLE_BRANCH}" != "master" ]; then
+              exit 0
+            fi
+            script/deploy_staging.sh
