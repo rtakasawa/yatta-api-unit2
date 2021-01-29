@@ -86,3 +86,6 @@ Metrics/BlockLength:
 Layout/LineLength:
   Exclude:
     - 'spec/**/*'
+
+Style/PercentLiteralDelimiters:
+  Enabled: false
