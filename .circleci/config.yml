@@ -85,15 +85,15 @@ jobs:
           path: tmp/screenshots
           destination: test-screenshots
 
-    dependencies:
-      pre:
-        - sudo pip install awscli
+dependencies:
+  pre:
+    - sudo pip install awscli
 
-    deployment:
-      staging:
-        branch: master
-        commands:
-          - sh script/deploy_staging.sh
+deployment:
+  staging:
+    branch: master
+    commands:
+      - sh script/deploy_staging.sh
 
       # - add_ssh_keys:
       #     fingerprints:
