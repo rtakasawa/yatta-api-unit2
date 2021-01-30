@@ -12,6 +12,7 @@ jobs:
           PGHOST: 127.0.0.1
           PGUSER: postgres
           TZ: "Japan"
+          BUNDLER_VERSION: 2.1.4
 
       - image: circleci/postgres
         environment:
@@ -23,15 +24,15 @@ jobs:
     steps:
       - checkout
 
-      # bundlerのインストール設定
-      - run:
-          name: setup bundler
-          command: |
-            gem update --system
-            gem uninstall bundler
-            rm /usr/local/bin/bundle
-            rm /usr/local/bin/bundler
-            gem install bundler
+      # # bundlerのインストール設定
+      # - run:
+      #     name: setup bundler
+      #     command: |
+      #       gem update --system
+      #       gem uninstall bundler
+      #       rm /usr/local/bin/bundle
+      #       rm /usr/local/bin/bundler
+      #       gem install bundler
 
       # キャッシュがsave_cacheされていればリストアする
       - restore_cache:
@@ -41,36 +42,25 @@ jobs:
             - v1-dependencies-
 
       - run:
-          name: setup database
-          command: |
-            cp -v config/database.ci.yml config/database.yml
-
-      - run:
           name: install dependencies
-          command: |
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
-
-      # yarnインストール
-      - run:
-          name: yarn Install
-          command: yarn install
+          command: bundle install --jobs=4 --retry=3 --path vendor/bundle
 
       - save_cache:
           paths:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
-      # 追加
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
+      # yarnインストール
       - run:
-          name: install dependencies
-          command: |
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
+          name: yarn Install
+          command: yarn install
+
+      # コマンドの実行宣言
+      - run:
+        # runの任意の名前
+        name: setup database
+        # 実行するコマンド
+        command: cp -v config/database.ci.yml config/database.yml
 
       - run:
           name: setup database
