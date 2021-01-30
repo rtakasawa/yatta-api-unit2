@@ -11,6 +11,7 @@ jobs:
           PGHOST: 127.0.0.1
           PGUSER: postgres
           TZ: "Japan"
+          BUNDLER_VERSION: 2.1.4
 
       - image: circleci/postgres
         environment:
@@ -22,16 +23,6 @@ jobs:
     steps:
       - checkout
 
-      # # bundlerのインストール設定
-      # - run:
-      #     name: setup bundler
-      #     command: |
-      #       gem update --system
-      #       gem uninstall bundler
-      #       rm /usr/local/bin/bundle
-      #       rm /usr/local/bin/bundler
-      #       gem install bundler
-
       # キャッシュがsave_cacheされていればリストアする
       - restore_cache:
           keys:
@@ -39,21 +30,19 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
+      # yarnインストール
+      - run:
+          name: yarn Install
+          command: yarn install
+
       - run:
           name: install dependencies
-          command: |
-            gem install bundler -v 2.1.4
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
+          command: bundle install --jobs=4 --retry=3 --path vendor/bundle
 
       - save_cache:
           paths:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-
-      # yarnインストール
-      - run:
-          name: yarn Install
-          command: yarn install
 
       # コマンドの実行宣言
       - run:
