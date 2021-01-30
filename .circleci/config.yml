@@ -7,7 +7,6 @@ jobs:
       - image: circleci/ruby:2.6.5-node-browsers
         # 環境変数の設定
         environment:
-          BUNDLER_VERSION: 2.1.4
           RAILS_ENV: test
           PGHOST: 127.0.0.1
           PGUSER: postgres
@@ -57,10 +56,10 @@ jobs:
 
       # コマンドの実行宣言
       - run:
-        # runの任意の名前
-        name: setup database
-        # 実行するコマンド
-        command: cp -v config/database.ci.yml config/database.yml
+          # runの任意の名前
+          name: setup database
+          # 実行するコマンド
+          command: cp -v config/database.ci.yml config/database.yml
 
       - run:
           name: setup database
