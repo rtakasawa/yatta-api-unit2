@@ -11,7 +11,6 @@ jobs:
           PGHOST: 127.0.0.1
           PGUSER: postgres
           TZ: "Japan"
-          BUNDLER_VERSION: 2.1.4
 
       - image: circleci/postgres
         environment:
@@ -23,11 +22,47 @@ jobs:
     steps:
       - checkout
 
-      # キャッシュがsave_cacheされていればリストアする
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run:
+          name: install dependencies
+          command: |
+            gem install bundler -v 2.1.4
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+
+      # yarnインストール
+      - run:
+          name: yarn Install
+          command: yarn install
+
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+
+  test:
+    docker:
+      - image: circleci/ruby:2.6.5-node-browsers
+      environment:
+        RAILS_ENV: test
+        PGHOST: 127.0.0.1
+        PGUSER: postgres
+        TZ: "Japan"
+        BUNDLER_VERSION: 2.1.4
+      - image: circleci/postgres
+      environment:
+        POSTGRES_PASSWORD: password
+
+    working_directory: ~/repo
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
             - v1-dependencies-
 
       # yarnインストール
@@ -37,19 +72,9 @@ jobs:
 
       - run:
           name: install dependencies
-          command: bundle install --jobs=4 --retry=3 --path vendor/bundle
-
-      - save_cache:
-          paths:
-            - ./vendor/bundle
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-
-      # コマンドの実行宣言
-      - run:
-          # runの任意の名前
-          name: setup database
-          # 実行するコマンド
-          command: cp -v config/database.ci.yml config/database.yml
+          command: |
+            gem install bundler -v 2.1.4
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
 
       - run:
           name: setup database
@@ -76,18 +101,63 @@ jobs:
           path: tmp/screenshots
           destination: test-screenshots
 
-      # aws cliのinstall
-      - run: sudo apt-get update && sudo apt-get install python3-pip groff-base
-      - run: sudo pip3 install awscli --ignore-installed six
+  deploy:
+    test:
+      docker:
+        - image: circleci/ruby:2.6.5-node-browsers
+        environment:
+          RAILS_ENV: test
+          PGHOST: 127.0.0.1
+          PGUSER: postgres
+          TZ: "Japan"
+          BUNDLER_VERSION: 2.1.4
+        - image: circleci/postgres
+        environment:
+          POSTGRES_PASSWORD: password
 
-      - add_ssh_keys:
-          fingerprints:
-            - "ba:c5:3a:e6:fa:04:3d:c4:38:f4:d9:90:cb:41:7e:48"
+      working_directory: ~/repo
+      steps:
+        - checkout
 
+        - restore_cache:
+            keys:
+              - v1-dependencies-{{ checksum "Gemfile.lock" }}
+              - v1-dependencies-
+
+        - run:
+            name: yarn Install
+            command: yarn install
+
+        - run:
+            name: install dependencies
+            command: |
+              gem install bundler -v 2.1.4
+              bundle install --jobs=4 --retry=3 --path vendor/bundle
+
+        # aws cliのinstall
+        - run: sudo apt-get update && sudo apt-get install python3-pip groff-base
+        - run: sudo pip3 install awscli --ignore-installed six
+
+        - add_ssh_keys:
+            fingerprints:
+              - "ba:c5:3a:e6:fa:04:3d:c4:38:f4:d9:90:cb:41:7e:48"
+
+        - deploy:
+            name: Capistrano deploy
+            command: |
+              if [ "${CIRCLE_BRANCH}" != "master" ]; then
+                exit 0
+              fi
+              script/deploy_staging.sh
+
+workflows:
+  version: 2.1
+  workflows:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
       - deploy:
-          name: Capistrano deploy
-          command: |
-            if [ "${CIRCLE_BRANCH}" != "master" ]; then
-              exit 0
-            fi
-            script/deploy_staging.sh
+        requires:
+          - test
