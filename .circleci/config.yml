@@ -1,9 +1,11 @@
 version: 2.1
 jobs:
   build:
+    # CI環境にDockerを利用する場合の設定
     docker:
-      # specify the version you desire here
+      # ベースとなるDockerイメージを指定する。
       - image: circleci/ruby:2.6.5-node-browsers
+        # 環境変数の設定
         environment:
           BUNDLER_VERSION: 2.1.4
           RAILS_ENV: test
@@ -11,19 +13,17 @@ jobs:
           PGUSER: postgres
           TZ: "Japan"
 
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
       - image: circleci/postgres
         environment:
           POSTGRES_PASSWORD: password
 
+    # 実行ディレクトリを設定する。
     working_directory: ~/repo
-
+    # CI環境上のworking_directoryの値の場所にGitリポジトリをコピーする。
     steps:
       - checkout
 
-      # Setup bundler 2+
+      # bundlerのインストール設定
       - run:
           name: setup bundler
           command: |
@@ -33,7 +33,7 @@ jobs:
             rm /usr/local/bin/bundler
             gem install bundler
 
-      # Download and cache dependencies
+      # キャッシュがsave_cacheされていればリストアする
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
@@ -50,15 +50,27 @@ jobs:
           command: |
             bundle install --jobs=4 --retry=3 --path vendor/bundle
 
+      # yarnインストール
+      - run:
+        name: yarn Install
+        command: yarn install
+
       - save_cache:
           paths:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
-      # yarnインストール
+      # 追加
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
       - run:
-          name: yarn Install
-          command: yarn install
+          name: install dependencies
+          command: |
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
 
       - run:
           name: setup database
