@@ -52,8 +52,8 @@ jobs:
 
       # yarnインストール
       - run:
-        name: yarn Install
-        command: yarn install
+          name: yarn Install
+          command: yarn install
 
       - save_cache:
           paths:
