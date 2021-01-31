@@ -23,7 +23,7 @@ jobs:
       # キャッシュされた内容を取り出す
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            # - v1-dependencies-{{ checksum "Gemfile.lock" }}
             - v1-dependencies-
 
       # 各種インストール
