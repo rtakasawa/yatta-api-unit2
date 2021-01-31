@@ -12,28 +12,44 @@ jobs:
           PGUSER: postgres
           TZ: "Japan"
 
-    # 実行ディレクトリを設定する。
-    working_directory: ~/repo
     # CI環境上のworking_directoryの値の場所にGitリポジトリをコピーする。
     steps:
       - checkout
 
+      # bundlerのインストール設定
+      - run:
+          name: setup bundler
+          command: gem install bundler -v 2.1.4
+
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "repo/Gemfile.lock" }}
-            - v1-dependencies-{{ checksum "repo/*" }}
+            # ロック ファイルが変更されたら、パターンが一致する範囲を少しずつ広げてキャッシュを復元します
+            - v1-gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+            - v1-gem-cache-{{ arch }}-{{ .Branch }}-
+            - v1-gem-cache-{{ arch }}-
 
       - run:
           name: install dependencies
-          command: |
-            gem install bundler -v 2.1.4
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
-            yarn install
+          command: bundle install --jobs=4 --retry=3 --path vendor/bundle
 
       - save_cache:
+          key: rails-demo-bundle-v2-{{ checksum "Gemfile.lock" }}
           paths:
-            - repo/vendor/bundle
-          key: v1-dependencies-{{ checksum "repo/Gemfile.lock" }}
+            - vendor/bundle
+
+      - restore_cache:
+          keys:
+            - rails-demo-yarn-{{ checksum "yarn.lock" }}
+            - rails-demo-yarn-
+
+      - run:
+          name: Yarn のインストール
+          command: yarn install --cache-folder ~/.cache/yarn
+
+      - save_cache:
+          key: rails-demo-yarn-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
 
   test:
     docker:
@@ -47,31 +63,39 @@ jobs:
         environment:
           POSTGRES_PASSWORD: password
 
-    working_directory: ~/repo
     steps:
       - checkout
 
+      - run:
+          name: setup bundler
+          command: gem install bundler -v 2.1.4
+
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "repo/Gemfile.lock" }}
-            - v1-dependencies-{{ checksum "repo/*" }}
+            - v1-gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+            - v1-gem-cache-{{ arch }}-{{ .Branch }}-
+            - v1-gem-cache-{{ arch }}-
 
       - run:
           name: install dependencies
-          command: |
-            gem install bundler -v 2.1.4
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
-            yarn install
+          command: bundle install --jobs=4 --retry=3 --path vendor/bundle
+
+      - restore_cache:
+          keys:
+            - rails-demo-yarn-{{ checksum "yarn.lock" }}
+            - rails-demo-yarn-
+
+      - run:
+          name: Yarn のインストール
+          command: yarn install --cache-folder ~/.cache/yarn
 
       - run:
           name: setup database
-          command: |
-            cp -v config/database.ci.yml config/database.yml
+          command: cp -v config/database.ci.yml config/database.yml
 
       - run:
           name: setup rspec
-          command: |
-            cp -v spec/rails_helper.ci.rb spec/rails_helper.rb
+          command: cp -v spec/rails_helper.ci.rb spec/rails_helper.rb
 
       - run: bundle exec rake db:create db:schema:load
 
@@ -99,19 +123,34 @@ jobs:
       - image: circleci/postgres
         environment:
           POSTGRES_PASSWORD: password
-    working_directory: ~/repo
     steps:
       - checkout
+
+      # bundlerのインストール設定
+      - run:
+          name: setup bundler
+          command: gem install bundler -v 2.1.4
+
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "repo/Gemfile.lock" }}
-            - v1-dependencies-{{ checksum "repo/*" }}
+            # ロック ファイルが変更されたら、パターンが一致する範囲を少しずつ広げてキャッシュを復元します
+            - v1-gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+            - v1-gem-cache-{{ arch }}-{{ .Branch }}-
+            - v1-gem-cache-{{ arch }}-
+
       - run:
           name: install dependencies
-          command: |
-            gem install bundler -v 2.1.4
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
-            yarn install
+          command: bundle install --jobs=4 --retry=3 --path vendor/bundle
+
+      - restore_cache:
+          keys:
+            - rails-demo-yarn-{{ checksum "yarn.lock" }}
+            - rails-demo-yarn-
+
+      - run:
+          name: Yarn のインストール
+          command: yarn install --cache-folder ~/.cache/yarn
+
       # aws cliのinstall
       - run: sudo apt-get update && sudo apt-get install python3-pip groff-base
       - run: sudo pip3 install awscli --ignore-installed six
