@@ -1,3 +1,108 @@
+# version: 2.1
+# jobs:
+#   build:
+#     # CI環境にDockerを利用する場合の設定
+#     docker:
+#       # ベースとなるDockerイメージを指定する。
+#       - image: circleci/ruby:2.6.5-node-browsers
+#         # 環境変数の設定
+#         environment:
+#           RAILS_ENV: test
+#           PGHOST: 127.0.0.1
+#           PGUSER: postgres
+#           TZ: "Japan"
+
+#       - image: circleci/postgres
+#         environment:
+#           POSTGRES_PASSWORD: password
+
+#     # 実行ディレクトリを設定する。
+#     working_directory: ~/repo
+#     # CI環境上のworking_directoryの値の場所にGitリポジトリをコピーする。
+#     steps:
+#       - checkout
+
+#       # # bundlerのインストール設定
+#       # - run:
+#       #     name: setup bundler
+#       #     command: |
+#       #       gem update --system
+#       #       gem uninstall bundler
+#       #       rm /usr/local/bin/bundle
+#       #       rm /usr/local/bin/bundler
+#       #       gem install bundler
+
+#       # キャッシュがsave_cacheされていればリストアする
+#       - restore_cache:
+#           keys:
+#             - v1-dependencies-{{ checksum "Gemfile.lock" }}
+#             # fallback to using the latest cache if no exact match is found
+#             - v1-dependencies-
+
+#       - run:
+#           name: install dependencies
+#           command: |
+#             gem install bundler -v 2.1.4
+#             bundle install --jobs=4 --retry=3 --path vendor/bundle
+
+#       - save_cache:
+#           paths:
+#             - ./vendor/bundle
+#           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+
+#       # yarnインストール
+#       - run:
+#           name: yarn Install
+#           command: yarn install
+
+#       # コマンドの実行宣言
+#       - run:
+#           # runの任意の名前
+#           name: setup database
+#           # 実行するコマンド
+#           command: cp -v config/database.ci.yml config/database.yml
+
+#       - run:
+#           name: setup database
+#           command: |
+#             cp -v config/database.ci.yml config/database.yml
+
+#       - run:
+#           name: setup rspec
+#           command: |
+#             cp -v spec/rails_helper.ci.rb spec/rails_helper.rb
+
+#       - run: bundle exec rake db:create db:schema:load
+
+#       - run:
+#           name: Rubocop
+#           command: bundle exec rubocop
+
+#       - run:
+#           name: Rspec
+#           command: bundle exec rspec
+
+#       # テスト結果の保存(CircleCI上で見れる)
+#       - store_artifacts:
+#           path: tmp/screenshots
+#           destination: test-screenshots
+
+#       # aws cliのinstall
+#       - run: sudo apt-get update && sudo apt-get install python3-pip groff-base
+#       - run: sudo pip3 install awscli --ignore-installed six
+
+#       - add_ssh_keys:
+#           fingerprints:
+#             - "ba:c5:3a:e6:fa:04:3d:c4:38:f4:d9:90:cb:41:7e:48"
+
+#       - deploy:
+#           name: Capistrano deploy
+#           command: |
+#             if [ "${CIRCLE_BRANCH}" != "master" ]; then
+#               exit 0
+#             fi
+#             script/deploy_staging.sh
+
 version: 2.1
 jobs:
   build:
@@ -12,10 +117,6 @@ jobs:
           PGUSER: postgres
           TZ: "Japan"
 
-      - image: circleci/postgres
-        environment:
-          POSTGRES_PASSWORD: password
-
     # 実行ディレクトリを設定する。
     working_directory: ~/repo
     # CI環境上のworking_directoryの値の場所にGitリポジトリをコピーする。
@@ -24,37 +125,32 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            - v1-dependencies-
+            - v1-dependencies-{{ checksum "repo/Gemfile.lock" }}
+            - v1-dependencies-{{ checksum "repo/*" }}
 
       - run:
           name: install dependencies
           command: |
             gem install bundler -v 2.1.4
             bundle install --jobs=4 --retry=3 --path vendor/bundle
-
-      # yarnインストール
-      - run:
-          name: yarn Install
-          command: yarn install
+            yarn install
 
       - save_cache:
           paths:
-            - ./vendor/bundle
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+            - repo/vendor/bundle
+          key: v1-dependencies-{{ checksum "repo/Gemfile.lock" }}
 
   test:
     docker:
       - image: circleci/ruby:2.6.5-node-browsers
-      environment:
-        RAILS_ENV: test
-        PGHOST: 127.0.0.1
-        PGUSER: postgres
-        TZ: "Japan"
-        BUNDLER_VERSION: 2.1.4
+        environment:
+          RAILS_ENV: test
+          PGHOST: 127.0.0.1
+          PGUSER: postgres
+          TZ: "Japan"
       - image: circleci/postgres
-      environment:
-        POSTGRES_PASSWORD: password
+        environment:
+          POSTGRES_PASSWORD: password
 
     working_directory: ~/repo
     steps:
@@ -62,19 +158,15 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            - v1-dependencies-
-
-      # yarnインストール
-      - run:
-          name: yarn Install
-          command: yarn install
+            - v1-dependencies-{{ checksum "repo/Gemfile.lock" }}
+            - v1-dependencies-{{ checksum "repo/*" }}
 
       - run:
           name: install dependencies
           command: |
             gem install bundler -v 2.1.4
             bundle install --jobs=4 --retry=3 --path vendor/bundle
+            yarn install
 
       - run:
           name: setup database
@@ -102,53 +194,42 @@ jobs:
           destination: test-screenshots
 
   deploy:
-    test:
-      docker:
-        - image: circleci/ruby:2.6.5-node-browsers
+    docker:
+      - image: circleci/ruby:2.6.5-node-browsers
         environment:
           RAILS_ENV: test
           PGHOST: 127.0.0.1
           PGUSER: postgres
           TZ: "Japan"
-          BUNDLER_VERSION: 2.1.4
-        - image: circleci/postgres
+      - image: circleci/postgres
         environment:
           POSTGRES_PASSWORD: password
-
-      working_directory: ~/repo
-      steps:
-        - checkout
-
-        - restore_cache:
-            keys:
-              - v1-dependencies-{{ checksum "Gemfile.lock" }}
-              - v1-dependencies-
-
-        - run:
-            name: yarn Install
-            command: yarn install
-
-        - run:
-            name: install dependencies
-            command: |
-              gem install bundler -v 2.1.4
-              bundle install --jobs=4 --retry=3 --path vendor/bundle
-
-        # aws cliのinstall
-        - run: sudo apt-get update && sudo apt-get install python3-pip groff-base
-        - run: sudo pip3 install awscli --ignore-installed six
-
-        - add_ssh_keys:
-            fingerprints:
-              - "ba:c5:3a:e6:fa:04:3d:c4:38:f4:d9:90:cb:41:7e:48"
-
-        - deploy:
-            name: Capistrano deploy
-            command: |
-              if [ "${CIRCLE_BRANCH}" != "master" ]; then
-                exit 0
-              fi
-              script/deploy_staging.sh
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "repo/Gemfile.lock" }}
+            - v1-dependencies-{{ checksum "repo/*" }}
+      - run:
+          name: install dependencies
+          command: |
+            gem install bundler -v 2.1.4
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+            yarn install
+      # aws cliのinstall
+      - run: sudo apt-get update && sudo apt-get install python3-pip groff-base
+      - run: sudo pip3 install awscli --ignore-installed six
+      - add_ssh_keys:
+          fingerprints:
+            - "ba:c5:3a:e6:fa:04:3d:c4:38:f4:d9:90:cb:41:7e:48"
+      - deploy:
+          name: Capistrano deploy
+          command: |
+            if [ "${CIRCLE_BRANCH}" != "master" ]; then
+              exit 0
+            fi
+            script/deploy_staging.sh
 
 workflows:
   version: 2.1
@@ -157,7 +238,7 @@ workflows:
       - build
       - test:
           requires:
-            - build
+              - build
       - deploy:
-        requires:
-          - test
+          requires:
+              - test
