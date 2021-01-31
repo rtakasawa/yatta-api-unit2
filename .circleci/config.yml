@@ -18,8 +18,6 @@ jobs:
     steps:
       - checkout
 
-      - run: bundle clean --force
-
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "repo/Gemfile.lock" }}
