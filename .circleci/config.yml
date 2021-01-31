@@ -1,10 +1,10 @@
 version: 2.1
 jobs:
-  build:
+  test:
     # CI環境にDockerを利用する場合の設定
     docker:
       # ベースとなるDockerイメージを指定する。
-      - image: circleci/ruby:2.6.5-node-browsers
+      - image: circleci/ruby:2.6.5-node-browsers-legacy
         # 環境変数の設定
         environment:
           RAILS_ENV: test
@@ -12,82 +12,30 @@ jobs:
           PGUSER: postgres
           TZ: "Japan"
 
-    # CI環境上のworking_directoryの値の場所にGitリポジトリをコピーする。
-    steps:
-      - checkout
-
-      # bundlerのインストール設定
-      - run:
-          name: setup bundler
-          command: gem install bundler -v 2.1.4
-
-      - restore_cache:
-          keys:
-            # ロック ファイルが変更されたら、パターンが一致する範囲を少しずつ広げてキャッシュを復元します
-            - v1-gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
-            - v1-gem-cache-{{ arch }}-{{ .Branch }}-
-            - v1-gem-cache-{{ arch }}-
-
-      - run:
-          name: install dependencies
-          command: bundle install --jobs=4 --retry=3 --path vendor/bundle
-
-      - save_cache:
-          key: rails-demo-bundle-v2-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
-
-      - restore_cache:
-          keys:
-            - rails-demo-yarn-{{ checksum "yarn.lock" }}
-            - rails-demo-yarn-
-
-      - run:
-          name: Yarn のインストール
-          command: yarn install --cache-folder ~/.cache/yarn
-
-      - save_cache:
-          key: rails-demo-yarn-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
-
-  test:
-    docker:
-      - image: circleci/ruby:2.6.5-node-browsers
-        environment:
-          RAILS_ENV: test
-          PGHOST: 127.0.0.1
-          PGUSER: postgres
-          TZ: "Japan"
       - image: circleci/postgres
         environment:
           POSTGRES_PASSWORD: password
 
+    # CI環境上にGitリポジトリをコピーする。
     steps:
       - checkout
 
-      # - run:
-      #     name: setup bundler
-      #     command: gem install bundler -v 2.1.4
-
       - restore_cache:
           keys:
-            - v1-gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
-            - v1-gem-cache-{{ arch }}-{{ .Branch }}-
-            - v1-gem-cache-{{ arch }}-
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            - v1-dependencies-
 
       - run:
           name: install dependencies
-          command: bundle install --jobs=4 --retry=3 --path vendor/bundle
+          command: |
+            gem install bundler -v 2.1.4
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+            yarn install
 
-      - restore_cache:
-          keys:
-            - rails-demo-yarn-{{ checksum "yarn.lock" }}
-            - rails-demo-yarn-
-
-      - run:
-          name: Yarn のインストール
-          command: yarn install --cache-folder ~/.cache/yarn
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
       - run:
           name: setup database
@@ -114,7 +62,7 @@ jobs:
 
   deploy:
     docker:
-      - image: circleci/ruby:2.6.5-node-browsers
+      - image: circleci/ruby:2.6.5-node-browsers-legacy
         environment:
           RAILS_ENV: test
           PGHOST: 127.0.0.1
@@ -126,37 +74,26 @@ jobs:
     steps:
       - checkout
 
-      # # bundlerのインストール設定
-      # - run:
-      #     name: setup bundler
-      #     command: gem install bundler -v 2.1.4
-
       - restore_cache:
           keys:
-            # ロック ファイルが変更されたら、パターンが一致する範囲を少しずつ広げてキャッシュを復元します
-            - v1-gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
-            - v1-gem-cache-{{ arch }}-{{ .Branch }}-
-            - v1-gem-cache-{{ arch }}-
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            - v1-dependencies-
 
       - run:
           name: install dependencies
-          command: bundle install --jobs=4 --retry=3 --path vendor/bundle
-
-      - restore_cache:
-          keys:
-            - rails-demo-yarn-{{ checksum "yarn.lock" }}
-            - rails-demo-yarn-
-
-      - run:
-          name: Yarn のインストール
-          command: yarn install --cache-folder ~/.cache/yarn
+          command: |
+            gem install bundler -v 2.1.4
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+            yarn install
 
       # aws cliのinstall
       - run: sudo apt-get update && sudo apt-get install python3-pip groff-base
       - run: sudo pip3 install awscli --ignore-installed six
+
       - add_ssh_keys:
           fingerprints:
             - "ba:c5:3a:e6:fa:04:3d:c4:38:f4:d9:90:cb:41:7e:48"
+
       - deploy:
           name: Capistrano deploy
           command: |
@@ -169,10 +106,7 @@ workflows:
   version: 2.1
   workflows:
     jobs:
-      - build
-      - test:
-          requires:
-              - build
+      - test
       - deploy:
           requires:
               - test
