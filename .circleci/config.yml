@@ -1,6 +1,5 @@
 version: 2.1
 jobs:
-  # rspecとrubocopの実行
   test:
     # CI環境にDockerを利用する場合の設定
     docker:
@@ -16,28 +15,30 @@ jobs:
         environment:
           POSTGRES_PASSWORD: password
 
-    # CI環境上にGitリポジトリをコピーする。
+    # 実行ディレクトリを設定する。
+    working_directory: ~/repo
+    # CI環境上のworking_directoryの値の場所にGitリポジトリをコピーする。
     steps:
       - checkout
 
       # キャッシュされた内容を取り出す
       - restore_cache:
           keys:
-            # - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
             - v1-dependencies-
 
-      # 各種インストール
+      # 各種インストール(キャッシュがうまくいかず、毎回gemのインストールで時間がかかる)
       - run:
           name: install dependencies
           command: |
             gem install bundler -v 2.1.4
-            bundle install --jobs=4 --retry=3 --path ./project/vendor/bundle
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
             yarn install
 
       # ./vendor/bundleのコードをキャッシュする
       - save_cache:
           paths:
-            - ./project/vendor/bundle
+            - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
       # 開発環境ではDocker用にdatabase.ymlを編集したため、ci用にファイルをコピーする
@@ -76,6 +77,7 @@ jobs:
       - image: circleci/postgres
         environment:
           POSTGRES_PASSWORD: password
+    working_directory: ~/repo
     steps:
       - checkout
 
@@ -88,7 +90,7 @@ jobs:
           name: install dependencies
           command: |
             gem install bundler -v 2.1.4
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
+            bundle install --jobs=4 --retry=3 --path ./vendor/bundle
             yarn install
 
       # aws cliのinstall
