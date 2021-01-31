@@ -66,9 +66,9 @@ jobs:
     steps:
       - checkout
 
-      - run:
-          name: setup bundler
-          command: gem install bundler -v 2.1.4
+      # - run:
+      #     name: setup bundler
+      #     command: gem install bundler -v 2.1.4
 
       - restore_cache:
           keys:
@@ -126,10 +126,10 @@ jobs:
     steps:
       - checkout
 
-      # bundlerのインストール設定
-      - run:
-          name: setup bundler
-          command: gem install bundler -v 2.1.4
+      # # bundlerのインストール設定
+      # - run:
+      #     name: setup bundler
+      #     command: gem install bundler -v 2.1.4
 
       - restore_cache:
           keys:
