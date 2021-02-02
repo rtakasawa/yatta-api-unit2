@@ -1,5 +1,7 @@
 <% if @search_id == "1" %>
   <%= render "book_search",books: @books %>
-<% else %>
+<% elsif @search_id == "2" %>
   <%= render "qiita_search",items: @items %>
+<% elsif @search_id == "3" %>
+  <%= render "udemy_search",items: @udemys %>
 <% end %>

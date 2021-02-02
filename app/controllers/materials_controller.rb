@@ -17,6 +17,7 @@ class MaterialsController < ApplicationController
     @material.title = params[:title]
     @material.path = params[:path]
     @material.category = params[:category]
+    @material.tag_list = params[:tag_list] if params[:tag_list]
   end
 
   def create
@@ -52,17 +53,25 @@ class MaterialsController < ApplicationController
   def search
     @search_id = params[:search_id]
     @search_keyword = params[:search_keyword]
+
     # 本の検索
     if @search_id == '1'
       book_search_result = Book.get(@search_keyword)
       # 検索がヒットしない場合の処理
       return @books = book_search_result unless book_search_result.class == Array
-
       # 検索がヒットした場合の処理
       @books = Kaminari.paginate_array(book_search_result).page(params[:page]).per(30)
     end
     # Qiitaの検索
     return @items = Qiita.get(@search_keyword) if @search_id == '2'
+    # Udemyの検索
+    if @search_id == '3'
+      udemy_search_result = Udemy.new(@search_keyword).result
+      # 検索がヒットしない場合の処理
+      return @udemys = udemy_search_result if udemy_search_result.class == String
+      # 検索がヒットした場合の処理
+      @udemys = Kaminari.paginate_array(udemy_search_result).page(params[:page]).per(30)
+    end
   end
 
   private

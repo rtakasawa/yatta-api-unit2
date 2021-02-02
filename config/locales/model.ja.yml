@@ -47,6 +47,7 @@ ja:
         no_record: 教材の登録はありません
         book_search_results: 【書籍】検索結果
         qiita_search_results_(up_to_100_results_displayed): 【Qiita】検索結果（最大100件まで表示されます）
+        udemy_search_results: 【Udemy】検索結果
         please_keyword: キーワード
         please_title: タイトル名
         search_for_materials_before_registering: 教材を検索してから登録する
@@ -65,7 +66,6 @@ ja:
         couldn't_find_any_hits_in_my_search: 検索にヒットするものがありませんでした
         please_enter_at_least_2characters_for_the_search_word: 検索キーワードは２文字以上入力してください
         please_enter_a_search keyword: 検索キーワードを入力してください
-
     work:
         count: 回
         summary: 【学習情報一覧】学習登録回数

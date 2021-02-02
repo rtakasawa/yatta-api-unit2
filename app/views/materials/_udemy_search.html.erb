@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="card card-body bg-light">
+    <%= t("view.material.udemy_search_results") %>
+  </div>
+
+  <% if @udemys.class == String %>
+    <div class="mt-4" >
+      <p><%= @udemys %></p>
+    </div>
+
+  <% else %>
+    <div class="mt-4" >
+      <%= page_entries_info @udemys %>
+    </div>
+    <div class="mt-4">
+      <% @udemys.each do |udemy| %>
+        <div class="card mb-3">
+          <div class="row no-gutters">
+          <div class="col-md-4">
+            <img src="<%= udemy[:image] %>">
+          </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title"><%= t("activerecord.attributes.material.title") %>：<%= udemy[:title] %></h5>
+                <p class="card-text">
+                  <%= link_to t("helpers.submit.create"), new_material_path(title:udemy[:title], category:"video", tag_list:"Udemy"), class: "btn btn-primary"%>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="mt-4" >
+      <%= paginate @udemys, class: "paginate" %>
+    </div>
+  <% end %>
+</div>
