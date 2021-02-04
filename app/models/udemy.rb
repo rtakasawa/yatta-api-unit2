@@ -46,30 +46,3 @@ class Udemy
     udemy_info_list
   end
 end
-
-
-
-#     if udemy_info["next"].present?
-#       page_count = udemy_info["next"].match(/page_size=(\d+)/)[1].to_i
-#       (1..page_count-1).each do |count|
-#         udemy_info["results"].each do |info|
-#           udemy_info_list.push(
-#             { title: info["title"],
-#               image: info["image_240x135"]
-#               })
-#         end
-#         if udemy_info["next"].nil?
-#         udemy_info = JSON.parse(self.api_auth(udemy_info["next"]).get.body)
-#       end
-#       udemy_info_list
-#     else
-#       udemy_info["results"].each do |info|
-#         udemy_info_list.push(
-#           { title: info["title"],
-#             image: info["image_240x135"]
-#             })
-#       end
-#       udemy_info_list
-#     end
-#   end
-# end
