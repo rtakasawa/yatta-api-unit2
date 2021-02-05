@@ -35,6 +35,7 @@ class Udemy
 
     # Udemyのレスポンスは、デフォルトで12ページまでのため
     (1..12).each do |i|
+      # ここの処理で遅いと思われる（修正必要）
       udemy_info["results"].each do |info|
         udemy_info_list.push(
           { title: info["title"],
@@ -46,5 +47,14 @@ class Udemy
     end
     # なぜか講座が重複するため、重複削除
     udemy_info_list.uniq!
+
+    # 改造案（未完成）
+    # (1..12).each do |i|
+    #   udemy_info_list.push(udemy_info["results"])
+    #   break if udemy_info["next"].nil?
+    #   udemy_info = JSON.parse(self.api_auth(udemy_info["next"]).get.body)
+    # end
+    # ここでuniqが消せない。uniqを消せればよさそう
+    # udemy_info_list.flatten!.uniq!
   end
 end
