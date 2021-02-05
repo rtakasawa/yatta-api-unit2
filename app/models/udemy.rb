@@ -31,9 +31,10 @@ class Udemy
     udemy_info = JSON.parse(get_response.body)
     udemy_info_list = []
 
-    return '検索にヒットした講座がありませんでした' if udemy_info["count"].zero?
+    return '検索にヒットする講座がありませんでした' if udemy_info["count"].zero?
 
-    (1..100).each do |i|
+    # Udemyのレスポンスは、デフォルトで12ページまでのため
+    (1..12).each do |i|
       udemy_info["results"].each do |info|
         udemy_info_list.push(
           { title: info["title"],
@@ -43,6 +44,7 @@ class Udemy
       break if udemy_info["next"].nil?
       udemy_info = JSON.parse(self.api_auth(udemy_info["next"]).get.body)
     end
-    udemy_info_list
+    # なぜか講座が重複するため、重複削除
+    udemy_info_list.uniq!
   end
 end

@@ -49,9 +49,7 @@
       <div class="container">
         <%= form_with url: search_materials_path, method: :get,class: "form-inline", local: true do |f| %>
           <%= t("view.material.search_for_materials_before_registering") %>
-          <%= f.select :search_id,options_for_select([ [t("view.material.book"),1], [t("view.material.qiita"), 2] ],@search_id),
-          {include_blank: t("view.material.search_type") },:required => true,class: "form-control mx-sm-2" %>
-          <%#= f.select :search_id,options_for_select([ [t("view.material.book"),1], [t("view.material.qiita"), 2], [t("view.material.udemy"), 3]  ],@search_id),
+          <%= f.select :search_id,options_for_select([ [t("view.material.book"),1], [t("view.material.qiita"), 2], [t("view.material.udemy"), 3]  ],@search_id),
           {include_blank: t("view.material.search_type") },:required => true,class: "form-control mx-sm-2" %>
           <%= f.text_field :search_keyword, name: "search_keyword", placeholder: t("view.material.please_keyword"), value: @search_keyword, class: "form-control mx-sm-2" %>
           <button type="submit" class="btn btn-outline-success my-2 my-sm-0"><%= t("view.material.search") %></button>
