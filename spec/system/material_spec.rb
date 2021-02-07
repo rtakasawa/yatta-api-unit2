@@ -329,15 +329,57 @@ RSpec.describe '教材管理機能', js: true, type: :system do
         wait.until { expect(page).to have_content '検索キーワードは２文字以上入力してください' }
       end
     end
-    # context '該当する書籍が表示された場合' do
-    #   it '登録ボタンを押すと、教材登録ができる', retry: 3 do
-    #     fill_in 'search_keyword', with: 'プロを目指す人のためのRuby入門'
-    #     click_on '検索'
-    #     sleep 3
-    #     click_on '登録'
-    #     click_on '登録'
-    #     wait.until { expect(page).to have_content '教材が登録されました' }
-    #   end
-    # end
+    context '該当する書籍が表示された場合' do
+      it '登録ボタンを押すと、教材登録ができる', retry: 3 do
+        fill_in 'search_keyword', with: 'プロを目指す人のためのRuby入門'
+        click_on '検索'
+        sleep 3
+        click_on '登録'
+        click_on '登録'
+        wait.until { expect(page).to have_content '教材が登録されました' }
+      end
+    end
+  end
+
+  describe 'Udemy講座を検索する場合' do
+    before do
+      test_user_create(:user)
+      FactoryBot.create(:material, user_id: 1)
+      visit new_user_session_path
+      fill_in 'user[email]', with: 'sample@example.com'
+      fill_in 'user[password]', with: '0000000'
+      click_on 'commit'
+      select 'Udemy', from: 'search_id'
+    end
+    context 'キーワードを入力して、検索ボタンを押した場合' do
+      it 'キーワードに該当する講座が表示される' do
+        fill_in 'search_keyword', with: 'Rails'
+        click_on '検索'
+        wait.until { expect(page).to have_content 'Rails' }
+      end
+      it '該当する書籍がなければ、適切なメッセージが表示される' do
+        fill_in 'search_keyword', with: '---------------------------？？？？？？？？？？？？？？'
+        click_on '検索'
+        wait.until { expect(page).to have_content '検索にヒットする講座はありませんでした' }
+      end
+    end
+    context 'キーワードを入力せずに、検索ボタンを押した場合' do
+      it '適切なメッセージが表示される' do
+        fill_in 'search_keyword', with: ''
+        click_on '検索'
+        wait.until { expect(page).to have_content '検索キーワードを入力してください' }
+      end
+    end
+    context '該当する書籍が表示された場合' do
+      it '登録ボタンを押すと、教材登録ができる', retry: 3 do
+        fill_in 'search_keyword', with: 'Rails'
+        click_on '検索'
+        sleep 3
+        find("#contents > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > div > div.col-md-8 > div > p > a").click
+        # click_on '登録', match: :first
+        click_on '登録'
+        wait.until { expect(page).to have_content '教材が登録されました' }
+      end
+    end
   end
 end

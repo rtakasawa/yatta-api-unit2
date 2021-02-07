@@ -31,7 +31,7 @@ class Udemy
     udemy_info = JSON.parse(get_response.body)
     udemy_info_list = []
 
-    return '検索にヒットする講座がありませんでした' if udemy_info["count"].zero?
+    return '検索にヒットする講座はありませんでした' if udemy_info["count"].zero?
 
     # Udemyのレスポンスは、デフォルトで12ページまでのため
     (1..12).each do |i|
