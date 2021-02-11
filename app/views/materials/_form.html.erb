@@ -29,10 +29,6 @@
         <small class="help-block"><%= t("view.tag.when_registering_multiple_tags,please_separate_them_with_a_comma") %></small>
       </div>
       <div class="form-group">
-        <%= f.label t("activerecord.attributes.material.status"),id: 'status' %>
-        <%= f.select :status, Material.statuses.keys.map {|k| [I18n.t("enums.material.status.#{k}"), k]}, {}, class: "form-control" %>
-      </div>
-      <div class="form-group">
         <%= f.label t("activerecord.attributes.material.note"),id: 'note' %>
         <%= f.text_area :note, class: "form-control" %>
       </div>
