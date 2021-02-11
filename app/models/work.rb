@@ -7,6 +7,8 @@ class Work < ApplicationRecord
   validates :status, presence: true
   validate :do_on_not_future_date
 
+  enum status: { learning: 0, complete: 1 }
+
   def do_on_not_future_date
     errors.add(:do_on, 'は今日以前の日付を選択してください') if do_on.nil? || do_on > Time.zone.today
   end

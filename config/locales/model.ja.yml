@@ -78,6 +78,7 @@ ja:
         edit: 学習情報の編集
         show: 学習情報の詳細
         record: 学習を記録する
+        complete: 学習完了にする
         latest_day: 最新の学習日
         latest_amount: 最新の学習量（ページ数・単元等）
         work_of_material: 教材に関する学習情報

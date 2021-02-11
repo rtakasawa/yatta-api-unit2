@@ -1,7 +1,7 @@
 class MaterialsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_material, only: %i[show edit update destroy]
-  before_action :check_material_user, only: %i[show edit update destroy]
+  before_action :set_material, only: %i[show edit update destroy status_complete]
+  before_action :check_material_user, only: %i[show edit update destroy status_complete]
 
   def index
     @current_user_materials_count = current_user.materials.count
@@ -42,6 +42,17 @@ class MaterialsController < ApplicationController
     else
       render 'edit'
     end
+  end
+
+  # 学習完了にする場合のアクション
+  def status_complete
+    # materal,workどちらもupdateできれば処理成功
+    # errorの場合はrollbackして500エラー
+    @material.transaction do
+      @material.update!(status: 1)
+      @material.works.each { |work| work.update!(status: 1) }
+    end
+    redirect_to @material,  notice: '学習状況は、学習完了に変更されました'
   end
 
   def destroy

@@ -9,7 +9,10 @@ Rails.application.routes.draw do
 
   resources :materials do
     collection do
-      get "search"
+      get 'search'
+    end
+    member do
+      put 'status_complete'
     end
   end
 
