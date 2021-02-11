@@ -50,7 +50,7 @@ class WorksController < ApplicationController
   # work新規登録時の教材選びの際にmaterial_idを利用
   # material_idを含めたが勝手に入力されることはないか心配
   def work_params
-    params.require(:work).permit(:start, :finish, :content, :do_on, :material_id)
+    params.require(:work).permit(:start, :finish, :content, :do_on, :status, :material_id)
   end
 
   def set_work

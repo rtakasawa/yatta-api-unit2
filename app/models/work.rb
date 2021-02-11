@@ -4,6 +4,7 @@ class Work < ApplicationRecord
   validates :start, presence: true
   validates :finish, presence: true
   validates :do_on, presence: true
+  validates :status, presence: true
   validate :do_on_not_future_date
 
   def do_on_not_future_date
