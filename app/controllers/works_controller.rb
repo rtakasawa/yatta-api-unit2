@@ -11,10 +11,10 @@ class WorksController < ApplicationController
 
   def new
     @materials = if params[:material_id].present?
-                   Material.find(params[:material_id])
-                 else
-                   current_user.materials
-                 end
+      Material.find(params[:material_id])
+    else
+      current_user.materials.where(status: "learning")
+    end
     @work = Work.new
   end
 
