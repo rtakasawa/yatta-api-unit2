@@ -1,13 +1,12 @@
 class MaterialsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_material, only: %i[show edit update destroy status_complete]
-  before_action :check_material_user, only: %i[show edit update destroy status_complete]
+  before_action :set_material, only: %i[show edit update destroy status_complete status_learning]
+  before_action :check_material_user, only: %i[show edit update destroy status_complete status_learning]
 
   def index
     @current_user_materials_count = current_user.materials.count
     @q = current_user.materials.ransack(params[:q])
-    @materials = @q.result(distinct: true).order(status: :asc).order(updated_at: :desc)
-                   .includes(:taggings, :works).page(params[:page])
+    @materials = @q.result(distinct: true).order(status: :asc).order(updated_at: :desc).includes(:taggings, :works).page(params[:page])
   end
 
   def new
@@ -53,6 +52,17 @@ class MaterialsController < ApplicationController
       @material.works.each { |work| work.update!(status: 1) }
     end
     redirect_to @material,  notice: '学習状況は、学習完了に変更されました'
+  end
+
+  # 学習中にする場合のアクション
+  def status_learning
+    # materal,workどちらもupdateできれば処理成功
+    # errorの場合はrollbackして500エラー
+    @material.transaction do
+      @material.update!(status: 0)
+      @material.works.each { |work| work.update!(status: 0) }
+    end
+    redirect_to @material,  notice: '学習状況は、学習中に変更されました'
   end
 
   def destroy

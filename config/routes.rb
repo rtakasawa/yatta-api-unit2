@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     end
     member do
       put 'status_complete'
+      put 'status_learning'
     end
   end
 

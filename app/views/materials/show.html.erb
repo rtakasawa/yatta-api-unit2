@@ -36,6 +36,9 @@
         <%= link_to t("view.work.complete"), status_complete_material_path(@material), method: :put, class: "btn btn-secondary" %>
         <%= link_to t("helpers.submit.edit"), edit_material_path(@material), class: "btn btn-primary", role: "button" %>
       <% end %>
+      <% if policy(@material).status_complete? %>
+        <%= link_to t("view.work.learning"), status_learning_material_path(@material), method: :put, class: "btn btn-info" %>
+      <% end %>
       <%= link_to t("helpers.submit.delete"), @material, method: :delete, data: { confirm: t("helpers.message.are_you_sure_you_want_me_to_delete_it?") }, class: "btn btn-danger", role: "button" %>
     </div>
   </div>
