@@ -12,7 +12,7 @@
       </tr>
       <tr>
         <th><%= t("view.work.amount") %></th>
-        <td><%= @work.start %>　〜　<%= @work.finish %></td>
+        <td><%= @work.start %> 〜 <%= @work.finish %></td>
       </tr>
       <tr>
         <th><%= t("activerecord.attributes.work.content") %></th>
@@ -21,7 +21,10 @@
       </tbody>
     </table>
     <div class="card-body">
-      <%= link_to t("helpers.submit.edit"), edit_work_path(@work), class: "btn btn-primary", role: "button"  %>
+      <%# 学習中の場合は、各種ボタンを表示する %>
+      <% if policy(@work).status_learning? %>
+        <%= link_to t("helpers.submit.edit"), edit_work_path(@work), class: "btn btn-primary", role: "button"  %>
+      <% end %>
       <%= link_to t("helpers.submit.delete"), @work, method: :delete, data: { confirm: "本当に削除してもいいですか？" }, class: "btn btn-danger", role: "button" %>
     </div>
   </div>
