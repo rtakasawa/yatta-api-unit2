@@ -46,6 +46,8 @@ gem 'aws-sdk-rails'
 # bundle exec cap production deploy:check時のエラー対処のため追加
 gem 'bcrypt_pbkdf'
 gem 'ed25519'
+# 学習完了時の認可用に使用
+gem 'pundit'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
