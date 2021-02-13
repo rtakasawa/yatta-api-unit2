@@ -11,15 +11,20 @@ class WorksController < ApplicationController
 
   def new
     @materials = if params[:material_id].present?
-      Material.find(params[:material_id])
+      material = Material.find(params[:material_id])
+      # materialのstatusがcompleteの場合にアクセスするとエラー
+      authorize material, policy_class: MaterialPolicy
     else
       current_user.materials.where(status: "learning")
     end
+
     @work = Work.new
   end
 
   def create
     @work = Work.new(work_params)
+    # materialのstatusがcompleteの場合にアクセスするとエラー
+    authorize @work
     if @work.save
       redirect_to material_path(@work.material_id), notice: '学習情報が登録されました'
     else
@@ -30,9 +35,14 @@ class WorksController < ApplicationController
 
   def show; end
 
-  def edit; end
+  def edit
+    # @materialのstatusがcompleteの場合にアクセスするとエラー
+    authorize @work
+  end
 
   def update
+    # @materialのstatusがcompleteの場合にアクセスするとエラー
+    authorize @work
     if @work.update(work_params)
       redirect_to material_path(@work.material_id), notice: '学習情報は更新されました'
     else

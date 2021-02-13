@@ -12,8 +12,8 @@ Rails.application.routes.draw do
       get 'search'
     end
     member do
-      put 'status_complete'
-      put 'status_learning'
+      put 'change_complete'
+      put 'change_learning'
     end
   end
 

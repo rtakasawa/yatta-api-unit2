@@ -21,7 +21,7 @@
       </tbody>
     </table>
     <div class="card-body">
-      <%# 学習中の場合は、各種ボタンを表示する %>
+      <%# 学習中の場合は、編集ボタンを表示する %>
       <% if policy(@work).status_learning? %>
         <%= link_to t("helpers.submit.edit"), edit_work_path(@work), class: "btn btn-primary", role: "button"  %>
       <% end %>

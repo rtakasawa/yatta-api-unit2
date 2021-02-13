@@ -1,7 +1,7 @@
 class MaterialsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_material, only: %i[show edit update destroy status_complete status_learning]
-  before_action :check_material_user, only: %i[show edit update destroy status_complete status_learning]
+  before_action :set_material, only: %i[show edit update destroy change_complete change_learning]
+  before_action :check_material_user, only: %i[show edit update destroy change_complete change_learning]
 
   def index
     @current_user_materials_count = current_user.materials.count
@@ -33,9 +33,14 @@ class MaterialsController < ApplicationController
     @works = @q.result(distinct: true).order(do_on: :desc).page(params[:page]).per(10)
   end
 
-  def edit; end
+  def edit
+    # @materialのstatusがcompleteの場合にアクセスするとエラー
+    authorize @material
+  end
 
   def update
+    # @materialのstatusがcompleteの場合にアクセスするとエラー
+    authorize @material
     if @material.update(material_params)
       redirect_to material_path(@material), notice: '教材情報は更新されました'
     else
@@ -44,7 +49,9 @@ class MaterialsController < ApplicationController
   end
 
   # 学習完了にする場合のアクション
-  def status_complete
+  def change_complete
+    # @materialのstatusがcompleteの場合にアクセスするとエラー
+    authorize @material
     # materal,workどちらもupdateできれば処理成功
     # errorの場合はrollbackして500エラー
     @material.transaction do
@@ -55,7 +62,9 @@ class MaterialsController < ApplicationController
   end
 
   # 学習中にする場合のアクション
-  def status_learning
+  def change_learning
+    # @materialのstatusがlearningの場合にアクセスするとエラー
+    authorize @material
     # materal,workどちらもupdateできれば処理成功
     # errorの場合はrollbackして500エラー
     @material.transaction do
