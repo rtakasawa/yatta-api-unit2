@@ -44,14 +44,20 @@ RSpec.describe '学習管理機能', js: true, type: :system do
       click_on 'commit'
       click_on '登録した教材一覧'
       click_on 'test1'
-      click_on '詳細'
     end
     it '該当の教材名と学習情報が表示される' do
+      click_on '詳細'
       wait.until { expect(page).to have_content 'test1' }
       wait.until { expect(page).to have_content '1' }
       wait.until { expect(page).to have_content '10' }
       wait.until { expect(page).to have_content '難しい' }
       wait.until { expect(page).to have_content Time.zone.today }
+    end
+    it '「学習完了にする」ボタンクリック後、詳細画面には「編集」ボタンは表示されない' do
+      click_on '学習完了にする'
+      click_on '詳細'
+      wait.until { expect(page).not_to have_content '編集' }
+      wait.until { expect(page).to have_content '削除' }
     end
   end
 

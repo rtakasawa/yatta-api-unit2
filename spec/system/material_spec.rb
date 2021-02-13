@@ -209,6 +209,41 @@ RSpec.describe '教材管理機能', js: true, type: :system do
         wait.until { expect(work_list[2]).to have_content '１００' }
         wait.until { expect(work_list[2]).to have_content Time.zone.today - 2 }
       end
+      context '任意の教材詳細画面に遷移し、「学習完了にする」をクリックした場合' do
+        before do
+          click_on '学習完了にする'
+        end
+        it 'materialと紐づくworkのstatusが学習完了になる' do
+          material = Material.find(1)
+          wait.until { expect(page).to have_content '完了' }
+          wait.until { expect(material.status).to eq 'complete' }
+          wait.until { expect(material.works[0].status).to eq 'complete' }
+          wait.until { expect(material.works[1].status).to eq 'complete' }
+          wait.until { expect(material.works[2].status).to eq 'complete' }
+        end
+        it '「学習を記録する」「学習を完了する」「編集」ボタンは表示されず、「学習状況を学習中に戻す」ボタンが表示される' do
+          wait.until { expect(page).to have_no_link '学習を記録する', href: "/works/new?material_id=1" }
+          wait.until { expect(page).not_to have_content '学習完了にする' }
+          wait.until { expect(page).not_to have_content '編集' }
+          wait.until { expect(page).to have_content '学習状況を学習中に戻す' }
+        end
+        it '「学習状況を学習中に戻す」ボタンをクリックした場合、materialと紐づくworkのstatusが学習中になる' do
+          click_on '学習状況を学習中に戻す'
+          material = Material.find(1)
+          wait.until { expect(page).to have_content '学習中' }
+          wait.until { expect(material.status).to eq 'learning' }
+          wait.until { expect(material.works[0].status).to eq 'learning' }
+          wait.until { expect(material.works[1].status).to eq 'learning' }
+          wait.until { expect(material.works[2].status).to eq 'learning' }
+        end
+        it '「学習状況を学習中に戻す」ボタンをクリックした場合、「学習を記録する」「学習を完了する」「編集」ボタンが表示され、「学習状況を学習中に戻す」ボタンが表示されない' do
+          click_on '学習状況を学習中に戻す'
+          wait.until { expect(page).to have_link '学習を記録する', href: "/works/new?material_id=1" }
+          wait.until { expect(page).to have_content '学習完了にする' }
+          wait.until { expect(page).to have_content '編集' }
+          wait.until { expect(page).not_to have_content '学習状況を学習中に戻す' }
+        end
+      end
     end
     context '任意の教材を削除した場合' do
       it '削除した教材が表示されない' do
