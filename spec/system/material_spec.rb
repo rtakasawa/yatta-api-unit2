@@ -16,7 +16,6 @@ RSpec.describe '教材管理機能', js: true, type: :system do
         select '書籍', from: 'material[category]'
         fill_in 'material[path]', with: 'http://example.com'
         fill_in 'material[tag_list]', with: 'test_tag1,test_tag2'
-        select '学習中', from: 'material[status]'
         fill_in 'material[note]', with: 'test_note1'
         click_button '登録'
         wait.until { expect(page).to have_link 'test1' }
@@ -235,7 +234,6 @@ RSpec.describe '教材管理機能', js: true, type: :system do
         click_on '編集'
         fill_in 'material[title]', with: 'test2'
         select '動画', from: 'material[category]'
-        select '完了', from: 'material[status]'
         fill_in 'material[path]', with: 'http://example2.com'
         fill_in 'material[tag_list]', with: 'test_tag99,test_tag100'
         fill_in 'material[note]', with: 'test_note2'

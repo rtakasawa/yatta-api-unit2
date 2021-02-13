@@ -16,7 +16,7 @@ RSpec.describe '学習管理機能', js: true, type: :system do
       click_on '学習を記録する'
     end
     it '教材登録のセレクトボックスには、登録した教材が表示される' do
-      expect(page).to have_select('work[material_id]', options: %w[教材を選択してください test1 test2 test3])
+      expect(page).to have_select('work[material_id]', options: %w[教材を選択してください test1 test3])
     end
     context '必要項目を入力して、createボタンを押した場合' do
       it 'データが保存される' do

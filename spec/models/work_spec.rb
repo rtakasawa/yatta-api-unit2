@@ -11,6 +11,7 @@ RSpec.describe '学習管理機能', type: :model do
                     finish: '1-1',
                     content: '難しかった',
                     do_on: Time.zone.today,
+                    status: 'learning',
                     material_id: 1)
     expect(work).not_to be_valid
   end
@@ -19,6 +20,7 @@ RSpec.describe '学習管理機能', type: :model do
                     finish: '',
                     content: '難しかった',
                     do_on: Time.zone.today,
+                    status: 'learning',
                     material_id: 1)
     expect(work).not_to be_valid
   end
@@ -27,6 +29,7 @@ RSpec.describe '学習管理機能', type: :model do
                     finish: '1-1',
                     content: '難しかった',
                     do_on: '',
+                    status: 'learning',
                     material_id: 1)
     expect(work).not_to be_valid
   end
@@ -35,6 +38,7 @@ RSpec.describe '学習管理機能', type: :model do
                     finish: '1-1',
                     content: '難しかった',
                     do_on: Date.tomorrow,
+                    status: 'learning',
                     material_id: 1)
     expect(work).not_to be_valid
   end
@@ -43,7 +47,26 @@ RSpec.describe '学習管理機能', type: :model do
                     finish: '1-1',
                     content: '',
                     do_on: Time.zone.today,
+                    status: 'learning',
                     material_id: 1)
     expect(work).to be_valid
+  end
+  it 'statusが空ならバリデーションが通らない' do
+    work = Work.new(start: '1-0',
+                    finish: '1-1',
+                    content: '難しかった',
+                    do_on: Time.zone.today,
+                    status: '',
+                    material_id: 1)
+    binding.irb
+    expect(work).not_to be_valid
+  end
+  it 'Work.createした際のstatusの初期値はlearningになる' do
+    work = Work.create(start: '1-0',
+                    finish: '1-1',
+                    content: '難しかった',
+                    do_on: Time.zone.today,
+                    material_id: 1)
+    expect(work.status).to eq('learning')
   end
 end
