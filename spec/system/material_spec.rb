@@ -409,7 +409,6 @@ RSpec.describe '教材管理機能', js: true, type: :system do
         click_on '検索'
         sleep 3
         find("#contents > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > div > div.col-md-8 > div > p > a").click
-        # click_on '登録', match: :first
         click_on '登録'
         wait.until { expect(page).to have_content '教材が登録されました' }
       end

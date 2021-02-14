@@ -17,7 +17,6 @@ class WorksController < ApplicationController
     else
       current_user.materials.where(status: "learning")
     end
-
     @work = Work.new
   end
 
@@ -36,12 +35,10 @@ class WorksController < ApplicationController
   def show; end
 
   def edit
-    # @materialのstatusがcompleteの場合にアクセスするとエラー
     authorize @work
   end
 
   def update
-    # @materialのstatusがcompleteの場合にアクセスするとエラー
     authorize @work
     if @work.update(work_params)
       redirect_to material_path(@work.material_id), notice: '学習情報は更新されました'

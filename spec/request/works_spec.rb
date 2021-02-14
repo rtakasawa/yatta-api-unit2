@@ -2,10 +2,19 @@ require 'rails_helper'
 
 RSpec.describe 'Works', type: :request do
   let(:user) { FactoryBot.create(:user) }
+
   let(:learning_material) { FactoryBot.create(:material, user: user) }
   let(:complete_material) { FactoryBot.create(:material, id: 2, status: 'complete', user: user) }
+
   let(:learning_work) { FactoryBot.create(:work, material: learning_material) }
   let(:complete_work) { FactoryBot.create(:work, id: 2, status: 'complete', material: complete_material) }
+  let(:work_only_material_complete) { FactoryBot.create(:work, id: 3, material: complete_material) }
+  let(:work_only_work_complete) { FactoryBot.create(:work, id: 4, status: 'complete', material: learning_material) }
+
+  let(:learning_params) { FactoryBot.attributes_for(:test_work, status:'learning', material_id: learning_material.id) }
+  let(:complete_params) { FactoryBot.attributes_for(:test_work, status:'complete', material_id: complete_material.id) }
+  let(:only_material_complete_params) { FactoryBot.attributes_for(:test_work, status:'learning', material_id: complete_material.id) }
+  let(:only_work_complete_params) { FactoryBot.attributes_for(:test_work, status:'complete', material_id: learning_material.id) }
 
   describe 'GET /works/new' do
     before do
@@ -14,7 +23,6 @@ RSpec.describe 'Works', type: :request do
     end
     it '学習中の場合、リクエストは成功する' do
       get new_work_path(material_id: learning_material)
-      binding.irb
       expect(response.status).to eq 200
     end
     it '学習完了の場合、リクエストは成功しない' do
@@ -27,17 +35,22 @@ RSpec.describe 'Works', type: :request do
     before do
       user.confirm
       sign_in(user)
-      @learning_params = { work: FactoryBot.attributes_for(:test_work, status:'learning', material_id: learning_material.id) }
-      @complete_params = { work: FactoryBot.attributes_for(:test_work, status: 'complete', material_id: complete_material.id) }
     end
     it '学習中の場合、リクエストは成功する' do
-      post works_path, params: @learning_params
+      post works_path, params: { work: learning_params }
       expect(response.status).to eq 302
     end
-    it '学習完了の場合、リクエストは成功しない' do
-      post works_path, params: @complete_params
+    it 'material,workどちらも学習完了の場合、リクエストは成功しない' do
+      post works_path, params: { work: complete_params }
       expect(response.status).to eq 500
-      expect(Work.count).to eq 0
+    end
+    it 'materialのみ学習完了の場合、リクエストは成功しない' do
+      post works_path, params: { work: only_material_complete_params }
+      expect(response.status).to eq 500
+    end
+    it 'workのみ学習完了の場合、リクエストは成功しない' do
+      post works_path, params: { work: only_work_complete_params }
+      expect(response.status).to eq 500
     end
   end
 
@@ -50,8 +63,16 @@ RSpec.describe 'Works', type: :request do
       get edit_work_path(learning_work)
       expect(response.status).to eq 200
     end
-    it '学習完了の場合、リクエストは成功しない' do
+    it 'material,workどちらも学習完了の場合、リクエストは成功しない' do
       get edit_work_path(complete_work)
+      expect(response.status).to eq 500
+    end
+    it 'materialのみ学習完了の場合、リクエストは成功しない' do
+      get edit_work_path(work_only_material_complete)
+      expect(response.status).to eq 500
+    end
+    it 'workのみ学習完了の場合、リクエストは成功しない' do
+      get edit_work_path(work_only_work_complete)
       expect(response.status).to eq 500
     end
   end
@@ -66,8 +87,16 @@ RSpec.describe 'Works', type: :request do
       put work_path(learning_work), params: @params
       expect(response.status).to eq 302
     end
-    it '学習完了の場合、リクエストは成功しない' do
+    it 'material,workどちらも学習完了の場合、リクエストは成功しない' do
       put work_path(complete_work), params: @params
+      expect(response.status).to eq 500
+    end
+    it 'materialのみ学習完了の場合、リクエストは成功しない' do
+      put work_path(work_only_material_complete), params: @params
+      expect(response.status).to eq 500
+    end
+    it 'workのみ学習完了の場合、リクエストは成功しない' do
+      put work_path(work_only_work_complete), params: @params
       expect(response.status).to eq 500
     end
   end
