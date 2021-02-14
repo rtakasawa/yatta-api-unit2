@@ -31,4 +31,11 @@ FactoryBot.define do
     do_on { Time.zone.today - 2 }
     association :material
   end
+  factory :test_work, class: Work do
+    start { '１' }
+    finish { '１００' }
+    content { 'よくできた' }
+    do_on { Time.zone.today - 2 }
+    association :material
+  end
 end

@@ -58,7 +58,6 @@ RSpec.describe '学習管理機能', type: :model do
                     do_on: Time.zone.today,
                     status: '',
                     material_id: 1)
-    binding.irb
     expect(work).not_to be_valid
   end
   it 'Work.createした際のstatusの初期値はlearningになる' do
