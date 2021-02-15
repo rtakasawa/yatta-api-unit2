@@ -1,4 +1,8 @@
 class WorkPolicy < ApplicationPolicy
+  def new?
+    record.learning?
+  end
+
   def create?
     Material.find(record.material_id).learning? && record.learning?
   end

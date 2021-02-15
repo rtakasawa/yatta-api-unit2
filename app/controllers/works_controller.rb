@@ -13,7 +13,7 @@ class WorksController < ApplicationController
     @materials = if params[:material_id].present?
       material = current_user.materials.find(params[:material_id])
       # materialのstatusがcompleteの場合にアクセスするとエラー
-      authorize material, policy_class: MaterialPolicy
+      authorize material, policy_class: WorkPolicy
     else
       current_user.materials.where(status: "learning")
     end

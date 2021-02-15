@@ -22,4 +22,12 @@ RSpec.describe WorkPolicy, type: :policy do
       expect(subject).not_to permit(user, work_only_work_complete)
     end
   end
+  permissions :new? do
+    it "materialが学習中の時に許可" do
+      expect(subject).to permit(user, learning_material)
+    end
+    it "materialが学習完了の時に不許可" do
+      expect(subject).not_to permit(user, complete_material)
+    end
+  end
 end

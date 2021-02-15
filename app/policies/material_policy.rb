@@ -1,9 +1,4 @@
 class MaterialPolicy < ApplicationPolicy
-  # WorksControllerにて使用
-  def new?
-    record.learning?
-  end
-
   def edit?
     record.learning?
   end

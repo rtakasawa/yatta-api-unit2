@@ -6,7 +6,7 @@ RSpec.describe MaterialPolicy, type: :policy do
   let(:learning_material) { FactoryBot.create(:material, user: user) }
   let(:complete_material) { FactoryBot.create(:material, id: 2, status: 'complete', user: user) }
 
-  permissions :new?, :edit?, :update?, :change_complete? do
+  permissions :edit?, :update?, :change_complete? do
     it "学習中の時に許可" do
       expect(subject).to permit(user, learning_material)
     end
