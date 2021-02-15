@@ -11,7 +11,7 @@ class WorksController < ApplicationController
 
   def new
     @materials = if params[:material_id].present?
-      material = Material.find(params[:material_id])
+      material = current_user.materials.find(params[:material_id])
       # materialのstatusがcompleteの場合にアクセスするとエラー
       authorize material, policy_class: MaterialPolicy
     else
