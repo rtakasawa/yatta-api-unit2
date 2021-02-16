@@ -55,8 +55,8 @@ class MaterialsController < ApplicationController
     # materal,workどちらもupdateできれば処理成功
     # errorの場合はrollbackして500エラー
     @material.transaction do
-      @material.update!(status: 1)
-      @material.works.each { |work| work.update!(status: 1) }
+      @material.update!(status: "complete")
+      @material.works.each { |work| work.update!(status: "complete") }
     end
     redirect_to @material,  notice: '学習状況は、学習完了に変更されました'
   end
@@ -68,8 +68,8 @@ class MaterialsController < ApplicationController
     # materal,workどちらもupdateできれば処理成功
     # errorの場合はrollbackして500エラー
     @material.transaction do
-      @material.update!(status: 0)
-      @material.works.each { |work| work.update!(status: 0) }
+      @material.update!(status: "learning")
+      @material.works.each { |work| work.update!(status: "learning") }
     end
     redirect_to @material,  notice: '学習状況は、学習中に変更されました'
   end
