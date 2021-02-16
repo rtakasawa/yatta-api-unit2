@@ -65,4 +65,20 @@ RSpec.describe '教材管理機能', type: :model do
     FactoryBot.create(:work, material_id: 1)
     expect { material.destroy }.to change { Work.count }.by(-1)
   end
+
+  it "change_complete_actionでstatusがcompleteに変わること" do
+    material = FactoryBot.create(:material, user_id: 1, status: 'learning')
+    FactoryBot.create(:work, material_id: 1, status: 'learning')
+    material.change_complete_action
+    expect(material.complete?).to eq true
+    expect(material.works.first.complete?).to eq true
+  end
+
+  it "change_learning_actionでstatusがlearningに変わること" do
+    material = FactoryBot.create(:material, user_id: 1, status: 'complete')
+    FactoryBot.create(:work, material_id: 1, status: 'complete')
+    material.change_learning_action
+    expect(material.learning?).to eq true
+    expect(material.works.first.learning?).to eq true
+  end
 end

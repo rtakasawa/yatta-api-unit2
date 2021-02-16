@@ -52,12 +52,7 @@ class MaterialsController < ApplicationController
   def change_complete
     # @materialのstatusがcompleteの場合にアクセスするとエラー
     authorize @material
-    # materal,workどちらもupdateできれば処理成功
-    # errorの場合はrollbackして500エラー
-    @material.transaction do
-      @material.update!(status: "complete")
-      @material.works.each { |work| work.update!(status: "complete") }
-    end
+    @material.change_complete_action
     redirect_to @material,  notice: '学習状況は、学習完了に変更されました'
   end
 
@@ -65,12 +60,7 @@ class MaterialsController < ApplicationController
   def change_learning
     # @materialのstatusがlearningの場合にアクセスするとエラー
     authorize @material
-    # materal,workどちらもupdateできれば処理成功
-    # errorの場合はrollbackして500エラー
-    @material.transaction do
-      @material.update!(status: "learning")
-      @material.works.each { |work| work.update!(status: "learning") }
-    end
+    @material.change_learning_action
     redirect_to @material,  notice: '学習状況は、学習中に変更されました'
   end
 
