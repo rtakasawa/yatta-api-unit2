@@ -4,40 +4,22 @@ RSpec.describe '学習管理機能', js: true, type: :system do
   wait = Selenium::WebDriver::Wait.new(timeout: 1000)
 
   describe '学習登録画面' do
-    let(:learning_material) { FactoryBot.create(:material, user_id: 1) }
-    let(:complete_material) { FactoryBot.create(:second_material, user_id: 1) }
     before do
       test_user_create(:user)
+      FactoryBot.create(:material, user_id: 1)
+      FactoryBot.create(:second_material, user_id: 1)
+      FactoryBot.create(:third_material, user_id: 1)
       visit new_user_session_path
       fill_in 'user[email]', with: 'sample@example.com'
       fill_in 'user[password]', with: '0000000'
       click_on 'commit'
+      click_on '学習を記録する'
     end
-    context '教材登録のセレクトボックスについて' do
-      it '登録した教材（学習中のみ）が表示される' do
-        learning_material
-        complete_material
-        click_on '学習を記録する'
-        expect(Material.count).to eq 2
-        expect(page).to have_select('work[material_id]', options: %w[教材を選択してください test1])
-      end
-      it '登録した教材がない場合は、教材は表示されない' do
-        click_on '学習を記録する'
-        expect(Material.count).to eq 0
-        expect(page).to have_select('work[material_id]', options: %w[教材を選択してください])
-      end
-      it '登録した教材すべて学習完了の場合は、教材は表示されない' do
-        complete_material
-        click_on '学習を記録する'
-        expect(Material.count).to eq 1
-        expect(page).to have_select('work[material_id]', options: %w[教材を選択してください])
-      end
+    it '教材登録のセレクトボックスには、登録した教材が表示される' do
+      expect(page).to have_select('work[material_id]', options: %w[教材を選択してください test1 test3])
     end
     context '必要項目を入力して、createボタンを押した場合' do
       it 'データが保存される' do
-        learning_material
-        complete_material
-        click_on '学習を記録する'
         select 'test1', from: 'work[material_id]'
         fill_in 'work[do_on]', with: Time.zone.today
         fill_in 'work[start]', with: '1-1'
@@ -247,8 +229,6 @@ RSpec.describe '学習管理機能', js: true, type: :system do
     before do
       test_user_create(:user)
       FactoryBot.create(:material, user_id: 1)
-      FactoryBot.create(:second_material, user_id: 1)
-      FactoryBot.create(:third_material, user_id: 1)
       visit new_user_session_path
       fill_in 'user[email]', with: 'sample@example.com'
       fill_in 'user[password]', with: '0000000'
@@ -257,8 +237,8 @@ RSpec.describe '学習管理機能', js: true, type: :system do
       click_on 'test1'
       click_link '学習を記録する', href: '/works/new?material_id=1'
     end
-    it '教材登録のセレクトボックスには、学習中の教材のみ表示され、該当の教材が選択状態で表示される' do
-      wait.until { expect(page).to have_select('work[material_id]',selected: 'test1', options: %w[test1 test3]) }
+    it '教材登録のセレクトボックスには、登録した教材のみが表示される' do
+      wait.until { expect(page).to have_select('work[material_id]', options: ['test1']) }
     end
   end
 end

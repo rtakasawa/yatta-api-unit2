@@ -10,10 +10,14 @@ class WorksController < ApplicationController
   end
 
   def new
-    @materials = current_user.materials.where(status: "learning")
-    specific_material = current_user.materials.where(status: "learning").find_by(id: params[:material_id])
+    @materials = if params[:material_id].present?
+      material = current_user.materials.find(params[:material_id])
+      # materialのstatusがcompleteの場合にアクセスするとエラー
+      authorize material, policy_class: WorkPolicy
+    else
+      current_user.materials.where(status: "learning")
+    end
     @work = Work.new
-    @work.material = specific_material
   end
 
   def create
