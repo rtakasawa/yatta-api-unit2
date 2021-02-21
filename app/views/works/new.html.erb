@@ -18,7 +18,7 @@
           <div class="form-group">
             <%= f.label t("activerecord.attributes.material.title"),id: 'title' %>
             <% if params[:material_id].present? %>
-              <%= f.select :material_id, [[@materials.title,@materials.id]], {}, class: "form-control" %>
+              <%= f.select :material_id, options_for_select(@materials.map{ |material| [material[:title], material[:id] ] }, @work.material.id), {}, class: "form-control" %>
             <% else %>
               <%= f.select :material_id, @materials.map{ |material| [ material.title, material.id]}, {include_blank: "教材を選択してください" }, class: "form-control" %>
             <% end %>
