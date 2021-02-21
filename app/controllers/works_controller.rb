@@ -11,9 +11,8 @@ class WorksController < ApplicationController
 
   def new
     @materials = current_user.materials.where(status: "learning")
-    specific_material = current_user.materials.where(status: "learning").find_by(id: params[:material_id])
     @work = Work.new
-    @work.material = specific_material
+    @work.material = current_user.materials.where(status: "learning").find_by(id: params[:material_id])
   end
 
   def create
