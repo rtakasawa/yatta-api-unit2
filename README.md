@@ -90,3 +90,4 @@ https://drive.google.com/file/d/1u4qmaDcVK3dbD_cQSysialihcJ9RUmlL/view?usp=shari
     - `/etc/nginx/conf.d/yatta.conf`のIPアドレス編集
     - `script/deploy_staging.sh`の`cap production deploy`コマンド編集
 - RDSのマルチAZ方式を解除。
+
