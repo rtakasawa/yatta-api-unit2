@@ -52,7 +52,7 @@ class MaterialsController < ApplicationController
   def change_complete
     # @materialのstatusがcompleteの場合にアクセスするとエラー
     authorize @material
-    @material.change_complete_action
+    @material.change_complete_action!
     redirect_to @material,  notice: '学習状況は、学習完了に変更されました'
   end
 
@@ -60,7 +60,7 @@ class MaterialsController < ApplicationController
   def change_learning
     # @materialのstatusがlearningの場合にアクセスするとエラー
     authorize @material
-    @material.change_learning_action
+    @material.change_learning_action!
     redirect_to @material,  notice: '学習状況は、学習中に変更されました'
   end
 

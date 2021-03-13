@@ -11,7 +11,7 @@ class Material < ApplicationRecord
   enum category: { book: 0, video: 1, web: 2, other: 3 }
   enum status: { learning: 0, complete: 1 }
 
-  def change_complete_action
+  def change_complete_action!
     # materal,workどちらもupdateできれば処理成功
     # errorの場合はrollbackして500エラー
     self.transaction do
@@ -20,7 +20,7 @@ class Material < ApplicationRecord
     end
   end
 
-  def change_learning_action
+  def change_learning_action!
     # materal,workどちらもupdateできれば処理成功
     # errorの場合はrollbackして500エラー
     self.transaction do
