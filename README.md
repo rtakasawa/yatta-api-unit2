@@ -1,4 +1,4 @@
-# yatta
+# yatta（停止中）
 
 ## URL
 https://yatta-app.com/
