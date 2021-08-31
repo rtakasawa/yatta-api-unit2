@@ -1,7 +1,9 @@
-# yatta（停止中）
+# yatta
 
 ## URL
-https://yatta-app.com/
+https://glacial-waters-33980.herokuapp.com/  
+※現状はコスト面を考慮し、herokuを使用しております。  
+※以下のAWSのインフラ設計は、以前の設計、設定です。
 
 ## 概要
 学習教材（書籍等）の進捗を管理するサービス。
