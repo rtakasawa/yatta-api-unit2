@@ -1,4 +1,4 @@
-# yatta
+# yatta（停止中）
 
 ## URL
 https://glacial-waters-33980.herokuapp.com/  
